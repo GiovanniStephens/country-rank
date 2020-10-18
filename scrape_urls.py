@@ -68,5 +68,6 @@ def scrape_page(url, spoof=False):
                 print(f"There was an error downloading the page {url}.")
             s.close()
         except:
+            print('Something funky is going on')
             s.close()
             pass
