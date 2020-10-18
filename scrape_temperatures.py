@@ -61,6 +61,9 @@ def check_float(potential_float):
         return False
 
 def get_stats(table):
+    """
+    Aggregates the climate table data to get the maxes and mins and avgs.
+    """
     dic = {}
     if 'Average High Temperature (F)' in table.index:
         dic['max avg max temp'] = f_to_c(table.loc['Average High Temperature (F)'].iloc[1:-2].max())
@@ -73,6 +76,9 @@ def get_stats(table):
     return dic
 
 def get_country_stats(soups):
+    """
+    For every country, get the stats on its climate.
+    """
     dic = {}
     for soup in soups:
         table = get_table(soup)
