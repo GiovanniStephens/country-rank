@@ -87,9 +87,9 @@ def get_country_stats(soups):
     return dic
 
 # Multithreading of a given function.
-def multi_thread_func(func, values):
+def multi_thread_func(func, values, threads = 126):
     listing_soups = []
-    with ThreadPool(126) as pool:
+    with ThreadPool(threads) as pool:
         for result in pool.map(func, values):
             listing_soups.append(result)
     return listing_soups
