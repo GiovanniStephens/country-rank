@@ -1,9 +1,3 @@
-# get list or URLs (done)
-
-# one by one, scrape the table from the links
-
-# as you go, get the average and average max and min temperatures for the countries
-
 import scrape_urls
 import numpy as np
 import pandas as pd
