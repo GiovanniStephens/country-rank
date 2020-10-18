@@ -51,6 +51,9 @@ def in_to_mm(value):
     return value * 25.4
 
 def check_float(potential_float):
+    """
+    Checks if a string is indeed a float.
+    """
     try:
         float(potential_float)
         return True
