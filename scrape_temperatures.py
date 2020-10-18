@@ -3,9 +3,9 @@ import numpy as np
 import pandas as pd
 from multiprocessing.pool import ThreadPool
 
-def get_table(soup):
+def get_table(soup, table_num = 2):
     data = {}
-    table = soup.find_all('table')[2]
+    table = soup.find_all('table')[table_num]
 
     # Get headers of table
     t_headers = []
