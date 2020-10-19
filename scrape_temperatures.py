@@ -1,7 +1,6 @@
 import scrape_urls
 import numpy as np
 import pandas as pd
-from multiprocessing.pool import ThreadPool
 
 def get_table(soup, table_num = 2):
     """
@@ -86,20 +85,12 @@ def get_country_stats(soups):
         dic[country_name] = get_stats(table)
     return dic
 
-# Multithreading of a given function.
-def multi_thread_func(func, values, threads = 126):
-    listing_soups = []
-    with ThreadPool(threads) as pool:
-        for result in pool.map(func, values):
-            listing_soups.append(result)
-    return listing_soups
-
 if __name__ == '__main__':
     url = 'https://www.weatherbase.com/weather/countryall.php3'
     countries_soup = scrape_urls.scrape_page(url)
     countries = scrape_urls.find_html_class(countries_soup, 'redglow')
     urls = ['https://www.weatherbase.com' + countries[i]['href'] for i in range(len(countries))]
 
-    soups = multi_thread_func(scrape_urls.scrape_page, urls)
+    soups = scrape_urls.multi_thread_func(scrape_urls.scrape_page, urls)
     country_stats = pd.DataFrame(get_country_stats(soups))
     country_stats.to_csv('Climate by Country.csv')

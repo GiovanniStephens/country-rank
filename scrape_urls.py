@@ -5,6 +5,7 @@ import re
 import sys
 from fake_useragent import UserAgent
 from random import choice
+from multiprocessing.pool import ThreadPool
 
 def find_html_class(soup, class_name):
     return soup.find_all(class_=class_name)
@@ -71,3 +72,11 @@ def scrape_page(url, spoof=False):
             print('Something funky is going on')
             s.close()
             pass
+
+# Multithreading of a given function.
+def multi_thread_func(func, values, threads = 126):
+    listing_soups = []
+    with ThreadPool(threads) as pool:
+        for result in pool.map(func, values):
+            listing_soups.append(result)
+    return listing_soups
