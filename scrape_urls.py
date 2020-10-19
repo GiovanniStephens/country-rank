@@ -7,6 +7,39 @@ from fake_useragent import UserAgent
 from random import choice
 from multiprocessing.pool import ThreadPool
 
+def get_table(soup, table_num = 2, row_start = 1, row_end = 5):
+    """
+    Pulls out a table from a beautifulsoup html. 
+
+    Format is: Row labels with 'Average' in the name.
+    The table returns just the rows 1-4 inclusive. 
+    This was for the type of tables coming from the climate page.
+    """
+    data = {}
+    table = soup.find_all('table')[table_num]
+
+    # Get headers of table
+    t_headers = []
+    for th in table.find_all("th"):
+        # remove any newlines and extra spaces from left and right
+        t_headers.append(th.text.replace('\n', ' ').strip())
+    
+    # Get all the rows of table
+    table_data = []
+    for tr in table.find_all("tr"): # find all tr's from table's tbody
+        t_row = {}
+        # find all td's in tr and zip it with t_header
+        for td, th in zip(tr.find_all("td"), t_headers): 
+            val = td.text.replace('\n', '').strip()
+            if val == '---':
+                t_row[th] = '0'
+            else:
+                t_row[th] = val
+        table_data.append(t_row)
+
+    # Put the data for the table with his heading.
+    return pd.DataFrame(table_data[row_start:row_end]).set_index('')
+
 def find_html_class(soup, class_name):
     return soup.find_all(class_=class_name)
 
