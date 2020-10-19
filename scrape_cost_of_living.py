@@ -72,7 +72,7 @@ def get_cost_of_living(numbeo_table, simulations = 100000, percentile = 90):
             if lower > 0 and upper > 0 and mode > 0:
                 vals = np.add(vals, units * np.random.triangular(lower, mode, upper, simulations))
             else:
-                vals = np.add(vals, [mode]*simulations*units)
+                vals = np.add(vals, [mode*units]*simulations)
         except:
             continue
     return np.percentile(vals, percentile)
@@ -96,19 +96,35 @@ def check_enough_data(numbeo_df):
         return (len(intersecting_categories) - num_nulls) / len(categories)
 
 
-if __name__ == "__main__":
+def main():
     urls = []
     # Create a url for each country based on the temperature website country names (there may be some differences)
     for country in climate_data['Country']:
         country_str = '+'.join(country.title().split())
         urls.append(f'https://www.numbeo.com/cost-of-living/country_result.jsp?country={country_str}&displayCurrency=NZD')
+    
+    # Scrape the pages
     soups = scrape_urls.multi_thread_func(scrape_urls.scrape_page, urls)
+    
+    # Extract the data tables
     tables = [scrape_urls.get_table(soup, 1, 0, -1) for soup in soups]
+    
+    # Clean and format the tables
     cleaned_tables = [clean_numbeo_table(table) if type(table) != list else [] for table in tables]
 
+    # Get cost of living for every country if there is enough data.
     cost_of_living_dic = {}
     for country, table in zip(climate_data['Country'], cleaned_tables):
         if check_enough_data(table) > 0.9:
             cost_of_living_dic[country] = get_cost_of_living(table)
+        else:
+            cost_of_living_dic[country] = ''
     
-    print(cost_of_living_dic)
+    # Format results table and save
+    df = pd.DataFrame.from_dict(cost_of_living_dic, orient='index')
+    df.index.rename('Country', inplace=True)
+    df.columns = ['Cost of Living pw']
+    df.to_csv('Cost of Living by Country.csv')
+
+if __name__ == "__main__":
+    main()
