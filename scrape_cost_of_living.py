@@ -1,14 +1,15 @@
 # Scrape cost of living by country
 
-# Polution rating
-# Crime rating
-# Healthcare rating
+"""
+To-do:
+1. Create some unit tests to ensure that it is working.
+I would like to be able to run the tests to know that all the formatting and everything is
+still working. It needs to catch if the web page format changes or if there are errors. 
 
-# Scrape all countries
+2. Check what countries I am missing from Numbeo and investigate. 
 
-# I would like to simulate the cost of living using Monte Carlo Simulation. 
-# We will have to use Triangular distributions
-
+3. Identify what data may be missing. Some countries may be of interest, but I may not be getting info on it.
+"""
 import scrape_urls
 import pandas as pd
 import numpy as np
@@ -17,6 +18,13 @@ cost_of_living_units = pd.read_csv('Cost of Living Items.csv')
 climate_data = pd.read_csv('Climate by Country.csv')
 
 def clean_numbeo_table(numbeo_df):
+    """
+    Cleans the default Numbeo cost of living table.
+
+    :numbeo_df: pandas dataframe
+
+    :return: pandas dataframe that has been cleaned up.
+    """
     # Promote first column to index
     numbeo_df = numbeo_df.set_index(numbeo_df.columns[0])
     # Remove rows where there are nulls in the next column.
@@ -41,9 +49,16 @@ def clean_numbeo_table(numbeo_df):
     numbeo_df['upper'] = pd.to_numeric(numbeo_df['upper'].str.replace(',',''), errors='coerce')
     return numbeo_df
 
+
 def get_cost_of_living(numbeo_table, simulations = 100000, percentile = 90):
+    """
+    For all cost categories, get the cost and multiply it by the number of units. 
+    I simulate the cost using a triangular distribution if there is a lower and upper bound. 
+    If there isn't one though, I simply take the mode.
+    """
     vals = np.zeros(simulations)
     for i in range(len(cost_of_living_units) - 1):
+        # Will catch an error if the category is not in the table
         try:
             category = cost_of_living_units.iloc[i]['Category']
             units = cost_of_living_units.iloc[i]['Units pw']
@@ -58,18 +73,28 @@ def get_cost_of_living(numbeo_table, simulations = 100000, percentile = 90):
             continue
     return np.percentile(vals, percentile)
 
+
 def check_enough_data(numbeo_df):
+    """
+    Checks that the number of data points we have is sufficient. 
+    I check that I have enough data to be able to use it to estimate cost of living.
+
+    :numbeo_df: pandas dataframe with an '[ Edit ]' column.
+
+    :return: proportion of filled cells as a proportion of number of total categories.
+    """
     if type(numbeo_df) == list:
         return 0
     else:
         categories = cost_of_living_units[cost_of_living_units['Units pw'] > 0]['Category']
         intersecting_categories = numbeo_df.index.intersection(categories)
         num_nulls = numbeo_df.loc[intersecting_categories]['[ Edit ]'].isna().sum()
-        return (len(intersecting_categories) - num_nulls) / len(intersecting_categories)
+        return (len(intersecting_categories) - num_nulls) / len(categories)
 
 
 if __name__ == "__main__":
     urls = []
+    # Create a url for each country based on the temperature website country names (there may be some differences)
     for country in climate_data['Country']:
         country_str = '+'.join(country.title().split())
         urls.append(f'https://www.numbeo.com/cost-of-living/country_result.jsp?country={country_str}&displayCurrency=NZD')
