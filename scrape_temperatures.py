@@ -2,6 +2,9 @@ import scrape_urls
 import numpy as np
 import pandas as pd
 
+url = 'https://www.weatherbase.com/weather/countryall.php3'
+base_url = 'https://www.weatherbase.com'
+
 def f_to_c(value):
     """
     Converts Fahrenheit to Celsius. 
@@ -50,12 +53,24 @@ def get_country_stats(soups):
         dic[country_name] = get_stats(table)
     return dic
 
-if __name__ == '__main__':
-    url = 'https://www.weatherbase.com/weather/countryall.php3'
+def main():
+    # Get list of countries
     countries_soup = scrape_urls.scrape_page(url)
-    countries = scrape_urls.find_html_class(countries_soup, 'redglow')
-    urls = ['https://www.weatherbase.com' + countries[i]['href'] for i in range(len(countries))]
 
+    # Get links to each of the country's stats.
+    countries = scrape_urls.find_html_class(countries_soup, 'redglow')
+
+    # Create list of urls
+    urls = [base_url + countries[i]['href'] for i in range(len(countries))]
+
+    # Scrape all the pages
     soups = scrape_urls.multi_thread_func(scrape_urls.scrape_page, urls)
+
+    # Get stats for each page
     country_stats = pd.DataFrame(get_country_stats(soups))
+
+    # Save the data to a .csv
     country_stats.to_csv('Climate by Country.csv')
+
+if __name__ == '__main__':
+    main()
