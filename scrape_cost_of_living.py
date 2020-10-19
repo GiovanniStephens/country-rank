@@ -9,6 +9,10 @@ still working. It needs to catch if the web page format changes or if there are 
 2. Check what countries I am missing from Numbeo and investigate. 
 
 3. Identify what data may be missing. Some countries may be of interest, but I may not be getting info on it.
+
+
+Something is wrong with get_cost_of_living. I am getting super high values. (Should be fixed)
+Also the matching of countries to cost of living is wrong. (Should be fixed)
 """
 import scrape_urls
 import pandas as pd
@@ -68,7 +72,7 @@ def get_cost_of_living(numbeo_table, simulations = 100000, percentile = 90):
             if lower > 0 and upper > 0 and mode > 0:
                 vals = np.add(vals, units * np.random.triangular(lower, mode, upper, simulations))
             else:
-                vals = np.add(vals, [mode]*simulations)
+                vals = np.add(vals, [mode]*simulations*units)
         except:
             continue
     return np.percentile(vals, percentile)
@@ -100,10 +104,11 @@ if __name__ == "__main__":
         urls.append(f'https://www.numbeo.com/cost-of-living/country_result.jsp?country={country_str}&displayCurrency=NZD')
     soups = scrape_urls.multi_thread_func(scrape_urls.scrape_page, urls)
     tables = [scrape_urls.get_table(soup, 1, 0, -1) for soup in soups]
-    cleaned_tables = [clean_numbeo_table(table) for table in tables if type(table) != list]
+    cleaned_tables = [clean_numbeo_table(table) if type(table) != list else [] for table in tables]
 
     cost_of_living_dic = {}
     for country, table in zip(climate_data['Country'], cleaned_tables):
         if check_enough_data(table) > 0.9:
             cost_of_living_dic[country] = get_cost_of_living(table)
     
+    print(cost_of_living_dic)
