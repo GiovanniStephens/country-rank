@@ -93,10 +93,10 @@ def scrape_page(url, spoof=False):
                 user_agent = UserAgent() 
                 headers = {'User-Agent': user_agent.random}
                 page = requests.get(url,headers=headers, proxies = proxy, timeout=1.5)
-                requests.raise_for_status()
+                page.raise_for_status()
             else:
                 page = requests.get(url)
-                requests.raise_for_status()
+                page.raise_for_status()
             
             if page.status_code == 200:
                 soup = BeautifulSoup(page.content, 'html.parser')
