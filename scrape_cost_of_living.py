@@ -46,7 +46,7 @@ def clean_numbeo_table(numbeo_df):
         numbeo_df = numbeo_df.astype(str)
     
     # Remove currency 'NZ$'
-    numbeo_df['mode'] = numbeo_df['[ Edit ]'].str[:-4]
+    numbeo_df['mode'] = numbeo_df['Edit'].str[:-4]
     numbeo_df.index.rename('category', inplace = True)
     numbeo_df['lower'] = pd.to_numeric(numbeo_df['lower'].str.replace(',',''), errors='coerce')
     numbeo_df['mode'] = pd.to_numeric(numbeo_df['mode'].str.replace(',',''), errors='coerce')
@@ -92,7 +92,7 @@ def check_enough_data(numbeo_df):
     else:
         categories = cost_of_living_units[cost_of_living_units['Units pw'] > 0]['Category']
         intersecting_categories = numbeo_df.index.intersection(categories)
-        num_nulls = numbeo_df.loc[intersecting_categories]['[ Edit ]'].isna().sum()
+        num_nulls = numbeo_df.loc[intersecting_categories]['Edit'].isna().sum()
         return (len(intersecting_categories) - num_nulls) / len(categories)
 
 
@@ -104,7 +104,8 @@ def main():
         urls.append(f'https://www.numbeo.com/cost-of-living/country_result.jsp?country={country_str}&displayCurrency=NZD')
     
     # Scrape the pages
-    soups = scrape_urls.multi_thread_func(scrape_urls.scrape_page, urls)
+    #soups = scrape_urls.multi_thread_func(scrape_urls.scrape_page, urls)
+    soups = [scrape_urls.scrape_page(url) for url in urls]
     
     # Extract the data tables
     tables = [scrape_urls.get_table(soup, 1, 0, -1) for soup in soups]
