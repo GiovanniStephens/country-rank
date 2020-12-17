@@ -12,7 +12,7 @@ data = [
     ]
 
 def main():
-    scrape_temperatures.main()
+    # scrape_temperatures.main()
     scrape_cost_of_living.main()
     dfs = import_data()
     dfs[2] = clean_pop_density(dfs[2])
