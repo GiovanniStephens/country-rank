@@ -88,25 +88,42 @@ def scrape_page(url, spoof=False):
 
     while True:
         try:
-            s = requests.Session()
             if spoof:
                 proxy = proxy_generator()
                 user_agent = UserAgent() 
                 headers = {'User-Agent': user_agent.random}
-                page = s.get(url,headers=headers, proxies = proxy, timeout=1.5)
+                page = requests.get(url,headers=headers, proxies = proxy, timeout=1.5)
+                requests.raise_for_status()
             else:
-                page = s.get(url)
+                page = requests.get(url)
+                requests.raise_for_status()
+            
             if page.status_code == 200:
-                # print(f"Page {url} downloaded correctly.")
                 soup = BeautifulSoup(page.content, 'html.parser')
-                s.close()
                 return soup
             else:
                 print(f"There was an error downloading the page {url}.")
-            s.close()
-        except:
-            s.close()
+        except requests.ConnectionError:
+            print(f"Could not establish a connection: {url}.")
             pass
+        except requests.exceptions.RequestException as e:
+            # catastrophic error. bail.
+            raise SystemExit(e)
+        except requests.exceptions.TooManyRedirects:
+            print(f"Too many redirects: {url}.")
+            raise
+        except requests.URLRequired:
+            print(f'Please, enter a valid url. {url} is not valid.')
+            raise
+        except requests.ReadTimeout:
+            print(f'Server did not return any data in the alloted time: {url}')
+            raise
+        except requests.Timeout:
+            print(f'The request timed out: {url}')
+            raise
+        except requests.exceptions.HTTPError as err:
+            raise SystemExit(err)
+
 
 # Multithreading of a given function.
 def multi_thread_func(func, values, threads = 126):
