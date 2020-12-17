@@ -49,7 +49,7 @@ def get_country_stats(soups):
     dic = {}
     for soup in soups:
         table = scrape_urls.get_table(soup)
-        country_name = scrape_urls.find_id_in_html(soup, 'headerfont')[0].text.capitalize()
+        country_name = scrape_urls.find_id_in_html(soup, 'headerfont')[0].text.title()
         dic[country_name] = get_stats(table)
     return dic
 
