@@ -54,7 +54,7 @@ def clean_numbeo_table(numbeo_df):
     return numbeo_df
 
 
-def get_cost_of_living(numbeo_table, simulations = 100000, percentile = 90):
+def get_cost_of_living(numbeo_table, simulations = 20000, percentile = 90):
     """
     For all cost categories, get the cost and multiply it by the number of units. 
     I simulate the cost using a triangular distribution if there is a lower and upper bound. 
