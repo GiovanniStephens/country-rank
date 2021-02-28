@@ -9,7 +9,8 @@ import pycountry
 data = [
     'Climate',
     'Cost of Living',
-    'Population Density'
+    'Population Density',
+    'Safety'
     ]
 
 def main():
@@ -27,10 +28,14 @@ def standardise_country_names(dfs):
         std_countries = []
         for country in df['Country']:
             try:
-                std_countries.append(pycountry.countries.search_fuzzy(country)[0].name)
-                print(f'{country} --> {pycountry.countries.search_fuzzy(country)[0].name}')
+                if pycountry.countries.search_fuzzy(country)[0].name in ['United States', 'United Kingdom', 'South Korea']:
+                    std_countries.append(pycountry.countries.search_fuzzy(country)[0].name)
+                else:
+                    std_countries.append(country.title())
+                # if pycountry.countries.search_fuzzy(country)[0].name != country.title():
+                #     print(f'{country} --> {pycountry.countries.search_fuzzy(country)[0].name}')
             except:
-                std_countries.append(country)
+                std_countries.append(country.title())
         df['Country'] = std_countries
     return dfs
 
