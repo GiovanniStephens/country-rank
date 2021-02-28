@@ -1,29 +1,22 @@
-# README #
+# Overview
 
-This README would normally document whatever steps are necessary to get your application up and running.
+This repository contains a quick hack-together of a data collection to identfy which countries would be good condidates for retirement. 
 
-### What is this repository for? ###
+# Deciding Factors
 
-* Quick summary
-* Version
-* [Learn Markdown](https://bitbucket.org/tutorials/markdowndemo)
+1. Cost of living by country
+2. Climate
+3. Population density
+4. Safety
+5. Corruption (Incomplete)
+6. Healthcare (Incomplete)
+7. Air purity (Incomplete)
 
-### How do I get set up? ###
+# Data Sources:
 
-* Summary of set up
-* Configuration
-* Dependencies
-* Database configuration
-* How to run tests
-* Deployment instructions
-
-### Contribution guidelines ###
-
-* Writing tests
-* Code review
-* Other guidelines
-
-### Who do I talk to? ###
-
-* Repo owner or admin
-* Other community or team contact
+| Factor | Data Source |
+| --- | --- |
+| Cost of living by country | [numbeo.com](numbeo.com)| 
+| Climate | [weatherbase.com](www.weatherbase.com) |
+| Population density | [www.infoplease.com](https://www.infoplease.com/world/population/population-density-square-mile-countries) |
+| Safety | [numbeo.com](numbeo.com) |
