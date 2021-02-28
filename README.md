@@ -16,7 +16,7 @@ This repository contains a quick hack-together of a data collection to identfy w
 
 | Factor | Data Source |
 | --- | --- |
-| Cost of living by country | [numbeo.com](numbeo.com)| 
-| Climate | [weatherbase.com](www.weatherbase.com) |
+| Cost of living by country | [www.numbeo.com](numbeo.com)| 
+| Climate | [www.weatherbase.com](www.weatherbase.com) |
 | Population density | [www.infoplease.com](https://www.infoplease.com/world/population/population-density-square-mile-countries) |
-| Safety | [numbeo.com](numbeo.com) |
+| Safety | [www.numbeo.com](numbeo.com) |
