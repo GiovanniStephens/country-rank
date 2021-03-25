@@ -1,7 +1,7 @@
 # Orchestrates getting all the data
 
-import scrape_temperatures
-import scrape_cost_of_living
+# import scrape_temperatures
+# import scrape_cost_of_living
 
 import pandas as pd
 import pycountry
@@ -10,7 +10,9 @@ data = [
     'Climate',
     'Cost of Living',
     'Population Density',
-    'Safety'
+    'Safety',
+    'Health',
+    'Pollution'
     ]
 
 def main():
@@ -21,7 +23,7 @@ def main():
     dfs = standardise_country_names(dfs)
     dfs = promote_to_index(dfs, 'Country')
     joined_data = join_data(dfs[0], dfs[1:])
-    joined_data.to_csv('All Data by Country.csv')
+    joined_data.to_csv('data/All Data by Country.csv')
 
 def standardise_country_names(dfs):
     for df in dfs:
@@ -40,7 +42,7 @@ def standardise_country_names(dfs):
     return dfs
 
 def import_data(suffix = ' by Country.csv'):
-    dfs = [pd.read_csv(name+suffix) for name in data]
+    dfs = [pd.read_csv('data/'+name+suffix) for name in data]
     return dfs
 
 def join_data(df1, dfs):
