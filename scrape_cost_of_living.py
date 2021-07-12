@@ -19,8 +19,8 @@ import pandas as pd
 import numpy as np
 import pycountry
 
-cost_of_living_units = pd.read_csv('Cost of Living Items.csv')
-climate_data = pd.read_csv('Climate by Country.csv')
+cost_of_living_units = pd.read_csv('data/Cost of Living Items.csv')
+climate_data = pd.read_csv('data/Climate by Country.csv')
 
 def clean_numbeo_table(numbeo_df):
     """
