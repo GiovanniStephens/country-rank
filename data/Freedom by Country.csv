@@ -1,0 +1,211 @@
+Country,Score,Political Rights,Civil Liberties
+Abkhazia,40,17,23
+Afghanistan,27,13,14
+Albania,66,27,39
+Algeria,32,10,22
+Andorra,93,38,55
+Angola,31,10,21
+Antigua and Barbuda,85,33,52
+Argentina,84,35,49
+Armenia,55,22,33
+Australia,97,40,57
+Austria,93,37,56
+Azerbaijan,10,2,8
+Bahrain,12,2,10
+Bangladesh,39,15,24
+Barbados,95,38,57
+Belarus,11,2,9
+Belgium,96,39,57
+Belize,87,34,53
+Benin,65,21,44
+Bhutan,61,30,31
+Bolivia,66,27,39
+Bosnia and Herzegovina,53,19,34
+Botswana,72,28,44
+Brazil,74,31,43
+Brunei,28,7,21
+Bulgaria,78,33,45
+Burkina Faso,54,23,31
+Burundi,14,4,10
+Cabo Verde,92,38,54
+Cambodia,24,5,19
+Cameroon,16,7,9
+Canada,98,40,58
+Central African Republic,9,3,6
+Chad,17,3,14
+Chile,93,38,55
+China,9,-2,11
+Colombia,65,29,36
+Comoros,42,16,26
+Costa Rica,91,38,53
+Crimea,7,-2,9
+Croatia,85,36,49
+Cuba,13,1,12
+Cyprus,94,38,56
+Czech Republic,91,36,55
+Côte d'Ivoire,44,16,28
+Democratic Republic of the Congo,20,5,15
+Denmark,97,40,57
+Djibouti,24,5,19
+Dominica,93,37,56
+Dominican Republic,67,26,41
+Eastern Donbas,4,-1,5
+Ecuador,67,27,40
+Egypt,18,6,12
+El Salvador,63,30,33
+Equatorial Guinea,5,0,5
+Eritrea,2,1,1
+Estonia,94,38,56
+Eswatini,19,1,18
+Ethiopia,22,9,13
+Fiji,60,24,36
+Finland,10,40,60
+France,90,38,52
+Gabon,22,3,19
+Gaza Strip,11,3,8
+Georgia,60,23,37
+Germany,94,39,55
+Ghana,82,35,47
+Greece,87,37,50
+Grenada,89,37,52
+Guatemala,52,21,31
+Guinea,38,14,24
+Guinea-Bissau,44,17,27
+Guyana,73,30,43
+Haiti,37,15,22
+Honduras,44,19,25
+Hong Kong,52,15,37
+Hungary,69,26,43
+Iceland,94,37,57
+India,67,34,33
+Indian Kashmir,27,7,20
+Indonesia,59,30,29
+Iran,16,6,10
+Iraq,29,16,13
+Ireland,97,39,58
+Israel,76,33,43
+Italy,90,36,54
+Jamaica,80,34,46
+Japan,96,40,56
+Jordan,34,11,23
+Kazakhstan,23,5,18
+Kenya,48,19,29
+Kiribati,93,37,56
+Kosovo,54,23,31
+Kuwait,37,14,23
+Kyrgyzstan,28,4,24
+Laos,13,2,11
+Latvia,89,37,52
+Lebanon,43,13,30
+Lesotho,63,27,36
+Liberia,60,27,33
+Libya,9,1,8
+Liechtenstein,90,33,57
+Lithuania,90,38,52
+Luxembourg,97,38,59
+Madagascar,60,27,33
+Malawi,66,29,37
+Malaysia,51,21,30
+Maldives,40,19,21
+Mali,33,9,24
+Malta,90,35,55
+Marshall Islands,93,38,55
+Mauritania,35,14,21
+Mauritius,87,37,50
+Mexico,61,27,34
+Micronesia,92,37,55
+Moldova,61,26,35
+Monaco,83,26,57
+Mongolia,84,36,48
+Montenegro,63,24,39
+Morocco,37,13,24
+Mozambique,43,14,29
+Myanmar,28,13,15
+Nagorno-Karabakh,35,16,19
+Namibia,77,31,46
+Nauru,77,34,43
+Nepal,56,25,31
+Netherlands,98,40,58
+New Zealand,99,40,59
+Nicaragua,30,10,20
+Niger,48,20,28
+Nigeria,45,21,24
+North Korea,3,0,3
+North Macedonia,66,27,39
+Northern Cyprus,78,28,50
+Norway,10,40,60
+Oman,23,6,17
+Pakistan,37,15,22
+Pakistani Kashmir,28,9,19
+Palau,92,37,55
+Panama,83,35,48
+Papua New Guinea,62,23,39
+Paraguay,65,28,37
+Peru,71,29,42
+Philippines,56,25,31
+Poland,82,34,48
+Portugal,96,39,57
+Qatar,25,7,18
+Republic of the Congo,20,2,18
+Romania,83,35,48
+Russia,20,5,15
+Rwanda,21,8,13
+Samoa,81,30,51
+San Marino,93,38,55
+Saudi Arabia,7,1,6
+Senegal,71,29,42
+Serbia,64,22,42
+Seychelles,77,34,43
+Sierra Leone,65,28,37
+Singapore,48,19,29
+Slovakia,90,37,53
+Slovenia,95,39,56
+Solomon Islands,79,30,49
+Somalia,7,1,6
+Somaliland,42,18,24
+South Africa,79,33,46
+South Korea,83,33,50
+South Ossetia,10,2,8
+South Sudan,2,-2,4
+Spain,90,37,53
+Sri Lanka,56,23,33
+St. Kitts and Nevis,89,35,54
+St. Lucia,91,37,54
+St. Vincent and the Grenadines,91,36,55
+Sudan,17,2,15
+Suriname,79,34,45
+Sweden,10,40,60
+Switzerland,96,39,57
+Syria,1,-3,4
+São Tomé and Príncipe,84,35,49
+Taiwan,94,38,56
+Tajikistan,8,0,8
+Tanzania,34,12,22
+Thailand,30,5,25
+The Bahamas,91,38,53
+The Gambia,46,20,26
+Tibet,1,-2,3
+Timor-Leste,72,33,39
+Togo,43,15,28
+Tonga,79,30,49
+Transnistria,20,8,12
+Trinidad and Tobago,82,33,49
+Tunisia,71,32,39
+Turkey,32,16,16
+Turkmenistan,2,0,2
+Tuvalu,93,37,56
+Uganda,34,11,23
+Ukraine,60,26,34
+United Arab Emirates,17,5,12
+United Kingdom,93,39,54
+United States,83,32,51
+Uruguay,98,40,58
+Uzbekistan,11,2,9
+Vanuatu,82,33,49
+Venezuela,14,1,13
+Vietnam,19,3,16
+West Bank,25,4,21
+Western Sahara,4,-3,7
+Yemen,11,1,10
+Zambia,52,20,32
+Zimbabwe,28,11,17

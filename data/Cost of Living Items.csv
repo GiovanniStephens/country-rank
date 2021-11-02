@@ -1,9 +1,9 @@
 ﻿Category,Units pw
 "Meal, Inexpensive Restaurant",4
 "Meal for 2 People, Mid-range Restaurant, Three-course",1
-McMeal at McDonalds (or Equivalent Combo Meal),0
-Domestic Beer (0.5 liter draught),1
-Imported Beer (0.33 liter bottle),0
+McMeal at McDonalds (or Equivalent Combo Meal),2
+Domestic Beer (0.5 liter draught),2
+Imported Beer (0.33 liter bottle),2
 Cappuccino (regular),2
 Coke/Pepsi (0.33 liter bottle),0
 Water (0.33 liter bottle),0
@@ -19,9 +19,9 @@ Banana (1kg),1
 Oranges (1kg),0.5
 Tomato (1kg),1
 Potato (1kg),0.5
-Onion (1kg),1
+Onion (1kg),1.5
 Lettuce (1 head),1
-Water (1.5 liter bottle),7
+Water (1.5 liter bottle),30
 Bottle of Wine (Mid-Range),1
 Cigarettes 20 Pack (Marlboro),0
 One-way Ticket (Local Transport),0
@@ -44,10 +44,10 @@ Tennis Court Rent (1 Hour on Weekend),0
 "1 Summer Dress in a Chain Store (Zara, H&M, ...)",0.038461538
 1 Pair of Nike Running Shoes (Mid-Range),0.02
 1 Pair of Men Leather Business Shoes,0
-Apartment (1 bedroom) in City Centre,0.23
+Apartment (1 bedroom) in City Centre,0
 Apartment (1 bedroom) Outside of Centre,0
 Apartment (3 bedrooms) in City Centre,0
-Apartment (3 bedrooms) Outside of Centre,0
+Apartment (3 bedrooms) Outside of Centre,0.23
 Price per Square Meter to Buy Apartment in City Centre,0
 Price per Square Meter to Buy Apartment Outside of Centre,0
 Average Monthly Net Salary (After Tax),0
