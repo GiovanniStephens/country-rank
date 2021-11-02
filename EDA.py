@@ -9,12 +9,8 @@ import estimate_cost_to_retire as retire
 
 df = pd.read_csv('data/All Data by Country.csv')
 
-# Head of the data
-# print(df.head())
-
 # Counts by column
 df.count()
-
 
 # Cleaned data to keep just the countries with enough data.
 df = df[df.count(1)>=9]
@@ -72,7 +68,6 @@ import clustering
 tsne_results = clustering.reduce_dimensions_umap(std_values,5)
 
 # Cluster the data
-
 clusterer = hdbscan.HDBSCAN(min_cluster_size=2)
 clusterer.fit(tsne_results)
 labels = clusterer.labels_
