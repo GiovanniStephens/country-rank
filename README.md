@@ -57,3 +57,10 @@ Based on the above factors, I cluster countries based on their characteristics. 
     - Free.
     - Pretty good health care and education.
     - Really nice people I think. 
+
+# Future work
+
+There are quite a few other datasets out there that could help inform the decisions. I, currently, do not know what other data I would to include, but some options are below: 
+- Ratings of the country by people online;
+- Percieved risks by country;
+- Percieved quality of the people in these countries.
