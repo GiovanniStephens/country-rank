@@ -8,9 +8,16 @@ This repository contains a quick hack-together of a data collection to identfy w
 2. Climate
 3. Population density
 4. Safety
-5. Corruption (Incomplete)
-6. Healthcare (Incomplete)
-7. Air purity (Incomplete)
+5. Corruption
+6. Healthcare
+7. Air purity
+8. Country freedom
+9. Forecast change in puchasing power parity (PPP)
+10. Estimated amount required to retire comfortably. 
+
+# Approach
+
+Based on the above factors, I cluster countries based on their characteristics. From what information I know, (e.g. I loved Spain for its culture, cost, stability, and climate) I can pick the cluster of like countries that is most attractive. From that subset of countries, I can estimate the required savings to retire in said countries. This estimate is calculated as the present value of a growing annuity that is of the duration of the remainder of our life expectancy plus moving costs and a buffer. The payment is a 99th percentile lifestyle cost of living for Hanna and me. The expected return r would be around 5% plus the forecast long-term change in purchasing power between NZ and said country (assuming investments are denominated in NZD). 
 
 # Data Sources:
 
@@ -20,6 +27,12 @@ This repository contains a quick hack-together of a data collection to identfy w
 | Climate | [www.weatherbase.com](www.weatherbase.com) |
 | Population density | [www.infoplease.com](https://www.infoplease.com/world/population/population-density-square-mile-countries) |
 | Safety | [www.numbeo.com](numbeo.com) |
+| Corruption | [www.transparency.org/en/cpi/2020](https://www.transparency.org/en/cpi/2020) |
+| Healthcare | [www.numbeo.com](numbeo.com) |
+| Air purity | [www.numbeo.com](numbeo.com) |
+| Country freedom | [freedomhouse.org](https://freedomhouse.org/) |
+| PPP conversion factors | [data.Worldbank.org](https://data.worldbank.org/indicator/PA.NUS.PPP) |
+
 
 # Brief Findings
 
