@@ -46,6 +46,8 @@ Based on the above factors, I cluster countries based on their characteristics. 
     - Not too populated.
     - Very good cost of living.
     - Quite safe.
+    - A little politically unstable?
+    - Not so many freedoms as first world countries.
 - There are quite a few options in South America if one is willing to put up with a little more danger and corruption. 
 - South American countries are quite cheap relative to the rest of the world. 
 - With how purchasing power is changing as well as the cost of living, Uruguay seems like a great place. 
