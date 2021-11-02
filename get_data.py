@@ -1,7 +1,7 @@
 # Orchestrates getting all the data
 
-# import scrape_temperatures
-# import scrape_cost_of_living
+import scrape_temperatures
+import scrape_cost_of_living
 
 import pandas as pd
 import pycountry
@@ -12,7 +12,9 @@ data = [
     'Population Density',
     'Safety',
     'Health',
-    'Pollution'
+    'Pollution',
+    'Corruption Perception',
+    'Freedom'
     ]
 
 def main():
@@ -34,8 +36,6 @@ def standardise_country_names(dfs):
                     std_countries.append(pycountry.countries.search_fuzzy(country)[0].name)
                 else:
                     std_countries.append(country.title())
-                # if pycountry.countries.search_fuzzy(country)[0].name != country.title():
-                #     print(f'{country} --> {pycountry.countries.search_fuzzy(country)[0].name}')
             except:
                 std_countries.append(country.title())
         df['Country'] = std_countries
