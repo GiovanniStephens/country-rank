@@ -140,6 +140,23 @@ def main():
     df.columns = ['Cost of Living pw']
     df.to_csv('data/Cost of Living by Country.csv')
 
+def get_city_cost_of_living(city, percentile = 90):
+    """
+    Get the cost of living for a city.
+    """
+    city = '+'.join(city.title().split())
+    url = f'https://www.numbeo.com/cost-of-living/in/{city}?displayCurrency=NZD'
+    soup = scrape_urls.scrape_page(url)
+    table = scrape_urls.get_table(soup, 1, 0, -1)
+    cleaned_table = clean_numbeo_table(table)
+    # check if there is enough data
+    if check_enough_data(cleaned_table) > 0.9:
+        print(str(percentile)+ 'th percentile weekly cost of living in ' + city + ': ' + \
+             str(round(get_cost_of_living(cleaned_table, percentile=percentile),2)))
+    else:
+        print('Not enough data to estimate cost of living.')
+
+
 def get_country_cost_of_living(country, percentile):
     country_str = '+'.join(country.title().split())
     url = f'https://www.numbeo.com/cost-of-living/country_result.jsp?country={country_str}&displayCurrency=NZD'
@@ -153,14 +170,23 @@ def get_country_cost_of_living(country, percentile):
         print('Not enough data.')
 
 if __name__ == "__main__":
-    get_country_cost_of_living('colombia', 99)
-    get_country_cost_of_living('colombia', 50)
-    get_country_cost_of_living('New zealand', 99)
-    get_country_cost_of_living('New zealand', 50)
-    get_country_cost_of_living('georgia', 99)
-    get_country_cost_of_living('georgia', 50)
-    get_country_cost_of_living('Uruguay', 99)
-    get_country_cost_of_living('Uruguay', 50)
+    # get_country_cost_of_living('colombia', 99)
+    # get_country_cost_of_living('colombia', 50)
+    # get_country_cost_of_living('New zealand', 99)
+    # get_country_cost_of_living('New zealand', 50)
+    # get_country_cost_of_living('georgia', 99)
+    # get_country_cost_of_living('georgia', 50)
+    # get_country_cost_of_living('Uruguay', 99)
+    # get_country_cost_of_living('Uruguay', 50)
+    get_city_cost_of_living('Bali', 99)
+    get_city_cost_of_living('Bali', 50)
+    get_city_cost_of_living('Yogyakarta', 99)
+    get_city_cost_of_living('Yogyakarta', 50)
+    get_country_cost_of_living('Indonesia', 99)
+    get_country_cost_of_living('Indonesia', 50)
+    get_country_cost_of_living('Thailand', 99)
+    get_country_cost_of_living('Thailand', 50)
+
     # get_country_cost_of_living('india', 90)
     # get_country_cost_of_living('india', 50)
     # get_country_cost_of_living('Australia', 90)
