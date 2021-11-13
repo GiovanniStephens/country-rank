@@ -33,12 +33,17 @@ The growing annuity has the following input parameters:
 3. The long-term investment returns rate after expenses;
 4. The growth rate of the cash flow.
 
+
+### Duration
 The duration is is calculated as the duration of the remainder of our life expectancy. For example, if I am 30 years old and my life expectancy is 95, I have 65 years left to live. This is the duration of the annuity.
 
+### Cash Flow
 The starting cash flow is the estimated cost of living in the country. It is calculated as the 90th percentitle of the cost of living in the country. There is also a cost of living buffer added into the cost of living to account for unexpected lifestyle creap.
 
+### Return on Investment
 The expected return on investments is assumed to be around 5% (this is conversative to ensure we are not underestimating the cost to retire).  
 
+### Growth Rate
 The growth rate is the forecast long-term change in purchasing power between NZ and said country (assuming investments are denominated in NZD). This is an estimate that includes both inflation and FX changes for both NZ and the country.
 
 # Data Sources:
@@ -55,6 +60,12 @@ The growth rate is the forecast long-term change in purchasing power between NZ 
 | Country freedom | [freedomhouse.org](https://freedomhouse.org/) |
 | PPP conversion factors | [data.Worldbank.org](https://data.worldbank.org/indicator/PA.NUS.PPP) |
 
+# Articles
+
+I wrote a couple of articles with findings from the project. You can find there posted below: 
+
+https://www.linkedin.com/pulse/planning-retirement-shortcut-giovanni-stephens/
+https://www.linkedin.com/pulse/where-retire-exploratory-analysis-giovanni-stephens/
 
 # Brief Findings
 
