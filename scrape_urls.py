@@ -1,22 +1,25 @@
 import requests
 from bs4 import BeautifulSoup
 import pandas as pd
-import re
-import sys
 from fake_useragent import UserAgent
 from random import choice
 from multiprocessing.pool import ThreadPool
 
 def get_table(soup, table_num = 2, row_start = 1, row_end = 5):
     """
-    Pulls out a table from a beautifulsoup html. 
+    Pulls out a table from a beautifulsoup html.
 
     Format is: Row labels with 'Average' in the name.
-    The table returns just the rows 1-4 inclusive. 
+    The table returns just the rows 1-4 inclusive.
     This was for the type of tables coming from the climate page.
+
+    :soup: BeautifulSoup object.
+    :table_num: The table number to pull out.
+    :row_start: The row to start pulling from.
+    :row_end: The row to end pulling from.
+    :return: a pandas dataframe of the table.
     """
     try:
-        data = {}
         table = soup.find_all('table')[table_num]
 
         # Get headers of table
@@ -43,25 +46,47 @@ def get_table(soup, table_num = 2, row_start = 1, row_end = 5):
     except:
         return []
 
+
 def find_html_class(soup, class_name):
+    """
+    Finds all elements with a given class name.
+
+    :soup: BeautifulSoup object.
+    :class_name: The class name to find.
+    :return: A list of elements with the given class name.
+    """
     return soup.find_all(class_=class_name)
 
 
 def find_in_html(soup, element):
+    """
+    Finds an element in a BeautifulSoup object.
+
+    :soup: BeautifulSoup object.
+    :element: The element to find.
+    :return: The element if found, else None.
+    """
     return soup.find_all(element)
 
 
 def find_id_in_html(soup, id):
+    """
+    Finds an element with a given id in a BeautifulSoup object.
+
+    :soup: BeautifulSoup object.
+    :id: The id to find.
+    :return: The element if found, else None.
+    """
     return soup.find_all('div', {'id':id})
 
-#Proxy generator
+
 def proxy_generator():
     """
     This function scrapes a list of a free proxies from:
 
     https://sslproxies.org/
 
-    It then returns a random proxy from the list. 
+    It then returns a random proxy from the list.
     """
     # Where we get the proxies
     soup = scrape_page("https://sslproxies.org/")
@@ -79,13 +104,12 @@ def proxy_generator():
     proxy = {'https': choice(list(map(create_url, proxies)))}
     return proxy
 
-#Scraper
+
 def scrape_page(url, spoof=False):
     """
     This function tries to get page information by spoofing the header and trying a random proxy.
     If successful, it returns the soup of the page. 
     """
-
     while True:
         try:
             if spoof:
@@ -125,7 +149,6 @@ def scrape_page(url, spoof=False):
             raise SystemExit(err)
 
 
-# Multithreading of a given function.
 def multi_thread_func(func, values, threads = 126):
     listing_soups = []
     with ThreadPool(threads) as pool:
