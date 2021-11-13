@@ -5,7 +5,8 @@ from fake_useragent import UserAgent
 from random import choice
 from multiprocessing.pool import ThreadPool
 
-def get_table(soup, table_num = 2, row_start = 1, row_end = 5):
+
+def get_table(soup, table_num=2, row_start=1, row_end=5):
     """
     Pulls out a table from a beautifulsoup html.
 
@@ -27,13 +28,14 @@ def get_table(soup, table_num = 2, row_start = 1, row_end = 5):
         for th in table.find_all("th"):
             # remove any newlines and extra spaces from left and right
             t_headers.append(th.text.replace('\n', ' ').strip())
-        
+
         # Get all the rows of table
         table_data = []
-        for tr in table.find_all("tr"): # find all tr's from table's tbody
+        # find all tr's from table's tbody
+        for tr in table.find_all("tr"):
             t_row = {}
             # find all td's in tr and zip it with t_header
-            for td, th in zip(tr.find_all("td"), t_headers): 
+            for td, th in zip(tr.find_all("td"), t_headers):
                 val = td.text.replace('\n', '').strip()
                 if val == '---':
                     t_row[th] = '0'
@@ -77,7 +79,7 @@ def find_id_in_html(soup, id):
     :id: The id to find.
     :return: The element if found, else None.
     """
-    return soup.find_all('div', {'id':id})
+    return soup.find_all('div', {'id': id})
 
 
 def proxy_generator():
@@ -90,13 +92,13 @@ def proxy_generator():
     """
     # Where we get the proxies
     soup = scrape_page("https://sslproxies.org/")
-    
+
     # Creates the url
-    create_url = lambda x:'http://'+x[0]+':'+x[1]
-    
+    create_url = lambda x: 'http://'+x[0]+':'+x[1]
+
     # Strip text from soup element
-    get_text = lambda x:x.text
-    
+    get_text = lambda x: x.text
+
     # Get elements from proxy list
     proxy_element1 = map(get_text, soup.findAll('td')[::8])
     proxy_element2 = map(get_text, soup.findAll('td')[1::8])
@@ -107,21 +109,22 @@ def proxy_generator():
 
 def scrape_page(url, spoof=False):
     """
-    This function tries to get page information by spoofing the header and trying a random proxy.
-    If successful, it returns the soup of the page. 
+    This function tries to get page information by
+    spoofing the header and trying a random proxy.
+    If successful, it returns the soup of the page.
     """
     while True:
         try:
             if spoof:
                 proxy = proxy_generator()
-                user_agent = UserAgent() 
+                user_agent = UserAgent()
                 headers = {'User-Agent': user_agent.random}
-                page = requests.get(url,headers=headers, proxies = proxy, timeout=1.5)
+                page = requests.get(url, headers=headers,
+                                    proxies=proxy, timeout=1.5)
                 page.raise_for_status()
             else:
                 page = requests.get(url)
                 page.raise_for_status()
-            
             if page.status_code == 200:
                 soup = BeautifulSoup(page.content, 'html.parser')
                 return soup
@@ -149,7 +152,7 @@ def scrape_page(url, spoof=False):
             raise SystemExit(err)
 
 
-def multi_thread_func(func, values, threads = 126):
+def multi_thread_func(func, values, threads=126):
     listing_soups = []
     with ThreadPool(threads) as pool:
         for result in pool.map(func, values):
