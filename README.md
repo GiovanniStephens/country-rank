@@ -1,6 +1,10 @@
 # Overview
 
-This repository contains a quick hack-together of a data collection to identfy which countries would be good condidates for retirement. 
+This is a quick hack-together project to identfy which countries would be good condidates for retirement. I collect data from various sources and then use it to build a model to predict which countries would be good candidates for retirement.
+
+The model includes clustering, time series forecasting, and simulation.
+
+I chose to include data for several deciding factors that were important to me in a country for retirement.
 
 # Deciding Factors
 
@@ -17,7 +21,25 @@ This repository contains a quick hack-together of a data collection to identfy w
 
 # Approach
 
-Based on the above factors, I cluster countries based on their characteristics. From what information I know, (e.g. I loved Spain for its culture, cost, stability, and climate) I can pick the cluster of like countries that is most attractive. From that subset of countries, I can estimate the required savings to retire in said countries. This estimate is calculated as the present value of a growing annuity that is of the duration of the remainder of our life expectancy plus moving costs and a buffer. The payment is a 99th percentile lifestyle cost of living for Hanna and me. The expected return r would be around 5% plus the forecast long-term change in purchasing power between NZ and said country (assuming investments are denominated in NZD). 
+I cluster the countries based on their characteristics to find groups of countries that are similar. 
+
+From what I know, I loved Spain. With that knowledge, I can pick the cluster of similar countries like Spain. These represent a set of candidate countries with attractive attributes.
+
+From that subset of countries, I can estimate the required savings to retire in said countries. This estimate is calculated as the present value of a growing annuity. 
+
+The growing annuity has the following input parameters:
+1. Duration (i.e. the length of the annuity);
+2. The starting cash flow (i.e. the cost of living at this current time.);
+3. The long-term investment returns rate after expenses;
+4. The growth rate of the cash flow.
+
+The duration is is calculated as the duration of the remainder of our life expectancy. For example, if I am 30 years old and my life expectancy is 95, I have 65 years left to live. This is the duration of the annuity.
+
+The starting cash flow is the estimated cost of living in the country. It is calculated as the 90th percentitle of the cost of living in the country. There is also a cost of living buffer added into the cost of living to account for unexpected lifestyle creap.
+
+The expected return on investments is assumed to be around 5% (this is conversative to ensure we are not underestimating the cost to retire).  
+
+The growth rate is the forecast long-term change in purchasing power between NZ and said country (assuming investments are denominated in NZD). This is an estimate that includes both inflation and FX changes for both NZ and the country.
 
 # Data Sources:
 
