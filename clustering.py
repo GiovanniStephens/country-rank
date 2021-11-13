@@ -7,6 +7,7 @@ from scipy.stats import t
 import numpy as np
 import pandas as pd
 
+
 def reduce_dimensions_pca(embeddings, dimensions=80):
     """ 
     Reduces the number of dimensions using PCA. 
@@ -18,6 +19,7 @@ def reduce_dimensions_pca(embeddings, dimensions=80):
     pca = PCA(n_components=dimensions)
     reduced = pca.fit_transform(embeddings)
     return reduced
+
 
 def reduce_dimensions_umap(embeddings, dimensions = 80, n_neighbors=10):
     """
@@ -34,6 +36,7 @@ def reduce_dimensions_umap(embeddings, dimensions = 80, n_neighbors=10):
         random_state=42,
     ).fit_transform(embeddings)
     return reduced
+
 
 def shuffle(df):
     """
