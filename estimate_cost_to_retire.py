@@ -22,20 +22,24 @@ def estimate_cost_to_retire(country: str,
     conversion_rate_change = ppp.estimate_PPP_conversion_rate_long_term_change(country)
     overall_conversion_rate = min(0, (1 + conversion_rate_change) /
                                      (1 + nz_conversion_rate) - 1)
-    g = overall_conversion_rate
+    inverse_conversion_rate = 1 / (1 + overall_conversion_rate) - 1
+    g = 1.02/(1+inverse_conversion_rate)-1
     annuity_cost = (weekly_cost * 52 + buffer_pa) / (r - g) * (1 - ((1 + g) / (1 + r))**n)
     return annuity_cost + moving_cost
 
 
 if __name__ == '__main__':
-    buffer = 0
-    rate = 0.06
-    # print(estimate_cost_to_retire('Spain',951,r=rate,n=32, buffer_pa=buffer))
-    # print(estimate_cost_to_retire('Portugal',853,r=rate,n=32, buffer_pa=buffer))
-    # print(estimate_cost_to_retire('Germany',1150,r=rate,n=66, buffer_pa=buffer))
-    # print(estimate_cost_to_retire('Georgia',445,r=rate,n=32, buffer_pa=buffer))
-    # print(estimate_cost_to_retire('Colombia',442,r=rate,n=32, buffer_pa=buffer))
-    # print(estimate_cost_to_retire('Uruguay',762,r=rate,n=32, buffer_pa=buffer))
-    # print(estimate_cost_to_retire('Croatia',874,r=rate,n=66, buffer_pa=buffer))
-    # print(estimate_cost_to_retire('New Zealand',1050,r=rate,n=66, moving_cost=0, buffer_pa=buffer))
-    print(estimate_cost_to_retire('Indonesia', 405, r=rate, n=66, moving_cost=5000, buffer_pa=buffer))
+    buffer = 5000
+    rate = 0.07
+    import scrape_cost_of_living as sc
+    # print(estimate_cost_to_retire('Spain',sc.get_country_cost_of_living('Spain'),r=rate,n=66, buffer_pa=buffer))
+    # print(estimate_cost_to_retire('Portugal',sc.get_country_cost_of_living('Portugal'),r=rate,n=66, buffer_pa=buffer))
+    # print(estimate_cost_to_retire('Georgia',sc.get_country_cost_of_living('Georgia'),r=rate,n=66, buffer_pa=buffer))
+    print(estimate_cost_to_retire('Colombia',sc.get_country_cost_of_living('Colombia'),r=rate,n=66, buffer_pa=buffer))
+    # print(estimate_cost_to_retire('Uruguay',sc.get_country_cost_of_living('Uruguay'),r=rate,n=66, buffer_pa=buffer))
+    print(estimate_cost_to_retire('New Zealand',sc.get_country_cost_of_living('New Zealand',90),r=rate,n=66, moving_cost=0, buffer_pa=buffer))
+    print(estimate_cost_to_retire('New Zealand',sc.get_country_cost_of_living('New Zealand',50),r=rate,n=66, moving_cost=0, buffer_pa=buffer))
+    print(estimate_cost_to_retire('New Zealand',sc.get_country_cost_of_living('New Zealand',10),r=rate,n=66, moving_cost=0, buffer_pa=buffer))
+    # print(estimate_cost_to_retire('Indonesia', sc.get_country_cost_of_living('Indonesia'), r=rate, n=66, moving_cost=5000, buffer_pa=buffer))
+    # print(estimate_cost_to_retire('Argentina', sc.get_country_cost_of_living('Argentina'), r=rate, n=66, moving_cost=5000, buffer_pa=buffer))
+    # print(estimate_cost_to_retire('Australia', sc.get_country_cost_of_living('Australia', 50), r=rate, n=66, moving_cost=5000, buffer_pa=buffer))
