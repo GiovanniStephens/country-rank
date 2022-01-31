@@ -62,17 +62,25 @@ def get_cost_of_living(numbeo_table: pd.DataFrame,
         # Will catch an error if the category is not in the table
         try:
             category = cost_of_living_units.iloc[i]['Category']
-            units = cost_of_living_units.iloc[i]['Units pw']
+            lower_units = cost_of_living_units.iloc[i]['Lower Units pw']
+            upper_units = cost_of_living_units.iloc[i]['Upper Units pw']
             lower = numbeo_table.loc[category]['lower']
             mode = numbeo_table.loc[category]['mode']
             upper = numbeo_table.loc[category]['upper']
             if lower > 0 and upper > 0 and mode > 0:
-                vals = np.add(vals, units * np.random.triangular(lower,
-                                                                 mode,
-                                                                 upper,
-                                                                 simulations))
+                vals = np.add(vals, np.random.uniform(lower_units,
+                                                      upper_units,
+                                                      simulations)
+                                    * np.random.triangular(lower,
+                                                           mode,
+                                                           upper,
+                                                           simulations))
             else:
-                vals = np.add(vals, [mode*units]*simulations)
+                vals = np.add(vals, [mode *
+                                     np.random.uniform(lower_units,
+                                                       upper_units,
+                                                       simulations)]
+                                    *simulations)
         except:
             continue
     return np.percentile(vals, percentile)
@@ -93,7 +101,7 @@ def check_enough_data(numbeo_df: pd.DataFrame) -> float:
         return 0
     else:
         categories = cost_of_living_units[
-                     cost_of_living_units['Units pw'] > 0]['Category']
+                     cost_of_living_units['Upper Units pw'] > 0]['Category']
         intersecting_categories = numbeo_df.index.intersection(categories)
         num_nulls = numbeo_df.loc[intersecting_categories]['Edit'].isna().sum()
         return (len(intersecting_categories) - num_nulls) / len(categories)
@@ -194,6 +202,7 @@ def get_country_cost_of_living(country: str, percentile: int = 90) -> float:
                                            percentile=percentile), 2)))
     else:
         print('Not enough data.')
+    return get_cost_of_living(cleaned_table, percentile=percentile)
 
 
 if __name__ == "__main__":
@@ -205,14 +214,27 @@ if __name__ == "__main__":
     # get_country_cost_of_living('georgia', 50)
     # get_country_cost_of_living('Uruguay', 99)
     # get_country_cost_of_living('Uruguay', 50)
-    get_city_cost_of_living('Bali', 99)
-    get_city_cost_of_living('Bali', 50)
-    get_city_cost_of_living('Yogyakarta', 99)
-    get_city_cost_of_living('Yogyakarta', 50)
-    get_country_cost_of_living('Indonesia', 99)
-    get_country_cost_of_living('Indonesia', 50)
-    get_country_cost_of_living('Thailand', 99)
-    get_country_cost_of_living('Thailand', 50)
+    get_city_cost_of_living('Queenstown', 10)
+    get_city_cost_of_living('Tauranga', 10)
+    # get_city_cost_of_living('Houston', 50)
+    # get_city_cost_of_living('Austin', 50)
+    # get_city_cost_of_living('Bogota', 50)
+    # get_city_cost_of_living('Medellin', 50)
+
+
+    # get_city_cost_of_living('Wellington', 90)
+    # get_city_cost_of_living('Christchurch', 90)
+    # get_city_cost_of_living('Auckland', 90)
+    # get_city_cost_of_living('Hamilton', 90)
+    # get_city_cost_of_living('Dunedin', 90)
+    # get_city_cost_of_living('Bali', 99)
+    # get_city_cost_of_living('Bali', 50)
+    # get_city_cost_of_living('Yogyakarta', 99)
+    # get_city_cost_of_living('Yogyakarta', 50)
+    # get_country_cost_of_living('Indonesia', 99)
+    # get_country_cost_of_living('Indonesia', 50)
+    # get_country_cost_of_living('Thailand', 99)
+    # get_country_cost_of_living('Thailand', 50)
 
     # get_country_cost_of_living('india', 90)
     # get_country_cost_of_living('india', 50)
