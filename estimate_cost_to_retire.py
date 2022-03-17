@@ -25,21 +25,17 @@ def estimate_cost_to_retire(country: str,
     inverse_conversion_rate = 1 / (1 + overall_conversion_rate) - 1
     g = 1.02/(1+inverse_conversion_rate)-1
     annuity_cost = (weekly_cost * 52 + buffer_pa) / (r - g) * (1 - ((1 + g) / (1 + r))**n)
-    return annuity_cost + moving_cost
+    return round(annuity_cost + moving_cost,2)
 
 
 if __name__ == '__main__':
     buffer = 5000
+    moving_cost = 8000
     rate = 0.07
     import scrape_cost_of_living as sc
-    # print(estimate_cost_to_retire('Spain',sc.get_country_cost_of_living('Spain'),r=rate,n=66, buffer_pa=buffer))
-    # print(estimate_cost_to_retire('Portugal',sc.get_country_cost_of_living('Portugal'),r=rate,n=66, buffer_pa=buffer))
-    # print(estimate_cost_to_retire('Georgia',sc.get_country_cost_of_living('Georgia'),r=rate,n=66, buffer_pa=buffer))
-    print(estimate_cost_to_retire('Colombia',sc.get_country_cost_of_living('Colombia'),r=rate,n=66, buffer_pa=buffer))
-    # print(estimate_cost_to_retire('Uruguay',sc.get_country_cost_of_living('Uruguay'),r=rate,n=66, buffer_pa=buffer))
-    print(estimate_cost_to_retire('New Zealand',sc.get_country_cost_of_living('New Zealand',90),r=rate,n=66, moving_cost=0, buffer_pa=buffer))
-    print(estimate_cost_to_retire('New Zealand',sc.get_country_cost_of_living('New Zealand',50),r=rate,n=66, moving_cost=0, buffer_pa=buffer))
-    print(estimate_cost_to_retire('New Zealand',sc.get_country_cost_of_living('New Zealand',10),r=rate,n=66, moving_cost=0, buffer_pa=buffer))
-    # print(estimate_cost_to_retire('Indonesia', sc.get_country_cost_of_living('Indonesia'), r=rate, n=66, moving_cost=5000, buffer_pa=buffer))
-    # print(estimate_cost_to_retire('Argentina', sc.get_country_cost_of_living('Argentina'), r=rate, n=66, moving_cost=5000, buffer_pa=buffer))
-    # print(estimate_cost_to_retire('Australia', sc.get_country_cost_of_living('Australia', 50), r=rate, n=66, moving_cost=5000, buffer_pa=buffer))
+    countries = ['Spain', 'Portugal', 'Georgia', 'New Zealand', 'Indonesia', 'Australia', 'Uruguay', 'Argentina', 'Colombia', 'Peru', 'Bolivia', 'Mexico', 'Poland', 'Croatia']
+    percentiles = [50, 90]
+    for country in countries:
+        for percentile in percentiles:
+            cost = sc.get_country_cost_of_living(country,percentile)
+            print(estimate_cost_to_retire(country, cost, rate, n=68, moving_cost=moving_cost, buffer_pa=buffer))
