@@ -58,7 +58,7 @@ The growth rate is the forecast long-term change in purchasing power between NZ 
 | Healthcare | [www.numbeo.com](numbeo.com) |
 | Air purity | [www.numbeo.com](numbeo.com) |
 | Country freedom | [freedomhouse.org](https://freedomhouse.org/) |
-| PPP conversion factors | [data.Worldbank.org](https://data.worldbank.org/indicator/PA.NUS.PPP) |
+| PPP conversion factors | [data.Worldbank.org](https://data.oecd.org/conversion/purchasing-power-parities-ppp.htm) |
 
 # Articles
 
