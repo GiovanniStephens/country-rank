@@ -33,9 +33,11 @@ if __name__ == '__main__':
     moving_cost = 8000
     rate = 0.07
     import scrape_cost_of_living as sc
-    countries = ['Spain', 'Portugal', 'Georgia', 'New Zealand', 'Indonesia', 'Australia', 'Uruguay', 'Argentina', 'Colombia', 'Peru', 'Bolivia', 'Mexico', 'Poland', 'Croatia']
-    percentiles = [50, 90]
+    countries = ['Spain', 'Portugal', 'New Zealand', 'Indonesia', 'Australia', 'Uruguay', 'Argentina', 'Colombia', 'Peru', 'Bolivia', 'Mexico', 'Poland', 'Croatia']
+    percentiles = [50]
+    # countries = ['Uruguay']
+    # percentiles = [90]
     for country in countries:
         for percentile in percentiles:
             cost = sc.get_country_cost_of_living(country,percentile)
-            print(estimate_cost_to_retire(country, cost, rate, n=68, moving_cost=moving_cost, buffer_pa=buffer))
+            print(estimate_cost_to_retire(country, cost, rate, n=66, moving_cost=moving_cost, buffer_pa=buffer))
