@@ -44,7 +44,7 @@ The starting cash flow is the estimated cost of living in the country. It is cal
 The expected return on investments is assumed to be around 5% (this is conversative to ensure we are not underestimating the cost to retire).  
 
 ### Growth Rate
-The growth rate is the forecast long-term change in purchasing power between NZ and said country (assuming investments are denominated in NZD). This is an estimate that includes both inflation and FX changes for both NZ and the country.
+The growth rate is the forecast long-term change in purchasing power (PPP) between NZ and said country (assuming investments are denominated in NZD). This is an estimate that includes both inflation and FX changes for both NZ and the country. (A good explanation of PPP can be found [here](https://ourworldindata.org/what-are-ppps)).
 
 # Data Sources:
 
