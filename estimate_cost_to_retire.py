@@ -29,7 +29,7 @@ def estimate_cost_to_retire(country: str,
 
 
 if __name__ == '__main__':
-    buffer = 10000
+    buffer = 7000
     moving_cost = 10000
     rate = 0.07
     import scrape_cost_of_living as sc
