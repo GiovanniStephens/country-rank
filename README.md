@@ -96,4 +96,7 @@ https://www.linkedin.com/pulse/where-retire-exploratory-analysis-giovanni-stephe
 There are quite a few other datasets out there that could help inform the decisions. I, currently, do not know what other data I would to include, but some options are below: 
 - Ratings of the country by people online;
 - Percieved risks by country;
-- Percieved quality of the people in these countries.
+- Percieved 'quality' of the people in these countries.
+
+# Todos
+- See about forecasting PPP once when needing more than one percentile retirement estimate.
