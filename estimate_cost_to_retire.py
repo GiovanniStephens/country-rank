@@ -29,12 +29,24 @@ def estimate_cost_to_retire(country: str,
 
 
 if __name__ == '__main__':
-    buffer = 7000
+    buffer = 6000
     moving_cost = 10000
-    rate = 0.07
+    rate = 0.09
     import scrape_cost_of_living as sc
-    countries = ['Spain', 'Portugal', 'New Zealand', 'Indonesia', 'Australia', 'Uruguay', 'Argentina', 'Colombia', 'Peru', 'Bolivia', 'Mexico', 'Poland', 'Croatia']
-    percentiles = [50, 90, 95]
+    countries = ['Spain'
+                 , 'Portugal'
+                 , 'New Zealand'
+                 , 'Indonesia'
+                 , 'Australia'
+                 , 'Uruguay'
+                 , 'Argentina'
+                 , 'Colombia'
+                 , 'Peru'
+                 , 'Bolivia'
+                 , 'Mexico'
+                 , 'Poland'
+                 , 'Croatia']
+    percentiles = [50, 90]
     # countries = ['Uruguay']
     # percentiles = [90]
     for country in countries:
