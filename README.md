@@ -99,4 +99,6 @@ There are quite a few other datasets out there that could help inform the decisi
 - Percieved 'quality' of the people in these countries.
 
 # Todos
-- See about forecasting PPP once when needing more than one percentile retirement estimate.
+- See about forecasting PPP once when needing more than one percentile retirement estimate. 
+- I need to update the purchasing power conversion rates. Perhaps this could be automated.
+- It would be cool to track retirement cost over time in a dashboard. 
