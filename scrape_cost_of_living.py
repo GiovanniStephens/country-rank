@@ -1,7 +1,8 @@
-import scrape_urls
-import pandas as pd
 import numpy as np
+import pandas as pd
 import pycountry
+
+import scrape_urls
 
 cost_of_living_units = pd.read_csv('data/Cost of Living Items.csv')
 climate_data = pd.read_csv('data/Climate by Country.csv')
@@ -44,7 +45,7 @@ def clean_numbeo_table(numbeo_df: pd.DataFrame) -> pd.DataFrame:
 
 
 def get_cost_of_living(numbeo_table: pd.DataFrame,
-                       simulations: int = 20000,
+                       simulations: int = 10000,
                        percentile: int = 90) -> float:
     """
     For all cost categories, get the cost and multiply
@@ -107,11 +108,13 @@ def check_enough_data(numbeo_df: pd.DataFrame) -> float:
         return (len(intersecting_categories) - num_nulls) / len(categories)
 
 
-def get_numbeo_countries():
+def get_numbeo_countries() -> list:
     """
     This function returns a list of countries
     that have been scraped from Numbeo.
     The countries get standardized using the pycountry library.
+
+    :return: list of countries.
     """
     soup = scrape_urls.scrape_page('https://www.numbeo.com/cost-of-living')
     table = soup.find_all(class_='related_links')
@@ -176,8 +179,8 @@ def get_city_cost_of_living(city: str, percentile: int = 90) -> float:
     cleaned_table = clean_numbeo_table(table)
     # check if there is enough data
     if check_enough_data(cleaned_table) > 0.9:
-        print(str(percentile) + 'th percentile weekly cost of living in ' + city + ': ' +
-              str(round(get_cost_of_living(cleaned_table, percentile=percentile), 2)))
+        cost_of_living = get_cost_of_living(cleaned_table, percentile=percentile)
+        print(f'{percentile}th percentile weekly cost of living in {city}: {round(cost_of_living, 2)}')
     else:
         print('Not enough data to estimate cost of living.')
 
@@ -196,26 +199,26 @@ def get_country_cost_of_living(country: str, percentile: int = 90) -> float:
     table = scrape_urls.get_table(soup, 1, 0, -1)
     cleaned_table = clean_numbeo_table(table)
     if check_enough_data(cleaned_table) > 0.9:
-        print(str(percentile) + 'th percentile weekly cost of living in '
-              + country + ': ' +
-              str(round(get_cost_of_living(cleaned_table,
-                                           percentile=percentile), 2)))
+        cost_of_living = round(get_cost_of_living(cleaned_table,
+                                                  percentile=percentile),
+                               2)
+        print(f'{percentile}th percentile weekly cost of living in {country}: {cost_of_living}')
     else:
         print('Not enough data.')
-    return get_cost_of_living(cleaned_table, percentile=percentile)
+    return cost_of_living
 
 
 if __name__ == "__main__":
-    # get_country_cost_of_living('colombia', 99)
-    # get_country_cost_of_living('colombia', 50)
+    get_country_cost_of_living('colombia', 99)
+    get_country_cost_of_living('colombia', 50)
     # get_country_cost_of_living('New zealand', 99)
     # get_country_cost_of_living('New zealand', 50)
     # get_country_cost_of_living('georgia', 99)
     # get_country_cost_of_living('georgia', 50)
     # get_country_cost_of_living('Uruguay', 99)
     # get_country_cost_of_living('Uruguay', 50)
-    get_city_cost_of_living('Queenstown', 10)
-    get_city_cost_of_living('Tauranga', 10)
+    # get_city_cost_of_living('Queenstown', 10)
+    # get_city_cost_of_living('Tauranga', 10)
     # get_city_cost_of_living('Houston', 50)
     # get_city_cost_of_living('Austin', 50)
     # get_city_cost_of_living('Bogota', 50)
