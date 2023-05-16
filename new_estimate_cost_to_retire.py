@@ -1,6 +1,5 @@
 # Import Yahoo finance data using yfinance
 import numpy as np
-import pandas as pd
 import yfinance as yf
 
 # Download historical s&p 500 data
@@ -12,16 +11,16 @@ data = data.dropna()
 data['Returns'] = data['Adj Close'].pct_change()
 data = data.dropna()
 
-weekly_cost_of_living = 375
+weekly_cost_of_living = 400
 monthly_cost_of_living = weekly_cost_of_living * 4.33
 annual_cost_of_living = monthly_cost_of_living * 12
 
-n_years_liquid = 5
-n_years_remaining = 65
+n_years_liquid = 2
+n_years_remaining = 64
 long_term_investments_term = n_years_remaining - n_years_liquid
-inflation = 0.025
-short_term_interest_rate = 0.04
-long_term_interest_rate = 0.12
+inflation = 0.015
+short_term_interest_rate = 0.05
+long_term_interest_rate = 0.09
 
 pv_n_years_liquid_growing_annuity = annual_cost_of_living / (short_term_interest_rate - inflation) * (1 - ((1 + inflation) / (1 + short_term_interest_rate)) ** (n_years_liquid))
 print(f'PV of {n_years_liquid} years of expenses growing at {inflation} inflation with {short_term_interest_rate} interest: {pv_n_years_liquid_growing_annuity}')
@@ -35,7 +34,7 @@ print(f'Total required: {total_required}')
 n_simulations = 100
 # Calculate the ending value of the portfolio
 months_survived = []
-buffer = 130000
+buffer = 377000 - total_required
 for i in range(n_simulations):
     illiquid_balance = pv_n_years_illiquid_growing_annuity + buffer
     liquid_balance = pv_n_years_liquid_growing_annuity
