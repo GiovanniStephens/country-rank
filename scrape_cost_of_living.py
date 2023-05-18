@@ -8,8 +8,8 @@ cost_of_living_units = pd.read_csv('data/Cost of Living Items.csv')
 climate_data = pd.read_csv('data/Climate by Country.csv')
 
 
-cost_of_living_dict = {}
-
+cost_of_living_tables_dict = {}
+simulated_cost_of_living_dict = {}
 
 def clean_numbeo_table(numbeo_df: pd.DataFrame) -> pd.DataFrame:
     """
@@ -47,7 +47,7 @@ def clean_numbeo_table(numbeo_df: pd.DataFrame) -> pd.DataFrame:
     return numbeo_df
 
 
-def get_cost_of_living(numbeo_table: pd.DataFrame,
+def get_cost_of_living(place_name: str,
                        simulations: int = 10000,
                        percentile: int = 90) -> float:
     """
@@ -61,33 +61,39 @@ def get_cost_of_living(numbeo_table: pd.DataFrame,
     :percentile: percentile to use.
     :return: cost of living in the input country.
     """
-    vals = np.zeros(simulations)
-    for i in range(len(cost_of_living_units) - 1):
-        # Will catch an error if the category is not in the table
-        try:
-            category = cost_of_living_units.iloc[i]['Category']
-            lower_units = cost_of_living_units.iloc[i]['Lower Units pw']
-            upper_units = cost_of_living_units.iloc[i]['Upper Units pw']
-            lower = numbeo_table.loc[category]['lower']
-            mode = numbeo_table.loc[category]['mode']
-            upper = numbeo_table.loc[category]['upper']
-            if lower > 0 and upper > 0 and mode > 0:
-                vals = np.add(vals, np.random.uniform(lower_units,
-                                                      upper_units,
-                                                      simulations)
-                                    * np.random.triangular(lower,
-                                                           mode,
-                                                           upper,
-                                                           simulations))
-            else:
-                vals = np.add(vals, [mode *
-                                     np.random.uniform(lower_units,
-                                                       upper_units,
-                                                       simulations)]
-                                    *simulations)
-        except:
-            continue
-    return np.percentile(vals, percentile)
+    if place_name in simulated_cost_of_living_dict.keys():
+        return np.percentile(simulated_cost_of_living_dict[place_name],
+                             percentile)
+    else:
+        numbeo_table = cost_of_living_tables_dict[place_name]
+        vals = np.zeros(simulations)
+        for i in range(len(cost_of_living_units) - 1):
+            # Will catch an error if the category is not in the table
+            try:
+                category = cost_of_living_units.iloc[i]['Category']
+                lower_units = cost_of_living_units.iloc[i]['Lower Units pw']
+                upper_units = cost_of_living_units.iloc[i]['Upper Units pw']
+                lower = numbeo_table.loc[category]['lower']
+                mode = numbeo_table.loc[category]['mode']
+                upper = numbeo_table.loc[category]['upper']
+                if lower > 0 and upper > 0 and mode > 0:
+                    vals = np.add(vals, np.random.uniform(lower_units,
+                                                        upper_units,
+                                                        simulations)
+                                        * np.random.triangular(lower,
+                                                            mode,
+                                                            upper,
+                                                            simulations))
+                else:
+                    vals = np.add(vals, [mode *
+                                        np.random.uniform(lower_units,
+                                                        upper_units,
+                                                        simulations)]
+                                        *simulations)
+            except:
+                continue
+        simulated_cost_of_living_dict[place_name] = vals
+        return np.percentile(vals, percentile)
 
 
 def check_enough_data(numbeo_df: pd.DataFrame) -> float:
@@ -175,8 +181,8 @@ def get_cost_of_living_table(place_name: str, country=True):
     :country: whether the place is a country or city.
     :return: cost of living table.
     """
-    if place_name in cost_of_living_dict.keys():
-        return cost_of_living_dict[place_name]
+    if place_name in cost_of_living_tables_dict.keys():
+        return cost_of_living_tables_dict[place_name]
     else:
         if country:
             place_name = '+'.join(place_name.title().split())
@@ -188,7 +194,7 @@ def get_cost_of_living_table(place_name: str, country=True):
         table = scrape_urls.get_table(soup, 1, 0, -1)
         cleaned_table = clean_numbeo_table(table)
         # Cache the table
-        cost_of_living_dict[place_name] = cleaned_table
+        cost_of_living_tables_dict[place_name] = cleaned_table
         return cleaned_table
 
 
@@ -200,10 +206,10 @@ def get_city_cost_of_living(city: str, percentile: int = 90) -> float:
     :percentile: percentile to use.
     :return: cost of living for the city.
     """
-    cleaned_table = get_cost_of_living_table(city, country=False)
+    cleaned_table = get_cost_of_living_table(city.title(), country=False)
     if check_enough_data(cleaned_table) > 0.9:
-        cost_of_living = get_cost_of_living(cleaned_table, percentile=percentile)
-        print(f'{percentile}th percentile weekly cost of living in {city}: {round(cost_of_living, 2)}')
+        cost_of_living = get_cost_of_living(city.title(), percentile=percentile)
+        print(f'{percentile}th percentile weekly cost of living in {city.title()}: {round(cost_of_living, 2)}')
     else:
         print('Not enough data to estimate cost of living.')
 
@@ -216,12 +222,12 @@ def get_country_cost_of_living(country: str, percentile: int = 90) -> float:
     :percentile: percentile to use.
     :return: cost of living for the country.
     """
-    cleaned_table = get_cost_of_living_table(country, country=True)
+    cleaned_table = get_cost_of_living_table(country.title(), country=True)
     if check_enough_data(cleaned_table) > 0.9:
-        cost_of_living = round(get_cost_of_living(cleaned_table,
-                                                percentile=percentile),
-                            2)
-        print(f'{percentile}th percentile weekly cost of living in {country}: {cost_of_living}')
+        cost_of_living = round(get_cost_of_living(country.title(),
+                                                  percentile=percentile),
+                               2)
+        print(f'{percentile}th percentile weekly cost of living in {country.title()}: {cost_of_living}')
     else:
         print('Not enough data.')
     return cost_of_living
