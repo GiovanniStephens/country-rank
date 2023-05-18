@@ -8,6 +8,9 @@ cost_of_living_units = pd.read_csv('data/Cost of Living Items.csv')
 climate_data = pd.read_csv('data/Climate by Country.csv')
 
 
+cost_of_living_dict = {}
+
+
 def clean_numbeo_table(numbeo_df: pd.DataFrame) -> pd.DataFrame:
     """
     Cleans the default Numbeo cost of living table.
@@ -164,6 +167,31 @@ def main():
     df.to_csv('data/Cost of Living by Country.csv')
 
 
+def get_cost_of_living_table(place_name: str, country=True):
+    """
+    Get the cost of living table for a place.
+
+    :place_name: name of the place.
+    :country: whether the place is a country or city.
+    :return: cost of living table.
+    """
+    if place_name in cost_of_living_dict.keys():
+        return cost_of_living_dict[place_name]
+    else:
+        if country:
+            place_name = '+'.join(place_name.title().split())
+            url = f'https://www.numbeo.com/cost-of-living/country_result.jsp?country={place_name}&displayCurrency=NZD'
+        else:
+            place_name = '+'.join(place_name.title().split())
+            url = f'https://www.numbeo.com/cost-of-living/in/{place_name}?displayCurrency=NZD'
+        soup = scrape_urls.scrape_page(url)
+        table = scrape_urls.get_table(soup, 1, 0, -1)
+        cleaned_table = clean_numbeo_table(table)
+        # Cache the table
+        cost_of_living_dict[place_name] = cleaned_table
+        return cleaned_table
+
+
 def get_city_cost_of_living(city: str, percentile: int = 90) -> float:
     """
     Get the cost of living for a city.
@@ -172,12 +200,7 @@ def get_city_cost_of_living(city: str, percentile: int = 90) -> float:
     :percentile: percentile to use.
     :return: cost of living for the city.
     """
-    city = '+'.join(city.title().split())
-    url = f'https://www.numbeo.com/cost-of-living/in/{city}?displayCurrency=NZD'
-    soup = scrape_urls.scrape_page(url)
-    table = scrape_urls.get_table(soup, 1, 0, -1)
-    cleaned_table = clean_numbeo_table(table)
-    # check if there is enough data
+    cleaned_table = get_cost_of_living_table(city, country=False)
     if check_enough_data(cleaned_table) > 0.9:
         cost_of_living = get_cost_of_living(cleaned_table, percentile=percentile)
         print(f'{percentile}th percentile weekly cost of living in {city}: {round(cost_of_living, 2)}')
@@ -193,15 +216,11 @@ def get_country_cost_of_living(country: str, percentile: int = 90) -> float:
     :percentile: percentile to use.
     :return: cost of living for the country.
     """
-    country_str = '+'.join(country.title().split())
-    url = f'https://www.numbeo.com/cost-of-living/country_result.jsp?country={country_str}&displayCurrency=NZD'
-    soup = scrape_urls.scrape_page(url)
-    table = scrape_urls.get_table(soup, 1, 0, -1)
-    cleaned_table = clean_numbeo_table(table)
+    cleaned_table = get_cost_of_living_table(country, country=True)
     if check_enough_data(cleaned_table) > 0.9:
         cost_of_living = round(get_cost_of_living(cleaned_table,
-                                                  percentile=percentile),
-                               2)
+                                                percentile=percentile),
+                            2)
         print(f'{percentile}th percentile weekly cost of living in {country}: {cost_of_living}')
     else:
         print('Not enough data.')
