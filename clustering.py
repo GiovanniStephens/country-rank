@@ -14,9 +14,12 @@ def reduce_dimensions_pca(embeddings: List[List[float]],
     """
     Reduces the number of dimensions using PCA.
 
-    :embeddings: list of lists size m*n where n is the number of dimensions.
-    :dimensions: number of principal components to keep.
+    :param embeddings: list of lists size m*n where n is the number of dimensions.
+    :type embeddings: List[List[float]]
+    :param dimensions: number of principal components to keep.
+    :type dimensions: int
     :return: list of lists size m*dimensions (reduced data)
+    :rtype: List[List[float]]
     """
     pca = PCA(n_components=dimensions)
     reduced = pca.fit_transform(embeddings)
@@ -29,9 +32,12 @@ def reduce_dimensions_umap(embeddings: List[List[float]],
     """
     Uses UMAP to reduce the dimensionality of the embeddings.
 
-    :embeddings: list of lists size m*n where n is the number of dimensions.
-    :dimensions: number of components to keep.
+    :param embeddings: list of lists size m*n where n is the number of dimensions.
+    :type embeddings: List[List[float]]
+    :param dimensions: number of components to keep.
+    :type dimensions: int
     :return: list of lists size m*dimensions (reduced data).
+    :rtype: List[List[float]]
     """
     reduced = umap.UMAP(
         n_neighbors=n_neighbors,
@@ -46,8 +52,10 @@ def shuffle(df: pd.DataFrame) -> pd.DataFrame:
     """
     Shuffles the data by each column or row for a pandas dataframe.
 
-    :df: pandas dataframe shaped m*n
+    :param df: pandas dataframe shaped m*n
+    :type df: pd.DataFrame
     :return: pandas dataframe shuffled.
+    :rtype: pd.DataFrame
     """
     return df.apply(lambda x: x.sample(frac=1).values)
 
@@ -58,9 +66,12 @@ def single_sample_t_test(sample: np.array,
     Run a simple t test on a sample to see if it is significantly different
     from the population mean.
 
-    :sample: numpy array of floats.
-    :population_stat: float for the population mean.
+    :param sample: numpy array of floats.
+    :type sample: np.array
+    :param population_stat: float for the population mean.
+    :type population_stat: float
     :return: float for the t statistic.
+    :rtype: float
     """
     return (sample.mean() - population_stat) / \
         (sample.std()/(len(sample)**0.5))
@@ -73,10 +84,13 @@ def calc_perm_variance(pca,
     Calculates the variance explained for a PCA of the permuted
     data.
 
-    :pca: sklearn pca object
-    :embeddings_df: a pandas dataframe of the embedding vectors (m*n).
-    :n_simulations: integer for the number of permutations to run it on.
+    :param pca: sklearn pca object
+    :param embeddings_df: a pandas dataframe of the embedding vectors (m*n).
+    :type embeddings_df: pd.DataFrame
+    :param n_simulations: integer for the number of permutations to run it on.
+    :type n_simulations: int
     :return: list of lists as a pandas dataframe with the variance explained.
+    :rtype: pd.DataFrame
     """
     pca = PCA(svd_solver='full')
     with_perm_var = []
@@ -99,12 +113,15 @@ def get_optimal_n_components(embeddings: List[List[float]],
     I then run a t test to find which principal components are significantly
     different from the baseline noise.
 
-    :embeddings: list of lists (m*n) of floats. where m is the
-                 number of vectors, and n the number of variables
-                 in each vector.
-    :n_simulations: the number of permulations to get a distribution
-                    of the noise.
+    :param embeddings: list of lists (m*n) of floats. where m is the
+                       number of vectors, and n the number of variables
+                       in each vector.
+    :type embeddings: List[List[float]]
+    :param n_simulations: the number of permulations to get a distribution
+                          of the noise.
+    :type n_simulations: int
     :return: integer for the optimal number of principal components.
+    :rtype: int
     """
     embeddings_df = pd.DataFrame(embeddings)
     pca = PCA(svd_solver='full')
@@ -133,10 +150,13 @@ def kmeans_clustering(reduced: List[List[float]],
     max_num_clusters is the maximum number of clusters to
     calculate to find the optimal number.
 
-    :reduced: list of lists (m*n) of floats. where m is the number of vectors,
-    and n the number of variables in each vector.
-    :max_num_clusters: integer for the upper bound number of clusters.
+    :param reduced: list of lists (m*n) of floats. where m is the number of vectors,
+                    and n the number of variables in each vector.
+    :type reduced: List[List[float]]
+    :param max_num_clusters: integer for the upper bound number of clusters.
+    :type max_num_clusters: int
     :return: list of cluster numbers for each element in reduced.
+    :rtype: List[int]
     """
     vectors = reduced
     if num_clusters > 1:
@@ -185,10 +205,12 @@ def hdbscan_clustering(reduced: List[List[float]],
     """
     Uses HDBSCAN to calculate clusters from the reduced data.
 
-    :reduced: list of lists (m*n) of floats. where m is the number of vectors,
-              and n the number of variables in each vector.
+    :param reduced: list of lists (m*n) of floats. where m is the number of vectors,
+                    and n the number of variables in each vector.
+    :type reduced: List[List[float]]
     :return: list of cluster numbers for each element in reduced.
              (note that -1 is an outlier)
+    :rtype: List[int]
     """
     clusterer = hdbscan.HDBSCAN(min_cluster_size=min_cluster_size,
                                 allow_single_cluster=allow_single_cluster)
