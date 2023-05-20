@@ -3,7 +3,7 @@ import pandas as pd
 import scrape_urls
 
 
-def to_pandas_df(rows):
+def to_pandas_df(rows: list) -> pd.DataFrame:
     """
     Converts a list of HTML rows to a pandas dataframe.
 
@@ -24,8 +24,8 @@ def to_pandas_df(rows):
     return pd.DataFrame(table[1:], columns=table[0])
 
 
-def scrape_index(url='https://www.numbeo.com/pollution/rankings_by_country.jsp',
-                 columns=('Country', 'Pollution')):
+def scrape_index(url: str='https://www.numbeo.com/pollution/rankings_by_country.jsp',
+                 columns: tuple = ('Country', 'Pollution')) -> None:
     """
     Scrapes the pollution index from the numbeo website.
 
