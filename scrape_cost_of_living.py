@@ -15,8 +15,10 @@ def clean_numbeo_table(numbeo_df: pd.DataFrame) -> pd.DataFrame:
     """
     Cleans the default Numbeo cost of living table.
 
-    :numbeo_df: pandas dataframe
+    :param numbeo_df: pandas dataframe
+    :type numbeo_df: pd.DataFrame
     :return: pandas dataframe that has been cleaned up.
+    :rtype: pd.DataFrame
     """
     # Promote first column to index
     numbeo_df = numbeo_df.set_index(numbeo_df.columns[0])
@@ -56,10 +58,14 @@ def get_cost_of_living(place_name: str,
     triangular distribution if there is a lower and upper bound.
     If there isn't one though, I simply take the mode.
 
-    :numbeo_table: pandas dataframe with the cost of living.
-    :simulations: number of simulations to run.
-    :percentile: percentile to use.
+    :param numbeo_table: pandas dataframe with the cost of living.
+    :type numbeo_table: pd.DataFrame
+    :param simulations: number of simulations to run.
+    :type simulations: int
+    :param percentile: percentile to use.
+    :type percentile: int
     :return: cost of living in the input country.
+    :rtype: float
     """
     if place_name in simulated_cost_of_living_dict.keys():
         return np.percentile(simulated_cost_of_living_dict[place_name],
@@ -103,9 +109,11 @@ def check_enough_data(numbeo_df: pd.DataFrame) -> float:
     I check that I have enough data to be able
     to use it to estimate cost of living.
 
-    :numbeo_df: pandas dataframe.
+    :param numbeo_df: pandas dataframe.
+    :type numbeo_df: pd.DataFrame
     :return: proportion of filled cells as a proportion of
              number of total categories.
+    :rtype: float
     """
     if type(numbeo_df) == list:
         return 0
@@ -124,6 +132,7 @@ def get_numbeo_countries() -> list:
     The countries get standardized using the pycountry library.
 
     :return: list of countries.
+    :rtype: list
     """
     soup = scrape_urls.scrape_page('https://www.numbeo.com/cost-of-living')
     table = soup.find_all(class_='related_links')
@@ -177,9 +186,12 @@ def get_cost_of_living_table(place_name: str, country=True):
     """
     Get the cost of living table for a place.
 
-    :place_name: name of the place.
-    :country: whether the place is a country or city.
+    :param place_name: name of the place.
+    :type place_name: str
+    :param country: whether the place is a country or city.
+    :type country: bool
     :return: cost of living table.
+    :rtype: pd.DataFrame
     """
     if place_name in cost_of_living_tables_dict.keys():
         return cost_of_living_tables_dict[place_name]
@@ -202,9 +214,12 @@ def get_city_cost_of_living(city: str, percentile: int = 90) -> float:
     """
     Get the cost of living for a city.
 
-    :city: city to get the cost of living for.
-    :percentile: percentile to use.
+    :param city: city to get the cost of living for.
+    :type city: str
+    :param percentile: percentile to use.
+    :type percentile: int
     :return: cost of living for the city.
+    :rtype: float
     """
     cleaned_table = get_cost_of_living_table(city.title(), country=False)
     if check_enough_data(cleaned_table) > 0.9:
@@ -218,9 +233,12 @@ def get_country_cost_of_living(country: str, percentile: int = 90) -> float:
     """
     Get the cost of living for a country.
 
-    :country: country to get the cost of living for.
-    :percentile: percentile to use.
+    :param country: country to get the cost of living for.
+    :type country: str
+    :param percentile: percentile to use.
+    :type percentile: int
     :return: cost of living for the country.
+    :rtype: float
     """
     cleaned_table = get_cost_of_living_table(country.title(), country=True)
     if check_enough_data(cleaned_table) > 0.9:

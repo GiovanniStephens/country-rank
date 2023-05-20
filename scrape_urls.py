@@ -19,11 +19,16 @@ def get_table(soup: BeautifulSoup, table_num: int = 2, row_start: int = 1, row_e
     The table returns just the rows 1-4 inclusive.
     This was for the type of tables coming from the climate page.
 
-    :soup: BeautifulSoup object.
-    :table_num: The table number to pull out.
-    :row_start: The row to start pulling from.
-    :row_end: The row to end pulling from.
+    :param soup: BeautifulSoup object.
+    :type soup: BeautifulSoup
+    :param table_num: The table number to pull out.
+    :type table_num: int
+    :param row_start: The row to start pulling from.
+    :type row_start: int
+    :param row_end: The row to end pulling from.
+    :type row_end: int
     :return: a pandas dataframe of the table.
+    :rtype: pd.DataFrame
     """
     try:
         table = soup.find_all('table')[table_num]
@@ -58,9 +63,12 @@ def find_html_class(soup: BeautifulSoup, class_name: str) -> List[BeautifulSoup]
     """
     Finds all elements with a given class name.
 
-    :soup: BeautifulSoup object.
-    :class_name: The class name to find.
+    :param soup: BeautifulSoup object.
+    :type soup: BeautifulSoup
+    :param class_name: The class name to find.
+    :type class_name: str
     :return: A list of elements with the given class name.
+    :rtype: List[BeautifulSoup]
     """
     return soup.find_all(class_=class_name)
 
@@ -69,9 +77,12 @@ def find_in_html(soup: BeautifulSoup, element: Union[str, list]) -> Optional[Bea
     """
     Finds an element in a BeautifulSoup object.
 
-    :soup: BeautifulSoup object.
-    :element: The element to find.
+    :param soup: BeautifulSoup object.
+    :type soup: BeautifulSoup
+    :param element: The element to find.
+    :type element: Union[str, list]
     :return: The element if found, else None.
+    :rtype: Optional[BeautifulSoup]
     """
     return soup.find_all(element)
 
@@ -80,9 +91,12 @@ def find_id_in_html(soup: BeautifulSoup, id: str) -> Optional[BeautifulSoup]:
     """
     Finds an element with a given id in a BeautifulSoup object.
 
-    :soup: BeautifulSoup object.
-    :id: The id to find.
+    :param soup: BeautifulSoup object.
+    :type soup: BeautifulSoup
+    :param id: The id to find.
+    :type id: str
     :return: The element if found, else None.
+    :rtype: Optional[BeautifulSoup]
     """
     return soup.find_all('div', {'id': id})
 
@@ -94,6 +108,9 @@ def proxy_generator() -> dict:
     https://sslproxies.org/
 
     It then returns a random proxy from the list.
+
+    :return: A random proxy from the list.
+    :rtype: dict
     """
     # Where we get the proxies
     soup = scrape_page("https://sslproxies.org/")
@@ -117,6 +134,13 @@ def scrape_page(url: str, spoof: bool = False) -> Optional[BeautifulSoup]:
     This function tries to get page information by
     spoofing the header and trying a random proxy.
     If successful, it returns the soup of the page.
+
+    :param url: The url to scrape.
+    :type url: str
+    :param spoof: Whether to spoof the header and use a proxy.
+    :type spoof: bool
+    :return: The soup of the page.
+    :rtype: Optional[BeautifulSoup]
     """
     try:
         if spoof:
@@ -160,10 +184,14 @@ def multi_thread_func(func: Callable, values: List, threads: int = 126) -> List:
     It then runs the function on each value in the list
     using a thread pool.
 
-    :func: The function to run.
-    :values: The values to run the function on.
-    :threads: The number of threads to use.
+    :param func: The function to run.
+    :type func: Callable
+    :param values: The values to run the function on.
+    :type values: List
+    :param threads: The number of threads to use.
+    :type threads: int
     :return: A list of the results of the function.
+    :rtype: List
     """
     listing_soups = []
     with ThreadPool(threads) as pool:

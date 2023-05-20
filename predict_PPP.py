@@ -28,7 +28,9 @@ def estimate_PPP_conversion_rate_long_term_change(country: str) -> float:
 
     :param country: The country to estimate the long term
                     change in the PPP conversion rate of.
+    :type country: str
     :return: The long term change in the PPP conversion rate of the country.
+    :rtype: float
     """
     # Try to standardize the country name.
     try:

@@ -1,4 +1,7 @@
+from typing import List
+
 import pandas as pd
+from bs4 import BeautifulSoup
 
 import scrape_urls
 
@@ -10,8 +13,10 @@ def f_to_c(value: float) -> float:
     """
     Converts Fahrenheit to Celsius.
 
-    :value: float of the value to convert.
+    :param value: float of the value to convert.
+    :type value: float
     :return: Celisus value.
+    :rtype: float
     """
     return (value - 32)*(5/9)
 
@@ -20,8 +25,10 @@ def in_to_mm(value: float) -> float:
     """
     Converts inches to mm.
 
-    :value: float of the value to convert.
+    :param value: float of the value to convert.
+    :type value: float
     :return: mm value.
+    :rtype: float
     """
     return value * 25.4
 
@@ -30,8 +37,10 @@ def check_float(potential_float: str) -> bool:
     """
     Checks if a string is indeed a float.
 
-    :potential_float: string to check.
+    :param potential_float: string to check.
+    :type potential_float: str
     :return: True if the string is a float, False otherwise.
+    :rtype: bool
     """
     try:
         float(potential_float)
@@ -44,8 +53,10 @@ def get_stats(table: pd.DataFrame) -> dict:
     """
     Aggregates the climate table data to get the maxes and mins and avgs.
 
-    :table: pandas dataframe of the table to aggregate.
+    :param table: pandas dataframe of the table to aggregate.
+    :type table: pd.DataFrame
     :return: dictionary of the maxes and mins and avgs.
+    :rtype: dict
     """
     dic = {}
     if 'Average High Temperature (F)' in table.index:
@@ -66,12 +77,14 @@ def get_stats(table: pd.DataFrame) -> dict:
     return dic
 
 
-def get_country_stats(soups: list) -> dict:
+def get_country_stats(soups: List[BeautifulSoup]) -> dict:
     """
     For every country, get the stats on its climate.
 
-    :soups: list of the soups of the pages.
+    :param soups: list of the soups of the pages.
+    :type soups: List[BeautifulSoup]
     :return: dictionary of the stats.
+    :rtype: dict
     """
     dic = {}
     for soup in soups:

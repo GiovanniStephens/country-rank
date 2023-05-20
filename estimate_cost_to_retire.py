@@ -12,13 +12,20 @@ def estimate_cost_to_retire(country: str,
     """
     Estimate the cost to retire in a country.
 
-    :country: The country to estimate the cost to retire in.
-    :weekly_cost: The weekly cost of living in the country.
-    :r: The rate of return on investments.
-    :n: The number of years to retire.
-    :moving_cost: The cost of moving to a new country.
-    :buffer_pa: The buffer cost in the annual cost of living.
+    :param country: The country to estimate the cost to retire in.
+    :type country: str
+    :param weekly_cost: The weekly cost of living in the country.
+    :type weekly_cost: float
+    :param r: The rate of return on investments.
+    :type r: float
+    :param n: The number of years to retire.
+    :type n: int
+    :param moving_cost: The cost of moving to a new country.
+    :type moving_cost: float
+    :param buffer_pa: The buffer cost in the annual cost of living.
+    :type buffer_pa: float
     :return: The cost to retire in the country.
+    :rtype: float
     """
     conversion_rate_change = ppp.estimate_PPP_conversion_rate_long_term_change(country)
     overall_conversion_rate = min(0, (1 + conversion_rate_change) /

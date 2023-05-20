@@ -7,8 +7,10 @@ def to_pandas_df(rows: list) -> pd.DataFrame:
     """
     Converts a list of HTML rows to a pandas dataframe.
 
-    :rows: list of rows
+    :param rows: list of rows
+    :type rows: list
     :return: pandas dataframe
+    :rtype: pd.DataFrame
     """
     table = []
     headers = []
@@ -29,9 +31,12 @@ def scrape_index(url: str='https://www.numbeo.com/pollution/rankings_by_country.
     """
     Scrapes the pollution index from the numbeo website.
 
-    :url: url to scrape.
-    :columns: columns to scrape.
+    :param url: url to scrape.
+    :type url: str
+    :param columns: columns to scrape.
+    :type columns: tuple
     :return: pandas dataframe.
+    :rtype: pd.DataFrame
     """
     soup = scrape_urls.scrape_page(url)
     table = soup.find(lambda tag: tag.name == 'table'
