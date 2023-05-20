@@ -11,8 +11,8 @@ import estimate_cost_to_retire as retire
 
 df = pd.read_csv('data/All Data by Country.csv')
 
-# Counts by column
-df.count()
+print("Counts by column:")
+print(df.count())
 
 # Cleaned data to keep just the countries with enough data.
 df = df[df.count(1) >= 9]
@@ -24,23 +24,28 @@ imputer = KNNImputer(n_neighbors=2)
 no_nulls = imputer.fit_transform(df)
 no_nulls = pd.DataFrame(no_nulls, columns=df.columns)
 
-# Basic data description
+print("Basic data description:")
 print(no_nulls.describe())
 
 # Histograms for all the variables
+print('Generating histograms...')
 no_nulls.hist(figsize=(16, 20), bins=20, xlabelsize=7, ylabelsize=7)
 plt.savefig("visualisations/variable_distributions.png")
 plt.clf()
+print('Histograms saved.')
 
 # Correlation heatmap
+print('Generating correlation heatmap...')
 corr = no_nulls.corr()
 sns.heatmap(no_nulls.corr()[(corr >= 0.4) | (corr <= -0.4)],
             cmap='viridis', vmax=1.0, vmin=-1.0, linewidths=0.1,
             annot=True, annot_kws={"size": 8}, square=True)
 plt.savefig("visualisations/correlations_heatmap.png")
 plt.clf()
+print('Correlation heatmap saved.')
 
 # Regression plots for some of the stronger correlations.
+print('Generating regression plots...')
 sns.regplot(x=no_nulls['avg temp'],
             y='Pollution Index',
             data=no_nulls)
@@ -71,19 +76,24 @@ sns.regplot(x=no_nulls['Cost of Living pw'],
             data=no_nulls)
 plt.savefig("visualisations/cost_vs_health_care.png")
 plt.clf()
+print('Regression plots saved.')
 
 # Normalise the data
 std_values = StandardScaler().fit_transform(no_nulls)
 
 # Reduce the dimensionality to 2 dimensions
+print('Reducing dimensionality...')
 # tsne = TSNE(n_components=2, perplexity=10, n_iter=4000)
 # tsne_results = tsne.fit_transform(std_values)
 tsne_results = clustering.reduce_dimensions_umap(std_values, 5)
+print('Dimensionality reduced.')
 
 # Cluster the data
+print('Clustering...')
 clusterer = hdbscan.HDBSCAN(min_cluster_size=2)
 clusterer.fit(tsne_results)
 labels = clusterer.labels_
+print('Clustering complete.')
 # labels = clustering.kmeans_clustering(tsne_results, num_clusters=10)
 # color_palette = sns.color_palette('bright', labels.max()+1)
 # cluster_colors = [color_palette[x] if x >= 0
@@ -94,6 +104,7 @@ labels = clusterer.labels_
 
 # Outliers
 threshold = pd.Series(clusterer.outlier_scores_).quantile(0.9)
+print('Outliers:')
 print(countries[clusterer.outlier_scores_ > threshold])
 
 # NZ Cluster (you may need to change the cluster
