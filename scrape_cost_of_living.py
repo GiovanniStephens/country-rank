@@ -185,11 +185,11 @@ def get_cost_of_living_table(place_name: str, country=True):
         return cost_of_living_tables_dict[place_name]
     else:
         if country:
-            place_name = '+'.join(place_name.title().split())
-            url = f'https://www.numbeo.com/cost-of-living/country_result.jsp?country={place_name}&displayCurrency=NZD'
+            formatted_place_name = '+'.join(place_name.title().split())
+            url = f'https://www.numbeo.com/cost-of-living/country_result.jsp?country={formatted_place_name}&displayCurrency=NZD'
         else:
-            place_name = '+'.join(place_name.title().split())
-            url = f'https://www.numbeo.com/cost-of-living/in/{place_name}?displayCurrency=NZD'
+            formatted_place_name = '+'.join(place_name.title().split())
+            url = f'https://www.numbeo.com/cost-of-living/in/{formatted_place_name}?displayCurrency=NZD'
         soup = scrape_urls.scrape_page(url)
         table = scrape_urls.get_table(soup, 1, 0, -1)
         cleaned_table = clean_numbeo_table(table)
@@ -248,8 +248,6 @@ if __name__ == "__main__":
     # get_city_cost_of_living('Austin', 50)
     # get_city_cost_of_living('Bogota', 50)
     # get_city_cost_of_living('Medellin', 50)
-
-
     # get_city_cost_of_living('Wellington', 90)
     # get_city_cost_of_living('Christchurch', 90)
     # get_city_cost_of_living('Auckland', 90)
@@ -263,7 +261,6 @@ if __name__ == "__main__":
     # get_country_cost_of_living('Indonesia', 50)
     # get_country_cost_of_living('Thailand', 99)
     # get_country_cost_of_living('Thailand', 50)
-
     # get_country_cost_of_living('india', 90)
     # get_country_cost_of_living('india', 50)
     # get_country_cost_of_living('Australia', 90)
