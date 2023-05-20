@@ -11,7 +11,7 @@ data = data.dropna()
 data['Returns'] = data['Adj Close'].pct_change()
 data = data.dropna()
 
-weekly_cost_of_living = 400
+weekly_cost_of_living = 320
 monthly_cost_of_living = weekly_cost_of_living * 4.33
 annual_cost_of_living = monthly_cost_of_living * 12
 
@@ -34,7 +34,7 @@ print(f'Total required: {total_required}')
 n_simulations = 100
 # Calculate the ending value of the portfolio
 months_survived = []
-buffer = 377000 - total_required
+buffer = 50000 #total_required - total_required
 for i in range(n_simulations):
     illiquid_balance = pv_n_years_illiquid_growing_annuity + buffer
     liquid_balance = pv_n_years_liquid_growing_annuity
