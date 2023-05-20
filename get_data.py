@@ -45,7 +45,7 @@ def standardise_country_names(dfs: list) -> list:
                         pycountry.countries.search_fuzzy(country)[0].name)
                 else:
                     std_countries.append(country.title())
-            except:
+            except LookupError:
                 std_countries.append(country.title())
         df['Country'] = std_countries
     return dfs
