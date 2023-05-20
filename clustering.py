@@ -1,14 +1,15 @@
+from typing import List
+
 import hdbscan
 import numpy as np
 import pandas as pd
 import umap.umap_ as umap
 from scipy.stats import t
-from sklearn import cluster
 from sklearn.cluster import KMeans  # For Kmeans clustering
 from sklearn.decomposition import PCA
 
 
-def reduce_dimensions_pca(embeddings: , dimensions=80):
+def reduce_dimensions_pca(embeddings: List[List[float]], dimensions: int = 80) -> List[List[float]]:
     """ 
     Reduces the number of dimensions using PCA. 
 
@@ -21,7 +22,7 @@ def reduce_dimensions_pca(embeddings: , dimensions=80):
     return reduced
 
 
-def reduce_dimensions_umap(embeddings, dimensions = 80, n_neighbors=10):
+def reduce_dimensions_umap(embeddings: List[List[float]], dimensions: int = 80, n_neighbors: int = 10) -> List[List[float]]:
     """
     Uses UMAP to reduce the dimensionality of the embeddings.
 
@@ -38,7 +39,7 @@ def reduce_dimensions_umap(embeddings, dimensions = 80, n_neighbors=10):
     return reduced
 
 
-def shuffle(df):
+def shuffle(df: pd.DataFrame) -> pd.DataFrame:
     """
     Shuffles the data by each column or row for a pandas dataframe.
 
@@ -48,11 +49,19 @@ def shuffle(df):
     return df.apply(lambda x: x.sample(frac=1).values)
 
 
-def single_sample_t_test(sample, population_stat = 0):
+def single_sample_t_test(sample: np.array, population_stat: float = 0.0) -> float:
+    """
+    Run a simple t test on a sample to see if it is significantly different
+    from the population mean.
+
+    :sample: numpy array of floats.
+    :population_stat: float for the population mean.
+    :return: float for the t statistic.
+    """
     return (sample.mean() - population_stat) / (sample.std()/(len(sample)**0.5))
 
 
-def calc_perm_variance(pca, embeddings_df, n_simulations=5):
+def calc_perm_variance(pca, embeddings_df: pd.DataFrame, n_simulations: int = 5) -> pd.DataFrame:
     """
     Calculates the variance explained for a PCA of the permuted
     data.
@@ -71,7 +80,7 @@ def calc_perm_variance(pca, embeddings_df, n_simulations=5):
     return pd.DataFrame(with_perm_var).transpose()
 
 
-def get_optimal_n_components(embeddings, n_simulations=5):
+def get_optimal_n_components(embeddings: List[List[float]], n_simulations: int = 5) -> int:
     """
     Calculates the optimal number of principal components to
     keep in a dimension reduction situation. It calculates a 
@@ -103,7 +112,7 @@ def get_optimal_n_components(embeddings, n_simulations=5):
     return res
 
 
-def kmeans_clustering(reduced, num_clusters = -1, max_num_clusters = 75):
+def kmeans_clustering(reduced: List[List[float]], num_clusters: int = -1, max_num_clusters: int = 75) -> List[int]:
     """
     This function calculates clusters based on the reduced vectors. 
     I also calculates the best number of clusters using the elbow method.
@@ -148,13 +157,14 @@ def kmeans_clustering(reduced, num_clusters = -1, max_num_clusters = 75):
         return labels
 
 
-def hdbscan_clustering(reduced, min_cluster_size=4, allow_single_cluster=False):
+def hdbscan_clustering(reduced: List[List[float]], min_cluster_size: int = 4, allow_single_cluster: bool = False) -> List[int]:
     """
     Uses HDBSCAN to calculate clusters from the reduced data.
+
     :reduced: list of lists (m*n) of floats. where m is the number of vectors,
-    and n the number of variables in each vector.
+              and n the number of variables in each vector.
     :return: list of cluster numbers for each element in reduced. 
-    (note that -1 is an outlier)
+             (note that -1 is an outlier)
     """
     clusterer = hdbscan.HDBSCAN(min_cluster_size=min_cluster_size,allow_single_cluster=allow_single_cluster)
     cluster_labels = clusterer.fit_predict(reduced)
