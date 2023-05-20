@@ -1,0 +1,119 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+    <title>scrape_urls &#8212; Country Rank 1.0.0 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/alabaster.css" />
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/sphinx_highlight.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="prev" title="scrape_temperatures" href="scrape_temperatures.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="module-scrape_urls">
+<span id="scrape-urls"></span><h1>scrape_urls<a class="headerlink" href="#module-scrape_urls" title="Permalink to this heading">¶</a></h1>
+<p class="rubric">Functions</p>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="../usage.html#scrape_urls.find_html_class" title="scrape_urls.find_html_class"><code class="xref py py-obj docutils literal notranslate"><span class="pre">find_html_class</span></code></a>(soup, class_name)</p></td>
+<td><p>Finds all elements with a given class name.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../usage.html#scrape_urls.find_id_in_html" title="scrape_urls.find_id_in_html"><code class="xref py py-obj docutils literal notranslate"><span class="pre">find_id_in_html</span></code></a>(soup, id)</p></td>
+<td><p>Finds an element with a given id in a BeautifulSoup object.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="../usage.html#scrape_urls.find_in_html" title="scrape_urls.find_in_html"><code class="xref py py-obj docutils literal notranslate"><span class="pre">find_in_html</span></code></a>(soup, element)</p></td>
+<td><p>Finds an element in a BeautifulSoup object.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../usage.html#scrape_urls.get_table" title="scrape_urls.get_table"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_table</span></code></a>(soup[, table_num, row_start, row_end])</p></td>
+<td><p>Pulls out a table from a beautifulsoup html.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="../usage.html#scrape_urls.multi_thread_func" title="scrape_urls.multi_thread_func"><code class="xref py py-obj docutils literal notranslate"><span class="pre">multi_thread_func</span></code></a>(func, values[, threads])</p></td>
+<td><p>This function takes a function and a list of values.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../usage.html#scrape_urls.proxy_generator" title="scrape_urls.proxy_generator"><code class="xref py py-obj docutils literal notranslate"><span class="pre">proxy_generator</span></code></a>()</p></td>
+<td><p>This function scrapes a list of a free proxies from:</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="../usage.html#scrape_urls.scrape_page" title="scrape_urls.scrape_page"><code class="xref py py-obj docutils literal notranslate"><span class="pre">scrape_page</span></code></a>(url[, spoof])</p></td>
+<td><p>This function tries to get page information by spoofing the header and trying a random proxy.</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h3><a href="../index.html">Table of Contents</a></h3>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../usage.html">Usage</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../api.html">API</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="clustering.html">clustering</a></li>
+<li class="toctree-l2"><a class="reference internal" href="EDA.html">EDA</a></li>
+<li class="toctree-l2"><a class="reference internal" href="estimate_cost_to_retire.html">estimate_cost_to_retire</a></li>
+<li class="toctree-l2"><a class="reference internal" href="predict_PPP.html">predict_PPP</a></li>
+<li class="toctree-l2"><a class="reference internal" href="get_data.html">get_data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="new_estimate_cost_to_retire.html">new_estimate_cost_to_retire</a></li>
+<li class="toctree-l2"><a class="reference internal" href="scrape_cost_of_living.html">scrape_cost_of_living</a></li>
+<li class="toctree-l2"><a class="reference internal" href="scrape_numbeo_indices.html">scrape_numbeo_indices</a></li>
+<li class="toctree-l2"><a class="reference internal" href="scrape_temperatures.html">scrape_temperatures</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">scrape_urls</a></li>
+</ul>
+</li>
+</ul>
+
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2023, Giovanni Stephens.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 5.3.0</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.13</a>
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>

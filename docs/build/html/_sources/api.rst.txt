@@ -1,0 +1,61 @@
+API
+===
+
+.. autosummary::
+   :toctree: generated
+
+   clustering
+
+    .. autofunction:: clustering.reduce_dimensions_pca
+    .. autofunction:: clustering.reduce_dimensions_umap
+    .. autofunction:: clustering.shuffle
+    .. autofunction:: clustering.single_sample_t_test
+    .. autofunction:: clustering.calc_perm_variance
+    .. autofunction:: clustering.get_optimal_n_components
+    .. autofunction:: clustering.kmeans_clustering
+    .. autofunction:: clustering.hdbscan_clustering
+   
+.. autosummary::
+   :toctree: generated
+   
+   EDA
+
+.. autosummary::
+   :toctree: generated
+
+   estimate_cost_to_retire
+   
+.. autosummary::
+   :toctree: generated   
+
+   predict_PPP
+
+.. autosummary::
+   :toctree: generated
+
+   get_data
+
+.. autosummary::
+   :toctree: generated
+
+   new_estimate_cost_to_retire
+   
+.. autosummary::
+   :toctree: generated
+
+   scrape_cost_of_living
+   
+.. autosummary::
+   :toctree: generated
+   
+   scrape_numbeo_indices
+   
+.. autosummary::
+   :toctree: generated
+   
+   scrape_temperatures
+   
+.. autosummary::
+   :toctree: generated
+   
+   scrape_urls

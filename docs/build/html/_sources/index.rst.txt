@@ -1,0 +1,30 @@
+.. Country Rank documentation master file, created by
+   sphinx-quickstart on Sat May 20 17:15:24 2023.
+   You can adapt this file completely to your liking, but it should at least
+   contain the root `toctree` directive.
+
+Welcome to Country Rank's documentation!
+========================================
+
+**Country Rank** is a Python project performing an exploratory data analysis (EDA)
+to rank countries based on their attractiveness for retirement. 
+It also allows you to compare the performance of a country in different years.
+
+.. toctree::
+   :maxdepth: 2
+   :caption: Contents:
+
+Contents
+--------
+
+.. toctree::
+
+   usage
+   api
+
+Indices and tables
+==================
+
+* :ref:`genindex`
+* :ref:`modindex`
+* :ref:`search`
