@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>new_estimate_cost_to_retire &mdash; Country Rank 1.0.0 documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/sphinx_highlight.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            Country Rank
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../usage.html">Usage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../scrapers.html">Scrapers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api.html">API</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Country Rank</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">Module code</a></li>
+      <li class="breadcrumb-item active">new_estimate_cost_to_retire</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for new_estimate_cost_to_retire</h1><div class="highlight"><pre>
+<span></span><span class="c1"># Import Yahoo finance data using yfinance</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">yfinance</span> <span class="k">as</span> <span class="nn">yf</span>
+
+
+<div class="viewcode-block" id="main"><a class="viewcode-back" href="../usage.html#new_estimate_cost_to_retire.main">[docs]</a><span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
+    <span class="c1"># Download historical s&amp;p 500 data</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">yf</span><span class="o">.</span><span class="n">download</span><span class="p">(</span><span class="s1">&#39;SPY&#39;</span><span class="p">,</span> <span class="n">interval</span><span class="o">=</span><span class="s1">&#39;1mo&#39;</span><span class="p">,</span> <span class="n">start</span><span class="o">=</span><span class="s1">&#39;1993-02-01&#39;</span><span class="p">)</span>
+    <span class="c1"># drop nan values</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">dropna</span><span class="p">()</span>
+
+    <span class="c1"># Calculate monthly returns</span>
+    <span class="n">data</span><span class="p">[</span><span class="s1">&#39;Returns&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;Adj Close&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">pct_change</span><span class="p">()</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">dropna</span><span class="p">()</span>
+
+    <span class="n">weekly_cost_of_living</span> <span class="o">=</span> <span class="mi">320</span>
+    <span class="n">monthly_cost_of_living</span> <span class="o">=</span> <span class="n">weekly_cost_of_living</span> <span class="o">*</span> <span class="mf">4.33</span>
+    <span class="n">annual_cost_of_living</span> <span class="o">=</span> <span class="n">monthly_cost_of_living</span> <span class="o">*</span> <span class="mi">12</span>
+
+    <span class="n">n_years_liquid</span> <span class="o">=</span> <span class="mi">2</span>
+    <span class="n">n_years_remaining</span> <span class="o">=</span> <span class="mi">64</span>
+    <span class="n">long_term_investments_term</span> <span class="o">=</span> <span class="n">n_years_remaining</span> <span class="o">-</span> <span class="n">n_years_liquid</span>
+    <span class="n">inflation</span> <span class="o">=</span> <span class="mf">0.015</span>
+    <span class="n">short_term_interest_rate</span> <span class="o">=</span> <span class="mf">0.05</span>
+    <span class="n">long_term_interest_rate</span> <span class="o">=</span> <span class="mf">0.09</span>
+
+    <span class="n">pv_n_years_liquid_growing_annuity</span> <span class="o">=</span> <span class="n">annual_cost_of_living</span> <span class="o">/</span> <span class="p">(</span><span class="n">short_term_interest_rate</span> <span class="o">-</span> <span class="n">inflation</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="p">((</span><span class="mi">1</span> <span class="o">+</span> <span class="n">inflation</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">short_term_interest_rate</span><span class="p">))</span> <span class="o">**</span> <span class="p">(</span><span class="n">n_years_liquid</span><span class="p">))</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;PV of </span><span class="si">{</span><span class="n">n_years_liquid</span><span class="si">}</span><span class="s1"> years of expenses growing at </span><span class="si">{</span><span class="n">inflation</span><span class="si">}</span><span class="s1"> inflation with </span><span class="si">{</span><span class="n">short_term_interest_rate</span><span class="si">}</span><span class="s1"> interest: </span><span class="si">{</span><span class="n">pv_n_years_liquid_growing_annuity</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+    <span class="n">pv_fv_n_years_illiquid_growing_annuity</span> <span class="o">=</span> <span class="n">annual_cost_of_living</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">inflation</span><span class="p">)</span><span class="o">**</span><span class="n">n_years_liquid</span> <span class="o">/</span> <span class="p">(</span><span class="n">long_term_interest_rate</span> <span class="o">-</span> <span class="n">inflation</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="p">((</span><span class="mi">1</span> <span class="o">+</span> <span class="n">inflation</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">long_term_interest_rate</span><span class="p">))</span> <span class="o">**</span> <span class="p">(</span><span class="n">long_term_investments_term</span><span class="p">))</span>
+    <span class="n">pv_n_years_illiquid_growing_annuity</span> <span class="o">=</span> <span class="n">pv_fv_n_years_illiquid_growing_annuity</span> <span class="o">/</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">long_term_interest_rate</span><span class="p">)</span><span class="o">**</span><span class="n">n_years_liquid</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;PV of </span><span class="si">{</span><span class="n">long_term_investments_term</span><span class="si">}</span><span class="s1"> years of expenses growing at </span><span class="si">{</span><span class="n">inflation</span><span class="si">}</span><span class="s1"> inflation with </span><span class="si">{</span><span class="n">long_term_interest_rate</span><span class="si">}</span><span class="s1"> returns: </span><span class="si">{</span><span class="n">pv_n_years_illiquid_growing_annuity</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+    <span class="n">total_required</span> <span class="o">=</span> <span class="n">pv_n_years_liquid_growing_annuity</span> <span class="o">+</span> <span class="n">pv_n_years_illiquid_growing_annuity</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Total required: </span><span class="si">{</span><span class="n">total_required</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+
+    <span class="c1"># Simulate the ending value of a portfolio with the historical returns of the S&amp;P 500</span>
+    <span class="n">n_simulations</span> <span class="o">=</span> <span class="mi">100</span>
+    <span class="c1"># Calculate the ending value of the portfolio</span>
+    <span class="n">months_survived</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">buffer</span> <span class="o">=</span> <span class="mi">50000</span> <span class="c1">#total_required - total_required</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_simulations</span><span class="p">):</span>
+        <span class="n">illiquid_balance</span> <span class="o">=</span> <span class="n">pv_n_years_illiquid_growing_annuity</span> <span class="o">+</span> <span class="n">buffer</span>
+        <span class="n">liquid_balance</span> <span class="o">=</span> <span class="n">pv_n_years_liquid_growing_annuity</span>
+        <span class="n">new_cost_of_living</span> <span class="o">=</span> <span class="n">monthly_cost_of_living</span>
+        <span class="c1"># Simulate the ending value of a portfolio with the historical returns of the S&amp;P 500</span>
+        <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_years_remaining</span> <span class="o">*</span> <span class="mi">12</span><span class="p">):</span>
+            <span class="n">new_cost_of_living</span> <span class="o">=</span> <span class="n">new_cost_of_living</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">inflation</span><span class="p">)</span><span class="o">**</span><span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="mi">12</span><span class="p">)</span>
+            <span class="n">rand_return</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;Returns&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">sample</span><span class="p">()</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+            
+            <span class="k">if</span> <span class="n">liquid_balance</span> <span class="o">-</span> <span class="n">new_cost_of_living</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">liquid_balance</span> <span class="o">=</span> <span class="n">liquid_balance</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">short_term_interest_rate</span><span class="p">)</span><span class="o">**</span><span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="mi">12</span><span class="p">)</span> <span class="o">-</span> <span class="n">new_cost_of_living</span>
+            <span class="k">elif</span> <span class="n">illiquid_balance</span> <span class="o">-</span> <span class="n">new_cost_of_living</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">illiquid_balance</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">illiquid_balance</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">rand_return</span><span class="p">))</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="c1"># print(f&#39;Failed to retire after {j+1} months&#39;)</span>
+                <span class="n">months_survived</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">j</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
+                <span class="k">break</span>
+            <span class="n">top_up_amount</span> <span class="o">=</span> <span class="p">(</span><span class="n">new_cost_of_living</span> <span class="o">*</span> <span class="mi">12</span> <span class="o">/</span> <span class="p">(</span><span class="n">short_term_interest_rate</span> <span class="o">-</span> <span class="n">inflation</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="p">((</span><span class="mi">1</span> <span class="o">+</span> <span class="n">inflation</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">short_term_interest_rate</span><span class="p">))</span> <span class="o">**</span> <span class="p">(</span><span class="n">n_years_liquid</span><span class="p">))</span> <span class="o">-</span> <span class="n">liquid_balance</span><span class="p">)</span>
+            <span class="n">top_up_amount</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">illiquid_balance</span> <span class="o">*</span> <span class="n">rand_return</span><span class="p">,</span> <span class="n">top_up_amount</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">top_up_amount</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">rand_return</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">illiquid_balance</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">liquid_balance</span> <span class="o">=</span> <span class="n">liquid_balance</span> <span class="o">+</span> <span class="nb">min</span><span class="p">(</span><span class="n">top_up_amount</span><span class="p">,</span> <span class="n">illiquid_balance</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">rand_return</span><span class="p">)</span> <span class="o">-</span> <span class="n">top_up_amount</span><span class="p">)</span>
+                <span class="n">illiquid_balance</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">illiquid_balance</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">rand_return</span><span class="p">)</span> <span class="o">-</span> <span class="n">top_up_amount</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">illiquid_balance</span> <span class="o">=</span> <span class="n">illiquid_balance</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">rand_return</span><span class="p">)</span>
+            <span class="c1"># print(f&#39;Month {j+1} liquid_balance: {liquid_balance}, illiquid_balance: {illiquid_balance}, rand_return: {rand_return}, top_up_amount: {top_up_amount}, monthly_cost_of_living: {new_cost_of_living}&#39;)</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">liquid_balance</span> <span class="o">+</span> <span class="n">illiquid_balance</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="c1"># print(f&#39;Failed to retire after {j+1} months&#39;)</span>
+                <span class="n">months_survived</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">j</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
+                <span class="k">break</span>
+            <span class="k">if</span> <span class="n">j</span> <span class="o">==</span> <span class="n">n_years_remaining</span> <span class="o">*</span> <span class="mi">12</span> <span class="o">-</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="c1"># print(f&#39;Successfully retired after {j+1} months&#39;)</span>
+                <span class="n">months_survived</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">j</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
+                <span class="k">break</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Average months survived: </span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">months_survived</span><span class="p">)</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Median months survived: </span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">median</span><span class="p">(</span><span class="n">months_survived</span><span class="p">)</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;95th percentile months survived: </span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">percentile</span><span class="p">(</span><span class="n">months_survived</span><span class="p">,</span> <span class="mi">95</span><span class="p">)</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;99th percentile months survived: </span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">percentile</span><span class="p">(</span><span class="n">months_survived</span><span class="p">,</span> <span class="mi">99</span><span class="p">)</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Percent of simulations that failed: </span><span class="si">{</span><span class="nb">len</span><span class="p">([</span><span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">months_survived</span> <span class="k">if</span> <span class="n">x</span> <span class="o">&lt;</span> <span class="n">n_years_remaining</span> <span class="o">*</span> <span class="mi">12</span><span class="p">])</span> <span class="o">/</span> <span class="n">n_simulations</span> <span class="o">*</span> <span class="mi">100</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span></div>
+
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+    <span class="n">main</span><span class="p">()</span>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, Giovanni Stephens.</p>
+  </div>
+
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

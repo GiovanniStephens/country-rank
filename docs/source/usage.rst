@@ -23,33 +23,39 @@ To run a quick exploratory data analysis, you will need to run the following com
 
 This will print some basic statistics about the data, and will also generate a few plots in the `visualisations` directory.
 
+Scraping the Data
+-----------------
+
+Cost of living data is scraped off Numbeo.com. There are several functions to get 
+the data from the website. The data is then cleaned and used to estimate a cost of 
+living distribution using a Monte Carlo simulation. This way, one can get a percentile 
+for the cost of living.
+
+I also scrape Numbeo.com indices to get pollution, health care, and crime data.
+
+Climate data is scraped from weatherbase.com. 
+
+The main scraper module is used to scrape all the data from the above sources.
+
+
 Clustering
 ----------
 
-This module is used to perform clustering on the country data. There are several utility functions to faciliated
-the automated clustering process. You can use principal component analysis (PCA) or UMAP to
+The clustering module is used to perform clustering on the country data. There are several utility functions to faciliated
+the automated clustering process. You can use principal component analysis (PCA) or 
+Uniform Manifold Approximation and Projection (UMAP) to
 reduce the dimensionality of the data, and then use k-means or HDBSCAN to perform the clustering.
 
 There are also functions to programmatically determine how many principal components to 
 use. This is done by calculating the variance of the data for each number of components, and
 then finding the point at which the variance begins to level off.
 
-.. autofunction:: clustering.reduce_dimensions_pca
-.. autofunction:: clustering.reduce_dimensions_umap
-.. autofunction:: clustering.shuffle
-.. autofunction:: clustering.single_sample_t_test
-.. autofunction:: clustering.calc_perm_variance
-.. autofunction:: clustering.get_optimal_n_components
-.. autofunction:: clustering.kmeans_clustering
-.. autofunction:: clustering.hdbscan_clustering
 
 Estimate Cost to Retire
 -----------------------
 
-This module is used to estimate the cost to retire in a given country. It is calculated using a 
-an estimated long-term purchasing power parity (PPP) change and a growing annuity to estimate
-
-.. autofunction:: estimate_cost_to_retire.estimate_cost_to_retire
+These two estimate module are used to estimate the cost to retire in a given country. It is calculated using a 
+an estimated long-term purchasing power parity (PPP) change and a growing annuity to estimate.
 
 The new estimate cost to retire is a step-wise simulation assuming a starting 
 capital with an assumed cost of living, level of inflation, and time to death.
@@ -57,46 +63,6 @@ Using the S&P500 data, it goes month by month simulating a net worth until the e
 of the period. It ultimately prints the probability of success, which is the liklihood 
 of not ending destitute. 
 
-.. autofunction:: new_estimate_cost_to_retire.main
-
-Scraping the data
------------------
-
-Cost of living is scraped off Numbeo.com. There are several functions to get 
-the data from the website. The data is then cleaned and used to estimate a cost of 
-living distribution using a Monte Carlo simulation.
-
-.. autofunction:: scrape_cost_of_living.get_cost_of_living_table
-.. autofunction:: scrape_cost_of_living.clean_numbeo_table
-.. autofunction:: scrape_cost_of_living.check_enough_data
-.. autofunction:: scrape_cost_of_living.get_country_cost_of_living
-.. autofunction:: scrape_cost_of_living.get_city_cost_of_living
-.. autofunction:: scrape_cost_of_living.get_numbeo_countries
-.. autofunction:: scrape_cost_of_living.main
-
-I also scrape Numbeo.com indices to get pollution, health care, and crime data.
-
-.. autofunction:: scrape_numbeo_indices.scrape_index
-.. autofunction:: scrape_numbeo_indices.to_pandas_df
-
-Climate data is scraped from weatherbase.com. 
-
-.. autofunction:: scrape_temperatures.f_to_c
-.. autofunction:: scrape_temperatures.in_to_mm
-.. autofunction:: scrape_temperatures.check_float
-.. autofunction:: scrape_temperatures.get_stats
-.. autofunction:: scrape_temperatures.get_country_stats
-.. autofunction:: scrape_temperatures.main
-
-The main scraper module is used to scrape all the data from the above sources.
-
-.. autofunction:: scrape_urls.get_table
-.. autofunction:: scrape_urls.find_html_class
-.. autofunction:: scrape_urls.find_in_html
-.. autofunction:: scrape_urls.find_id_in_html
-.. autofunction:: scrape_urls.proxy_generator
-.. autofunction:: scrape_urls.scrape_page
-.. autofunction:: scrape_urls.multi_thread_func
 
 Purchasing Power Parity (PPP) Conversion Rates
 ----------------------------------------------
@@ -106,5 +72,3 @@ The conversion rates are forecast to get a long-term view on how relative purcha
 poewr will chanve over time. The changes are relative to New Zealand, where I live. 
 In essence, it is implicitly assumed that most of my investments will be denominated
 in NZD and converted as needed (if I retire internationally).
-
-.. autofunction:: predict_PPP.estimate_PPP_conversion_rate_long_term_change

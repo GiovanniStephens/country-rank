@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>estimate_cost_to_retire &mdash; Country Rank 1.0.0 documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/sphinx_highlight.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            Country Rank
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../usage.html">Usage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../scrapers.html">Scrapers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api.html">API</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Country Rank</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">Module code</a></li>
+      <li class="breadcrumb-item active">estimate_cost_to_retire</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for estimate_cost_to_retire</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">predict_PPP</span> <span class="k">as</span> <span class="nn">ppp</span>
+
+<span class="n">nz_conversion_rate</span> <span class="o">=</span> <span class="n">ppp</span><span class="o">.</span><span class="n">estimate_PPP_conversion_rate_long_term_change</span><span class="p">(</span><span class="s1">&#39;New Zealand&#39;</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="estimate_cost_to_retire"><a class="viewcode-back" href="../usage.html#estimate_cost_to_retire.estimate_cost_to_retire">[docs]</a><span class="k">def</span> <span class="nf">estimate_cost_to_retire</span><span class="p">(</span><span class="n">country</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+                            <span class="n">weekly_cost</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+                            <span class="n">r</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.06</span><span class="p">,</span>
+                            <span class="n">n</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">68</span><span class="p">,</span>
+                            <span class="n">moving_cost</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">8000</span><span class="p">,</span>
+                            <span class="n">buffer_pa</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">10000</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Estimate the cost to retire in a country.</span>
+
+<span class="sd">    :country: The country to estimate the cost to retire in.</span>
+<span class="sd">    :weekly_cost: The weekly cost of living in the country.</span>
+<span class="sd">    :r: The rate of return on investments.</span>
+<span class="sd">    :n: The number of years to retire.</span>
+<span class="sd">    :moving_cost: The cost of moving to a new country.</span>
+<span class="sd">    :buffer_pa: The buffer cost in the annual cost of living.</span>
+<span class="sd">    :return: The cost to retire in the country.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">conversion_rate_change</span> <span class="o">=</span> <span class="n">ppp</span><span class="o">.</span><span class="n">estimate_PPP_conversion_rate_long_term_change</span><span class="p">(</span><span class="n">country</span><span class="p">)</span>
+    <span class="n">overall_conversion_rate</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">conversion_rate_change</span><span class="p">)</span> <span class="o">/</span>
+                                     <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">nz_conversion_rate</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="n">inverse_conversion_rate</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">/</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">overall_conversion_rate</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span>
+    <span class="n">g</span> <span class="o">=</span> <span class="mf">1.02</span><span class="o">/</span><span class="p">(</span><span class="mi">1</span><span class="o">+</span><span class="n">inverse_conversion_rate</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span>
+    <span class="n">annuity_cost</span> <span class="o">=</span> <span class="p">(</span><span class="n">weekly_cost</span> <span class="o">*</span> <span class="mi">52</span> <span class="o">+</span> <span class="n">buffer_pa</span><span class="p">)</span> <span class="o">/</span>\
+        <span class="p">(</span><span class="n">r</span> <span class="o">-</span> <span class="n">g</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="p">((</span><span class="mi">1</span> <span class="o">+</span> <span class="n">g</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">r</span><span class="p">))</span><span class="o">**</span><span class="n">n</span><span class="p">)</span>
+    <span class="k">return</span> <span class="nb">round</span><span class="p">(</span><span class="n">annuity_cost</span> <span class="o">+</span> <span class="n">moving_cost</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span></div>
+
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+    <span class="n">buffer</span> <span class="o">=</span> <span class="mi">6000</span>
+    <span class="n">moving_cost</span> <span class="o">=</span> <span class="mi">10000</span>
+    <span class="n">rate</span> <span class="o">=</span> <span class="mf">0.09</span>
+    <span class="kn">import</span> <span class="nn">scrape_cost_of_living</span> <span class="k">as</span> <span class="nn">sc</span>
+    <span class="n">countries</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Spain&#39;</span><span class="p">,</span>
+                 <span class="s1">&#39;Portugal&#39;</span><span class="p">,</span>
+                 <span class="s1">&#39;New Zealand&#39;</span><span class="p">,</span>
+                 <span class="s1">&#39;Indonesia&#39;</span><span class="p">,</span>
+                 <span class="s1">&#39;Australia&#39;</span><span class="p">,</span>
+                 <span class="s1">&#39;Uruguay&#39;</span><span class="p">,</span>
+                 <span class="s1">&#39;Argentina&#39;</span><span class="p">,</span>
+                 <span class="s1">&#39;Colombia&#39;</span><span class="p">,</span>
+                 <span class="s1">&#39;Peru&#39;</span><span class="p">,</span>
+                 <span class="s1">&#39;Bolivia&#39;</span><span class="p">,</span>
+                 <span class="s1">&#39;Mexico&#39;</span><span class="p">,</span>
+                 <span class="s1">&#39;Poland&#39;</span><span class="p">,</span>
+                 <span class="s1">&#39;Croatia&#39;</span><span class="p">]</span>
+    <span class="n">percentiles</span> <span class="o">=</span> <span class="p">[</span><span class="mi">50</span><span class="p">,</span> <span class="mi">90</span><span class="p">]</span>
+    <span class="c1"># countries = [&#39;Uruguay&#39;]</span>
+    <span class="c1"># percentiles = [90]</span>
+    <span class="k">for</span> <span class="n">country</span> <span class="ow">in</span> <span class="n">countries</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">percentile</span> <span class="ow">in</span> <span class="n">percentiles</span><span class="p">:</span>
+            <span class="n">cost</span> <span class="o">=</span> <span class="n">sc</span><span class="o">.</span><span class="n">get_country_cost_of_living</span><span class="p">(</span><span class="n">country</span><span class="p">,</span> <span class="n">percentile</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="n">estimate_cost_to_retire</span><span class="p">(</span><span class="n">country</span><span class="p">,</span>
+                                          <span class="n">cost</span><span class="p">,</span>
+                                          <span class="n">rate</span><span class="p">,</span>
+                                          <span class="n">n</span><span class="o">=</span><span class="mi">66</span><span class="p">,</span>
+                                          <span class="n">moving_cost</span><span class="o">=</span><span class="n">moving_cost</span><span class="p">,</span>
+                                          <span class="n">buffer_pa</span><span class="o">=</span><span class="n">buffer</span><span class="p">))</span>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, Giovanni Stephens.</p>
+  </div>
+
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

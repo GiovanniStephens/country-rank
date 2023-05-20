@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>scrape_cost_of_living &mdash; Country Rank 1.0.0 documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/sphinx_highlight.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            Country Rank
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../usage.html">Usage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../scrapers.html">Scrapers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api.html">API</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Country Rank</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">Module code</a></li>
+      <li class="breadcrumb-item active">scrape_cost_of_living</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for scrape_cost_of_living</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">pycountry</span>
+
+<span class="kn">import</span> <span class="nn">scrape_urls</span>
+
+<span class="n">cost_of_living_units</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;data/Cost of Living Items.csv&#39;</span><span class="p">)</span>
+<span class="n">climate_data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;data/Climate by Country.csv&#39;</span><span class="p">)</span>
+
+
+<span class="n">cost_of_living_tables_dict</span> <span class="o">=</span> <span class="p">{}</span>
+<span class="n">simulated_cost_of_living_dict</span> <span class="o">=</span> <span class="p">{}</span>
+
+<div class="viewcode-block" id="clean_numbeo_table"><a class="viewcode-back" href="../api.html#scrape_cost_of_living.clean_numbeo_table">[docs]</a><span class="k">def</span> <span class="nf">clean_numbeo_table</span><span class="p">(</span><span class="n">numbeo_df</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Cleans the default Numbeo cost of living table.</span>
+
+<span class="sd">    :numbeo_df: pandas dataframe</span>
+<span class="sd">    :return: pandas dataframe that has been cleaned up.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Promote first column to index</span>
+    <span class="n">numbeo_df</span> <span class="o">=</span> <span class="n">numbeo_df</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="n">numbeo_df</span><span class="o">.</span><span class="n">columns</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+    <span class="c1"># Remove rows where there are nulls in the next column.</span>
+    <span class="n">numbeo_df</span> <span class="o">=</span> <span class="n">numbeo_df</span><span class="p">[</span><span class="o">~</span><span class="n">numbeo_df</span><span class="p">[</span><span class="n">numbeo_df</span><span class="o">.</span><span class="n">columns</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span><span class="o">.</span><span class="n">isnull</span><span class="p">()]</span>
+    <span class="c1"># Replace empty strings with nan</span>
+    <span class="n">numbeo_df</span> <span class="o">=</span> <span class="n">numbeo_df</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;^\s*$&#39;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">NaN</span><span class="p">,</span> <span class="n">regex</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="c1"># Replace &#39;?&#39; with NaN</span>
+    <span class="n">numbeo_df</span> <span class="o">=</span> <span class="n">numbeo_df</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;^\?$&#39;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">NaN</span><span class="p">,</span> <span class="n">regex</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="c1"># Split range</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">numbeo_df</span><span class="p">[[</span><span class="s1">&#39;lower&#39;</span><span class="p">,</span> <span class="s1">&#39;upper&#39;</span><span class="p">]]</span> <span class="o">=</span> <span class="n">numbeo_df</span><span class="p">[</span><span class="s1">&#39;Range&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;-&#39;</span><span class="p">,</span>
+                                                                     <span class="n">expand</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="k">except</span><span class="p">:</span>
+        <span class="n">numbeo_df</span><span class="p">[</span><span class="s1">&#39;lower&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">NaN</span>
+        <span class="n">numbeo_df</span><span class="p">[</span><span class="s1">&#39;upper&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">NaN</span>
+        <span class="n">numbeo_df</span> <span class="o">=</span> <span class="n">numbeo_df</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">str</span><span class="p">)</span>
+
+    <span class="c1"># Remove currency &#39;NZ$&#39;</span>
+    <span class="n">numbeo_df</span><span class="p">[</span><span class="s1">&#39;mode&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">numbeo_df</span><span class="p">[</span><span class="s1">&#39;Edit&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">str</span><span class="p">[:</span><span class="o">-</span><span class="mi">5</span><span class="p">]</span>
+    <span class="n">numbeo_df</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="s1">&#39;category&#39;</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">numbeo_df</span><span class="p">[</span><span class="s1">&#39;lower&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_numeric</span><span class="p">(</span><span class="n">numbeo_df</span><span class="p">[</span><span class="s1">&#39;lower&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;,&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">),</span>
+                                       <span class="n">errors</span><span class="o">=</span><span class="s1">&#39;coerce&#39;</span><span class="p">)</span>
+    <span class="n">numbeo_df</span><span class="p">[</span><span class="s1">&#39;mode&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_numeric</span><span class="p">(</span><span class="n">numbeo_df</span><span class="p">[</span><span class="s1">&#39;mode&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;,&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">),</span>
+                                      <span class="n">errors</span><span class="o">=</span><span class="s1">&#39;coerce&#39;</span><span class="p">)</span>
+    <span class="n">numbeo_df</span><span class="p">[</span><span class="s1">&#39;upper&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_numeric</span><span class="p">(</span><span class="n">numbeo_df</span><span class="p">[</span><span class="s1">&#39;upper&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;,&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">),</span>
+                                       <span class="n">errors</span><span class="o">=</span><span class="s1">&#39;coerce&#39;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">numbeo_df</span></div>
+
+
+<div class="viewcode-block" id="get_cost_of_living"><a class="viewcode-back" href="../api.html#scrape_cost_of_living.get_cost_of_living">[docs]</a><span class="k">def</span> <span class="nf">get_cost_of_living</span><span class="p">(</span><span class="n">place_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+                       <span class="n">simulations</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">10000</span><span class="p">,</span>
+                       <span class="n">percentile</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">90</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    For all cost categories, get the cost and multiply</span>
+<span class="sd">    it by the number of units. I simulate the cost using a</span>
+<span class="sd">    triangular distribution if there is a lower and upper bound.</span>
+<span class="sd">    If there isn&#39;t one though, I simply take the mode.</span>
+
+<span class="sd">    :numbeo_table: pandas dataframe with the cost of living.</span>
+<span class="sd">    :simulations: number of simulations to run.</span>
+<span class="sd">    :percentile: percentile to use.</span>
+<span class="sd">    :return: cost of living in the input country.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">place_name</span> <span class="ow">in</span> <span class="n">simulated_cost_of_living_dict</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">percentile</span><span class="p">(</span><span class="n">simulated_cost_of_living_dict</span><span class="p">[</span><span class="n">place_name</span><span class="p">],</span>
+                             <span class="n">percentile</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">numbeo_table</span> <span class="o">=</span> <span class="n">cost_of_living_tables_dict</span><span class="p">[</span><span class="n">place_name</span><span class="p">]</span>
+        <span class="n">vals</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">simulations</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">cost_of_living_units</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">):</span>
+            <span class="c1"># Will catch an error if the category is not in the table</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">category</span> <span class="o">=</span> <span class="n">cost_of_living_units</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="s1">&#39;Category&#39;</span><span class="p">]</span>
+                <span class="n">lower_units</span> <span class="o">=</span> <span class="n">cost_of_living_units</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="s1">&#39;Lower Units pw&#39;</span><span class="p">]</span>
+                <span class="n">upper_units</span> <span class="o">=</span> <span class="n">cost_of_living_units</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="s1">&#39;Upper Units pw&#39;</span><span class="p">]</span>
+                <span class="n">lower</span> <span class="o">=</span> <span class="n">numbeo_table</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">category</span><span class="p">][</span><span class="s1">&#39;lower&#39;</span><span class="p">]</span>
+                <span class="n">mode</span> <span class="o">=</span> <span class="n">numbeo_table</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">category</span><span class="p">][</span><span class="s1">&#39;mode&#39;</span><span class="p">]</span>
+                <span class="n">upper</span> <span class="o">=</span> <span class="n">numbeo_table</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">category</span><span class="p">][</span><span class="s1">&#39;upper&#39;</span><span class="p">]</span>
+                <span class="k">if</span> <span class="n">lower</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">upper</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">mode</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                    <span class="n">vals</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">vals</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="n">lower_units</span><span class="p">,</span>
+                                                        <span class="n">upper_units</span><span class="p">,</span>
+                                                        <span class="n">simulations</span><span class="p">)</span>
+                                        <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">triangular</span><span class="p">(</span><span class="n">lower</span><span class="p">,</span>
+                                                            <span class="n">mode</span><span class="p">,</span>
+                                                            <span class="n">upper</span><span class="p">,</span>
+                                                            <span class="n">simulations</span><span class="p">))</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">vals</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">vals</span><span class="p">,</span> <span class="p">[</span><span class="n">mode</span> <span class="o">*</span>
+                                        <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="n">lower_units</span><span class="p">,</span>
+                                                        <span class="n">upper_units</span><span class="p">,</span>
+                                                        <span class="n">simulations</span><span class="p">)]</span>
+                                        <span class="o">*</span><span class="n">simulations</span><span class="p">)</span>
+            <span class="k">except</span><span class="p">:</span>
+                <span class="k">continue</span>
+        <span class="n">simulated_cost_of_living_dict</span><span class="p">[</span><span class="n">place_name</span><span class="p">]</span> <span class="o">=</span> <span class="n">vals</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">percentile</span><span class="p">(</span><span class="n">vals</span><span class="p">,</span> <span class="n">percentile</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="check_enough_data"><a class="viewcode-back" href="../api.html#scrape_cost_of_living.check_enough_data">[docs]</a><span class="k">def</span> <span class="nf">check_enough_data</span><span class="p">(</span><span class="n">numbeo_df</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Checks that the number of data points we</span>
+<span class="sd">    have is sufficient.</span>
+<span class="sd">    I check that I have enough data to be able</span>
+<span class="sd">    to use it to estimate cost of living.</span>
+
+<span class="sd">    :numbeo_df: pandas dataframe.</span>
+<span class="sd">    :return: proportion of filled cells as a proportion of</span>
+<span class="sd">             number of total categories.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">numbeo_df</span><span class="p">)</span> <span class="o">==</span> <span class="nb">list</span><span class="p">:</span>
+        <span class="k">return</span> <span class="mi">0</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">categories</span> <span class="o">=</span> <span class="n">cost_of_living_units</span><span class="p">[</span>
+                     <span class="n">cost_of_living_units</span><span class="p">[</span><span class="s1">&#39;Upper Units pw&#39;</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">][</span><span class="s1">&#39;Category&#39;</span><span class="p">]</span>
+        <span class="n">intersecting_categories</span> <span class="o">=</span> <span class="n">numbeo_df</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">intersection</span><span class="p">(</span><span class="n">categories</span><span class="p">)</span>
+        <span class="n">num_nulls</span> <span class="o">=</span> <span class="n">numbeo_df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">intersecting_categories</span><span class="p">][</span><span class="s1">&#39;Edit&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">isna</span><span class="p">()</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+        <span class="k">return</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">intersecting_categories</span><span class="p">)</span> <span class="o">-</span> <span class="n">num_nulls</span><span class="p">)</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">categories</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="get_numbeo_countries"><a class="viewcode-back" href="../api.html#scrape_cost_of_living.get_numbeo_countries">[docs]</a><span class="k">def</span> <span class="nf">get_numbeo_countries</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This function returns a list of countries</span>
+<span class="sd">    that have been scraped from Numbeo.</span>
+<span class="sd">    The countries get standardized using the pycountry library.</span>
+
+<span class="sd">    :return: list of countries.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">soup</span> <span class="o">=</span> <span class="n">scrape_urls</span><span class="o">.</span><span class="n">scrape_page</span><span class="p">(</span><span class="s1">&#39;https://www.numbeo.com/cost-of-living&#39;</span><span class="p">)</span>
+    <span class="n">table</span> <span class="o">=</span> <span class="n">soup</span><span class="o">.</span><span class="n">find_all</span><span class="p">(</span><span class="n">class_</span><span class="o">=</span><span class="s1">&#39;related_links&#39;</span><span class="p">)</span>
+    <span class="n">countries</span> <span class="o">=</span> <span class="n">table</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">find_all</span><span class="p">(</span><span class="s1">&#39;a&#39;</span><span class="p">)</span>
+    <span class="n">std_countries</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">countries</span><span class="p">)):</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">std_countries</span><span class="p">[</span><span class="n">countries</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">text</span><span class="p">]</span> <span class="o">=</span> <span class="n">pycountry</span><span class="o">.</span><span class="n">countries</span><span class="o">.</span><span class="n">search_fuzzy</span><span class="p">(</span>
+                                               <span class="n">countries</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">text</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">name</span>
+        <span class="k">except</span><span class="p">:</span>
+            <span class="k">pass</span>
+    <span class="k">return</span> <span class="n">std_countries</span></div>
+
+
+<div class="viewcode-block" id="main"><a class="viewcode-back" href="../api.html#scrape_cost_of_living.main">[docs]</a><span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
+    <span class="n">urls</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="c1"># Create a url for each country based on the temperature</span>
+    <span class="c1"># website country names (there may be some differences).</span>
+    <span class="n">countries</span> <span class="o">=</span> <span class="n">get_numbeo_countries</span><span class="p">()</span>
+    <span class="k">for</span> <span class="n">country</span> <span class="ow">in</span> <span class="n">countries</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+        <span class="n">country_str</span> <span class="o">=</span> <span class="s1">&#39;+&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">country</span><span class="o">.</span><span class="n">title</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">())</span>
+        <span class="n">urls</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;https://www.numbeo.com/cost-of-living/country_result.jsp?country=</span><span class="si">{</span><span class="n">country_str</span><span class="si">}</span><span class="s1">&amp;displayCurrency=NZD&#39;</span><span class="p">)</span>
+
+    <span class="c1"># Scrape the pages</span>
+    <span class="c1"># soups = scrape_urls.multi_thread_func(scrape_urls.scrape_page, urls)</span>
+    <span class="n">soups</span> <span class="o">=</span> <span class="p">[</span><span class="n">scrape_urls</span><span class="o">.</span><span class="n">scrape_page</span><span class="p">(</span><span class="n">url</span><span class="p">)</span> <span class="k">for</span> <span class="n">url</span> <span class="ow">in</span> <span class="n">urls</span><span class="p">]</span>
+
+    <span class="c1"># Extract the data tables</span>
+    <span class="n">tables</span> <span class="o">=</span> <span class="p">[</span><span class="n">scrape_urls</span><span class="o">.</span><span class="n">get_table</span><span class="p">(</span><span class="n">soup</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="k">for</span> <span class="n">soup</span> <span class="ow">in</span> <span class="n">soups</span><span class="p">]</span>
+
+    <span class="c1"># Clean and format the tables</span>
+    <span class="n">cleaned_tables</span> <span class="o">=</span> <span class="p">[</span><span class="n">clean_numbeo_table</span><span class="p">(</span><span class="n">table</span><span class="p">)</span>
+                      <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">table</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">list</span> <span class="k">else</span> <span class="p">[]</span> <span class="k">for</span> <span class="n">table</span> <span class="ow">in</span> <span class="n">tables</span><span class="p">]</span>
+
+    <span class="c1"># Get cost of living for every country if there is enough data.</span>
+    <span class="n">cost_of_living_dic</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">for</span> <span class="n">country</span><span class="p">,</span> <span class="n">table</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">countries</span><span class="o">.</span><span class="n">values</span><span class="p">(),</span> <span class="n">cleaned_tables</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">check_enough_data</span><span class="p">(</span><span class="n">table</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mf">0.9</span><span class="p">:</span>
+            <span class="n">cost_of_living_dic</span><span class="p">[</span><span class="n">country</span><span class="p">]</span> <span class="o">=</span> <span class="n">get_cost_of_living</span><span class="p">(</span><span class="n">table</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">cost_of_living_dic</span><span class="p">[</span><span class="n">country</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+
+    <span class="c1"># Format results table and save</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="o">.</span><span class="n">from_dict</span><span class="p">(</span><span class="n">cost_of_living_dic</span><span class="p">,</span> <span class="n">orient</span><span class="o">=</span><span class="s1">&#39;index&#39;</span><span class="p">)</span>
+    <span class="n">df</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="s1">&#39;Country&#39;</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">df</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Cost of Living pw&#39;</span><span class="p">]</span>
+    <span class="n">df</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="s1">&#39;data/Cost of Living by Country.csv&#39;</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="get_cost_of_living_table"><a class="viewcode-back" href="../api.html#scrape_cost_of_living.get_cost_of_living_table">[docs]</a><span class="k">def</span> <span class="nf">get_cost_of_living_table</span><span class="p">(</span><span class="n">place_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">country</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Get the cost of living table for a place.</span>
+
+<span class="sd">    :place_name: name of the place.</span>
+<span class="sd">    :country: whether the place is a country or city.</span>
+<span class="sd">    :return: cost of living table.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">place_name</span> <span class="ow">in</span> <span class="n">cost_of_living_tables_dict</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+        <span class="k">return</span> <span class="n">cost_of_living_tables_dict</span><span class="p">[</span><span class="n">place_name</span><span class="p">]</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">country</span><span class="p">:</span>
+            <span class="n">formatted_place_name</span> <span class="o">=</span> <span class="s1">&#39;+&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">place_name</span><span class="o">.</span><span class="n">title</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">())</span>
+            <span class="n">url</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;https://www.numbeo.com/cost-of-living/country_result.jsp?country=</span><span class="si">{</span><span class="n">formatted_place_name</span><span class="si">}</span><span class="s1">&amp;displayCurrency=NZD&#39;</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">formatted_place_name</span> <span class="o">=</span> <span class="s1">&#39;+&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">place_name</span><span class="o">.</span><span class="n">title</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">())</span>
+            <span class="n">url</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;https://www.numbeo.com/cost-of-living/in/</span><span class="si">{</span><span class="n">formatted_place_name</span><span class="si">}</span><span class="s1">?displayCurrency=NZD&#39;</span>
+        <span class="n">soup</span> <span class="o">=</span> <span class="n">scrape_urls</span><span class="o">.</span><span class="n">scrape_page</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
+        <span class="n">table</span> <span class="o">=</span> <span class="n">scrape_urls</span><span class="o">.</span><span class="n">get_table</span><span class="p">(</span><span class="n">soup</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">cleaned_table</span> <span class="o">=</span> <span class="n">clean_numbeo_table</span><span class="p">(</span><span class="n">table</span><span class="p">)</span>
+        <span class="c1"># Cache the table</span>
+        <span class="n">cost_of_living_tables_dict</span><span class="p">[</span><span class="n">place_name</span><span class="p">]</span> <span class="o">=</span> <span class="n">cleaned_table</span>
+        <span class="k">return</span> <span class="n">cleaned_table</span></div>
+
+
+<div class="viewcode-block" id="get_city_cost_of_living"><a class="viewcode-back" href="../api.html#scrape_cost_of_living.get_city_cost_of_living">[docs]</a><span class="k">def</span> <span class="nf">get_city_cost_of_living</span><span class="p">(</span><span class="n">city</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">percentile</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">90</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Get the cost of living for a city.</span>
+
+<span class="sd">    :city: city to get the cost of living for.</span>
+<span class="sd">    :percentile: percentile to use.</span>
+<span class="sd">    :return: cost of living for the city.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">cleaned_table</span> <span class="o">=</span> <span class="n">get_cost_of_living_table</span><span class="p">(</span><span class="n">city</span><span class="o">.</span><span class="n">title</span><span class="p">(),</span> <span class="n">country</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">check_enough_data</span><span class="p">(</span><span class="n">cleaned_table</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mf">0.9</span><span class="p">:</span>
+        <span class="n">cost_of_living</span> <span class="o">=</span> <span class="n">get_cost_of_living</span><span class="p">(</span><span class="n">city</span><span class="o">.</span><span class="n">title</span><span class="p">(),</span> <span class="n">percentile</span><span class="o">=</span><span class="n">percentile</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">percentile</span><span class="si">}</span><span class="s1">th percentile weekly cost of living in </span><span class="si">{</span><span class="n">city</span><span class="o">.</span><span class="n">title</span><span class="p">()</span><span class="si">}</span><span class="s1">: </span><span class="si">{</span><span class="nb">round</span><span class="p">(</span><span class="n">cost_of_living</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Not enough data to estimate cost of living.&#39;</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="get_country_cost_of_living"><a class="viewcode-back" href="../api.html#scrape_cost_of_living.get_country_cost_of_living">[docs]</a><span class="k">def</span> <span class="nf">get_country_cost_of_living</span><span class="p">(</span><span class="n">country</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">percentile</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">90</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Get the cost of living for a country.</span>
+
+<span class="sd">    :country: country to get the cost of living for.</span>
+<span class="sd">    :percentile: percentile to use.</span>
+<span class="sd">    :return: cost of living for the country.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">cleaned_table</span> <span class="o">=</span> <span class="n">get_cost_of_living_table</span><span class="p">(</span><span class="n">country</span><span class="o">.</span><span class="n">title</span><span class="p">(),</span> <span class="n">country</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">check_enough_data</span><span class="p">(</span><span class="n">cleaned_table</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mf">0.9</span><span class="p">:</span>
+        <span class="n">cost_of_living</span> <span class="o">=</span> <span class="nb">round</span><span class="p">(</span><span class="n">get_cost_of_living</span><span class="p">(</span><span class="n">country</span><span class="o">.</span><span class="n">title</span><span class="p">(),</span>
+                                                  <span class="n">percentile</span><span class="o">=</span><span class="n">percentile</span><span class="p">),</span>
+                               <span class="mi">2</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">percentile</span><span class="si">}</span><span class="s1">th percentile weekly cost of living in </span><span class="si">{</span><span class="n">country</span><span class="o">.</span><span class="n">title</span><span class="p">()</span><span class="si">}</span><span class="s1">: </span><span class="si">{</span><span class="n">cost_of_living</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Not enough data.&#39;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">cost_of_living</span></div>
+
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="n">get_country_cost_of_living</span><span class="p">(</span><span class="s1">&#39;colombia&#39;</span><span class="p">,</span> <span class="mi">99</span><span class="p">)</span>
+    <span class="n">get_country_cost_of_living</span><span class="p">(</span><span class="s1">&#39;colombia&#39;</span><span class="p">,</span> <span class="mi">50</span><span class="p">)</span>
+    <span class="c1"># get_country_cost_of_living(&#39;New zealand&#39;, 99)</span>
+    <span class="c1"># get_country_cost_of_living(&#39;New zealand&#39;, 50)</span>
+    <span class="c1"># get_country_cost_of_living(&#39;georgia&#39;, 99)</span>
+    <span class="c1"># get_country_cost_of_living(&#39;georgia&#39;, 50)</span>
+    <span class="c1"># get_country_cost_of_living(&#39;Uruguay&#39;, 99)</span>
+    <span class="c1"># get_country_cost_of_living(&#39;Uruguay&#39;, 50)</span>
+    <span class="c1"># get_city_cost_of_living(&#39;Queenstown&#39;, 10)</span>
+    <span class="c1"># get_city_cost_of_living(&#39;Tauranga&#39;, 10)</span>
+    <span class="c1"># get_city_cost_of_living(&#39;Houston&#39;, 50)</span>
+    <span class="c1"># get_city_cost_of_living(&#39;Austin&#39;, 50)</span>
+    <span class="c1"># get_city_cost_of_living(&#39;Bogota&#39;, 50)</span>
+    <span class="c1"># get_city_cost_of_living(&#39;Medellin&#39;, 50)</span>
+    <span class="c1"># get_city_cost_of_living(&#39;Wellington&#39;, 90)</span>
+    <span class="c1"># get_city_cost_of_living(&#39;Christchurch&#39;, 90)</span>
+    <span class="c1"># get_city_cost_of_living(&#39;Auckland&#39;, 90)</span>
+    <span class="c1"># get_city_cost_of_living(&#39;Hamilton&#39;, 90)</span>
+    <span class="c1"># get_city_cost_of_living(&#39;Dunedin&#39;, 90)</span>
+    <span class="c1"># get_city_cost_of_living(&#39;Bali&#39;, 99)</span>
+    <span class="c1"># get_city_cost_of_living(&#39;Bali&#39;, 50)</span>
+    <span class="c1"># get_city_cost_of_living(&#39;Yogyakarta&#39;, 99)</span>
+    <span class="c1"># get_city_cost_of_living(&#39;Yogyakarta&#39;, 50)</span>
+    <span class="c1"># get_country_cost_of_living(&#39;Indonesia&#39;, 99)</span>
+    <span class="c1"># get_country_cost_of_living(&#39;Indonesia&#39;, 50)</span>
+    <span class="c1"># get_country_cost_of_living(&#39;Thailand&#39;, 99)</span>
+    <span class="c1"># get_country_cost_of_living(&#39;Thailand&#39;, 50)</span>
+    <span class="c1"># get_country_cost_of_living(&#39;india&#39;, 90)</span>
+    <span class="c1"># get_country_cost_of_living(&#39;india&#39;, 50)</span>
+    <span class="c1"># get_country_cost_of_living(&#39;Australia&#39;, 90)</span>
+    <span class="c1"># get_country_cost_of_living(&#39;Australia&#39;, 50)</span>
+    <span class="c1"># get_country_cost_of_living(&#39;Peru&#39;, 90)</span>
+    <span class="c1"># get_country_cost_of_living(&#39;Peru&#39;, 50)</span>
+    <span class="c1"># get_country_cost_of_living(&#39;Argentina&#39;, 90)</span>
+    <span class="c1"># get_country_cost_of_living(&#39;Argentina&#39;, 50)</span>
+    <span class="c1"># get_country_cost_of_living(&#39;Ecuador&#39;, 90)</span>
+    <span class="c1"># get_country_cost_of_living(&#39;Ecuador&#39;, 50)</span>
+    <span class="c1"># get_country_cost_of_living(&#39;Mexico&#39;, 90)</span>
+    <span class="c1"># get_country_cost_of_living(&#39;Mexico&#39;, 50)</span>
+    <span class="c1"># get_country_cost_of_living(&#39;Spain&#39;, 90)</span>
+    <span class="c1"># get_country_cost_of_living(&#39;Spain&#39;, 50)</span>
+    <span class="c1"># get_country_cost_of_living(&#39;Portugal&#39;, 90)</span>
+    <span class="c1"># get_country_cost_of_living(&#39;Portugal&#39;, 50)</span>
+    <span class="c1"># get_country_cost_of_living(&#39;Slovakia&#39;, 90)</span>
+    <span class="c1"># get_country_cost_of_living(&#39;Slovakia&#39;, 50)</span>
+    <span class="c1"># get_country_cost_of_living(&#39;Pakistan&#39;, 90)</span>
+    <span class="c1"># get_country_cost_of_living(&#39;Pakistan&#39;, 50)</span>
+    <span class="c1"># get_country_cost_of_living(&#39;Costa Rica&#39;, 90)</span>
+    <span class="c1"># get_country_cost_of_living(&#39;Costa Rica&#39;, 50)</span>
+    <span class="c1"># get_country_cost_of_living(&#39;Puerto Rico&#39;, 90)</span>
+    <span class="c1"># get_country_cost_of_living(&#39;Puerto Rico&#39;, 50)</span>
+    <span class="c1"># get_country_cost_of_living(&#39;Iceland&#39;, 90)</span>
+    <span class="c1"># get_country_cost_of_living(&#39;Iceland&#39;, 50)</span>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, Giovanni Stephens.</p>
+  </div>
+
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

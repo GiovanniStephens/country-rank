@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>clustering &mdash; Country Rank 1.0.0 documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/sphinx_highlight.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            Country Rank
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../usage.html">Usage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../scrapers.html">Scrapers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api.html">API</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Country Rank</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">Module code</a></li>
+      <li class="breadcrumb-item active">clustering</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for clustering</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">List</span>
+
+<span class="kn">import</span> <span class="nn">hdbscan</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">umap.umap_</span> <span class="k">as</span> <span class="nn">umap</span>
+<span class="kn">from</span> <span class="nn">scipy.stats</span> <span class="kn">import</span> <span class="n">t</span>
+<span class="kn">from</span> <span class="nn">sklearn.cluster</span> <span class="kn">import</span> <span class="n">KMeans</span>  <span class="c1"># For Kmeans clustering</span>
+<span class="kn">from</span> <span class="nn">sklearn.decomposition</span> <span class="kn">import</span> <span class="n">PCA</span>
+
+
+<div class="viewcode-block" id="reduce_dimensions_pca"><a class="viewcode-back" href="../usage.html#clustering.reduce_dimensions_pca">[docs]</a><span class="k">def</span> <span class="nf">reduce_dimensions_pca</span><span class="p">(</span><span class="n">embeddings</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">]],</span>
+                          <span class="n">dimensions</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">80</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">]]:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Reduces the number of dimensions using PCA.</span>
+
+<span class="sd">    :param embeddings: list of lists size m*n where n is the number of dimensions.</span>
+<span class="sd">    :type embeddings: List[List[float]]</span>
+<span class="sd">    :param dimensions: number of principal components to keep.</span>
+<span class="sd">    :type dimensions: int</span>
+<span class="sd">    :return: list of lists size m*dimensions (reduced data)</span>
+<span class="sd">    :rtype: List[List[float]]</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">pca</span> <span class="o">=</span> <span class="n">PCA</span><span class="p">(</span><span class="n">n_components</span><span class="o">=</span><span class="n">dimensions</span><span class="p">)</span>
+    <span class="n">reduced</span> <span class="o">=</span> <span class="n">pca</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">embeddings</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">reduced</span></div>
+
+
+<div class="viewcode-block" id="reduce_dimensions_umap"><a class="viewcode-back" href="../usage.html#clustering.reduce_dimensions_umap">[docs]</a><span class="k">def</span> <span class="nf">reduce_dimensions_umap</span><span class="p">(</span><span class="n">embeddings</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">]],</span>
+                           <span class="n">dimensions</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">80</span><span class="p">,</span>
+                           <span class="n">n_neighbors</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">10</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">]]:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Uses UMAP to reduce the dimensionality of the embeddings.</span>
+
+<span class="sd">    :param embeddings: list of lists size m*n where n is the number of dimensions.</span>
+<span class="sd">    :type embeddings: List[List[float]]</span>
+<span class="sd">    :param dimensions: number of components to keep.</span>
+<span class="sd">    :type dimensions: int</span>
+<span class="sd">    :return: list of lists size m*dimensions (reduced data).</span>
+<span class="sd">    :rtype: List[List[float]]</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">reduced</span> <span class="o">=</span> <span class="n">umap</span><span class="o">.</span><span class="n">UMAP</span><span class="p">(</span>
+        <span class="n">n_neighbors</span><span class="o">=</span><span class="n">n_neighbors</span><span class="p">,</span>
+        <span class="n">min_dist</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>
+        <span class="n">n_components</span><span class="o">=</span><span class="n">dimensions</span><span class="p">,</span>
+        <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">,</span>
+    <span class="p">)</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">embeddings</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">reduced</span></div>
+
+
+<div class="viewcode-block" id="shuffle"><a class="viewcode-back" href="../usage.html#clustering.shuffle">[docs]</a><span class="k">def</span> <span class="nf">shuffle</span><span class="p">(</span><span class="n">df</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Shuffles the data by each column or row for a pandas dataframe.</span>
+
+<span class="sd">    :param df: pandas dataframe shaped m*n</span>
+<span class="sd">    :type df: pd.DataFrame</span>
+<span class="sd">    :return: pandas dataframe shuffled.</span>
+<span class="sd">    :rtype: pd.DataFrame</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">df</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="n">frac</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">values</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="single_sample_t_test"><a class="viewcode-back" href="../usage.html#clustering.single_sample_t_test">[docs]</a><span class="k">def</span> <span class="nf">single_sample_t_test</span><span class="p">(</span><span class="n">sample</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">,</span>
+                         <span class="n">population_stat</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Run a simple t test on a sample to see if it is significantly different</span>
+<span class="sd">    from the population mean.</span>
+
+<span class="sd">    :param sample: numpy array of floats.</span>
+<span class="sd">    :type sample: np.array</span>
+<span class="sd">    :param population_stat: float for the population mean.</span>
+<span class="sd">    :type population_stat: float</span>
+<span class="sd">    :return: float for the t statistic.</span>
+<span class="sd">    :rtype: float</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="p">(</span><span class="n">sample</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span> <span class="o">-</span> <span class="n">population_stat</span><span class="p">)</span> <span class="o">/</span> \
+        <span class="p">(</span><span class="n">sample</span><span class="o">.</span><span class="n">std</span><span class="p">()</span><span class="o">/</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">sample</span><span class="p">)</span><span class="o">**</span><span class="mf">0.5</span><span class="p">))</span></div>
+
+
+<div class="viewcode-block" id="calc_perm_variance"><a class="viewcode-back" href="../usage.html#clustering.calc_perm_variance">[docs]</a><span class="k">def</span> <span class="nf">calc_perm_variance</span><span class="p">(</span><span class="n">pca</span><span class="p">,</span>
+                       <span class="n">embeddings_df</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span>
+                       <span class="n">n_simulations</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">5</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Calculates the variance explained for a PCA of the permuted</span>
+<span class="sd">    data.</span>
+
+<span class="sd">    :param pca: sklearn pca object</span>
+<span class="sd">    :param embeddings_df: a pandas dataframe of the embedding vectors (m*n).</span>
+<span class="sd">    :type embeddings_df: pd.DataFrame</span>
+<span class="sd">    :param n_simulations: integer for the number of permutations to run it on.</span>
+<span class="sd">    :type n_simulations: int</span>
+<span class="sd">    :return: list of lists as a pandas dataframe with the variance explained.</span>
+<span class="sd">    :rtype: pd.DataFrame</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">pca</span> <span class="o">=</span> <span class="n">PCA</span><span class="p">(</span><span class="n">svd_solver</span><span class="o">=</span><span class="s1">&#39;full&#39;</span><span class="p">)</span>
+    <span class="n">with_perm_var</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">simulations</span> <span class="o">=</span> <span class="n">n_simulations</span>
+    <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">simulations</span><span class="p">):</span>
+        <span class="n">pca</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">shuffle</span><span class="p">(</span><span class="n">embeddings_df</span><span class="p">))</span>
+        <span class="n">with_perm_var</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pca</span><span class="o">.</span><span class="n">explained_variance_ratio_</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">with_perm_var</span><span class="p">)</span><span class="o">.</span><span class="n">transpose</span><span class="p">()</span></div>
+
+
+<div class="viewcode-block" id="get_optimal_n_components"><a class="viewcode-back" href="../usage.html#clustering.get_optimal_n_components">[docs]</a><span class="k">def</span> <span class="nf">get_optimal_n_components</span><span class="p">(</span><span class="n">embeddings</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">]],</span>
+                             <span class="n">n_simulations</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">5</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Calculates the optimal number of principal components to</span>
+<span class="sd">    keep in a dimension reduction situation. It calculates a</span>
+<span class="sd">    &#39;noise&#39; threshold by permuting the variables to remove any correlations.</span>
+<span class="sd">    Once that has been done, you calculate the variance explained by</span>
+<span class="sd">    the principal components of the permuted data.</span>
+
+<span class="sd">    I then run a t test to find which principal components are significantly</span>
+<span class="sd">    different from the baseline noise.</span>
+
+<span class="sd">    :param embeddings: list of lists (m*n) of floats. where m is the</span>
+<span class="sd">                       number of vectors, and n the number of variables</span>
+<span class="sd">                       in each vector.</span>
+<span class="sd">    :type embeddings: List[List[float]]</span>
+<span class="sd">    :param n_simulations: the number of permulations to get a distribution</span>
+<span class="sd">                          of the noise.</span>
+<span class="sd">    :type n_simulations: int</span>
+<span class="sd">    :return: integer for the optimal number of principal components.</span>
+<span class="sd">    :rtype: int</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">embeddings_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">embeddings</span><span class="p">)</span>
+    <span class="n">pca</span> <span class="o">=</span> <span class="n">PCA</span><span class="p">(</span><span class="n">svd_solver</span><span class="o">=</span><span class="s1">&#39;full&#39;</span><span class="p">)</span>
+    <span class="n">pca</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">embeddings</span><span class="p">)</span>
+    <span class="n">without_permutation_variance</span> <span class="o">=</span> <span class="n">pca</span><span class="o">.</span><span class="n">explained_variance_ratio_</span>
+    <span class="n">with_perm_var_df</span> <span class="o">=</span> <span class="n">calc_perm_variance</span><span class="p">(</span><span class="n">pca</span><span class="p">,</span> <span class="n">embeddings_df</span><span class="p">,</span> <span class="n">n_simulations</span><span class="p">)</span>
+    <span class="n">pvalues</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">component</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">without_permutation_variance</span><span class="p">)):</span>
+        <span class="n">degrees_freedom</span> <span class="o">=</span> <span class="n">n_simulations</span> <span class="o">-</span> <span class="mi">1</span>  <span class="c1"># n -1</span>
+        <span class="n">t_stat</span> <span class="o">=</span> <span class="n">single_sample_t_test</span><span class="p">(</span><span class="n">with_perm_var_df</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">component</span><span class="p">],</span>
+                                      <span class="n">without_permutation_variance</span><span class="p">[</span><span class="n">component</span><span class="p">])</span>
+        <span class="n">p</span> <span class="o">=</span> <span class="n">t</span><span class="o">.</span><span class="n">cdf</span><span class="p">(</span><span class="n">t_stat</span><span class="p">,</span> <span class="n">df</span><span class="o">=</span><span class="n">degrees_freedom</span><span class="p">)</span>
+        <span class="n">pvalues</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">p</span> <span class="o">&gt;</span> <span class="mf">0.05</span><span class="p">:</span>
+            <span class="k">break</span>
+    <span class="n">res</span> <span class="o">=</span> <span class="nb">next</span><span class="p">(</span><span class="n">x</span> <span class="k">for</span> <span class="n">x</span><span class="p">,</span> <span class="n">val</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">pvalues</span><span class="p">)</span> <span class="k">if</span> <span class="n">val</span> <span class="o">&gt;</span> <span class="mf">0.05</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">res</span></div>
+
+
+<div class="viewcode-block" id="kmeans_clustering"><a class="viewcode-back" href="../usage.html#clustering.kmeans_clustering">[docs]</a><span class="k">def</span> <span class="nf">kmeans_clustering</span><span class="p">(</span><span class="n">reduced</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">]],</span>
+                      <span class="n">num_clusters</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span>
+                      <span class="n">max_num_clusters</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">75</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This function calculates clusters based on the reduced vectors.</span>
+<span class="sd">    I also calculates the best number of clusters using the elbow method.</span>
+<span class="sd">    max_num_clusters is the maximum number of clusters to</span>
+<span class="sd">    calculate to find the optimal number.</span>
+
+<span class="sd">    :param reduced: list of lists (m*n) of floats. where m is the number of vectors,</span>
+<span class="sd">                    and n the number of variables in each vector.</span>
+<span class="sd">    :type reduced: List[List[float]]</span>
+<span class="sd">    :param max_num_clusters: integer for the upper bound number of clusters.</span>
+<span class="sd">    :type max_num_clusters: int</span>
+<span class="sd">    :return: list of cluster numbers for each element in reduced.</span>
+<span class="sd">    :rtype: List[int]</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">vectors</span> <span class="o">=</span> <span class="n">reduced</span>
+    <span class="k">if</span> <span class="n">num_clusters</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="n">kmeans</span> <span class="o">=</span> <span class="n">KMeans</span><span class="p">(</span><span class="n">n_clusters</span><span class="o">=</span><span class="n">num_clusters</span><span class="p">,</span>
+                        <span class="n">init</span><span class="o">=</span><span class="s1">&#39;k-means++&#39;</span><span class="p">,</span>
+                        <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">kmeans</span><span class="o">.</span><span class="n">fit_predict</span><span class="p">(</span><span class="n">vectors</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="c1"># Calculates the inertia (cluster dispersion)</span>
+        <span class="c1"># for each model with i number of clusters.</span>
+        <span class="c1"># Using k-means for the clustering.</span>
+        <span class="c1"># Intertia reference: https://stats.stackexchange.com</span>
+        <span class="c1">#                     /questions/78313/clustering-inertia-formula-in-scikit-learn</span>
+        <span class="n">inertia</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">max_num_clusters</span><span class="p">):</span>
+            <span class="n">kmeans</span> <span class="o">=</span> <span class="n">KMeans</span><span class="p">(</span><span class="n">n_clusters</span><span class="o">=</span><span class="n">i</span><span class="p">,</span> <span class="n">init</span><span class="o">=</span><span class="s1">&#39;k-means++&#39;</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
+            <span class="n">kmeans</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">vectors</span><span class="p">)</span>
+            <span class="n">inertia</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">kmeans</span><span class="o">.</span><span class="n">inertia_</span><span class="p">)</span>
+
+        <span class="c1"># Calculate the optimal number of clusters</span>
+        <span class="n">n_clusters</span> <span class="o">=</span> <span class="mi">2</span>
+        <span class="n">max_relative_strength</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">inertia</span><span class="p">)):</span>
+            <span class="n">d_0</span> <span class="o">=</span> <span class="n">inertia</span><span class="p">[</span><span class="n">n</span><span class="o">-</span><span class="mi">2</span><span class="p">]</span> <span class="o">-</span> <span class="n">inertia</span><span class="p">[</span><span class="n">n</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+            <span class="n">d_1</span> <span class="o">=</span> <span class="n">inertia</span><span class="p">[</span><span class="n">n</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">inertia</span><span class="p">[</span><span class="n">n</span><span class="p">]</span>
+            <span class="n">d2_1</span> <span class="o">=</span> <span class="n">d_0</span> <span class="o">-</span> <span class="n">d_1</span>
+            <span class="n">s_0</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">d2_1</span><span class="o">-</span><span class="n">d_1</span><span class="p">)</span>
+            <span class="n">relative_s</span> <span class="o">=</span> <span class="n">s_0</span> <span class="o">/</span> <span class="n">n</span>
+
+            <span class="k">if</span> <span class="n">relative_s</span> <span class="o">&gt;</span> <span class="n">max_relative_strength</span><span class="p">:</span>
+                <span class="n">n_clusters</span> <span class="o">=</span> <span class="n">n</span>
+                <span class="n">max_relative_strength</span> <span class="o">=</span> <span class="n">relative_s</span>
+
+        <span class="c1"># Fit the model with the optimal number of clusters.</span>
+        <span class="n">kmeans</span> <span class="o">=</span> <span class="n">KMeans</span><span class="p">(</span><span class="n">n_clusters</span><span class="o">=</span><span class="n">n_clusters</span><span class="p">,</span>
+                        <span class="n">init</span><span class="o">=</span><span class="s1">&#39;k-means++&#39;</span><span class="p">,</span>
+                        <span class="n">n_init</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+                        <span class="n">max_iter</span><span class="o">=</span><span class="mi">200</span><span class="p">)</span>
+        <span class="n">labels</span> <span class="o">=</span> <span class="n">kmeans</span><span class="o">.</span><span class="n">fit_predict</span><span class="p">(</span><span class="n">vectors</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">labels</span></div>
+
+
+<div class="viewcode-block" id="hdbscan_clustering"><a class="viewcode-back" href="../usage.html#clustering.hdbscan_clustering">[docs]</a><span class="k">def</span> <span class="nf">hdbscan_clustering</span><span class="p">(</span><span class="n">reduced</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">]],</span>
+                       <span class="n">min_cluster_size</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">4</span><span class="p">,</span>
+                       <span class="n">allow_single_cluster</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Uses HDBSCAN to calculate clusters from the reduced data.</span>
+
+<span class="sd">    :param reduced: list of lists (m*n) of floats. where m is the number of vectors,</span>
+<span class="sd">                    and n the number of variables in each vector.</span>
+<span class="sd">    :type reduced: List[List[float]]</span>
+<span class="sd">    :return: list of cluster numbers for each element in reduced.</span>
+<span class="sd">             (note that -1 is an outlier)</span>
+<span class="sd">    :rtype: List[int]</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">clusterer</span> <span class="o">=</span> <span class="n">hdbscan</span><span class="o">.</span><span class="n">HDBSCAN</span><span class="p">(</span><span class="n">min_cluster_size</span><span class="o">=</span><span class="n">min_cluster_size</span><span class="p">,</span>
+                                <span class="n">allow_single_cluster</span><span class="o">=</span><span class="n">allow_single_cluster</span><span class="p">)</span>
+    <span class="n">cluster_labels</span> <span class="o">=</span> <span class="n">clusterer</span><span class="o">.</span><span class="n">fit_predict</span><span class="p">(</span><span class="n">reduced</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">cluster_labels</span></div>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, Giovanni Stephens.</p>
+  </div>
+
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

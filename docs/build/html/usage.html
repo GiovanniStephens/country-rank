@@ -1,44 +1,87 @@
-
 <!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
-<html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
-
-    <title>Usage &#8212; Country Rank 1.0.0 documentation</title>
-    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="_static/alabaster.css" />
-    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
-    <script src="_static/jquery.js"></script>
-    <script src="_static/underscore.js"></script>
-    <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
-    <script src="_static/doctools.js"></script>
-    <script src="_static/sphinx_highlight.js"></script>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Usage &mdash; Country Rank 1.0.0 documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/sphinx_highlight.js"></script>
+    <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="API" href="api.html" />
-    <link rel="prev" title="Welcome to Country Rank’s documentation!" href="index.html" />
-   
-  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
-  
-  
-  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+    <link rel="prev" title="Welcome to Country Rank’s documentation!" href="index.html" /> 
+</head>
 
-  </head><body>
-  
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
 
-    <div class="document">
-      <div class="documentwrapper">
-        <div class="bodywrapper">
           
+          
+          <a href="index.html" class="icon icon-home">
+            Country Rank
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Usage</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#installation">Installation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#exploratory-data-analysis-eda">Exploratory Data analysis (EDA)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#scraping-the-data">Scraping the Data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#clustering">Clustering</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#estimate-cost-to-retire">Estimate Cost to Retire</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#purchasing-power-parity-ppp-conversion-rates">Purchasing Power Parity (PPP) Conversion Rates</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="api.html">API</a></li>
+</ul>
 
-          <div class="body" role="main">
-            
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Country Rank</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Usage</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
   <section id="usage">
-<h1>Usage<a class="headerlink" href="#usage" title="Permalink to this heading">¶</a></h1>
+<h1>Usage<a class="headerlink" href="#usage" title="Permalink to this heading"></a></h1>
 <section id="installation">
-<h2>Installation<a class="headerlink" href="#installation" title="Permalink to this heading">¶</a></h2>
+<h2>Installation<a class="headerlink" href="#installation" title="Permalink to this heading"></a></h2>
 <p>To use this code, you will need to clone the repository and install the dependencies:</p>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>git clone https://github.com/GiovanniStephens/country-rank.git
 <span class="gp">$ </span><span class="nb">cd</span> country-rank
@@ -47,499 +90,78 @@
 </div>
 </section>
 <section id="exploratory-data-analysis-eda">
-<h2>Exploratory Data analysis (EDA)<a class="headerlink" href="#exploratory-data-analysis-eda" title="Permalink to this heading">¶</a></h2>
+<h2>Exploratory Data analysis (EDA)<a class="headerlink" href="#exploratory-data-analysis-eda" title="Permalink to this heading"></a></h2>
 <p>To run a quick exploratory data analysis, you will need to run the following command:</p>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>python EDA.py
 </pre></div>
 </div>
 <p>This will print some basic statistics about the data, and will also generate a few plots in the <cite>visualisations</cite> directory.</p>
 </section>
+<section id="scraping-the-data">
+<h2>Scraping the Data<a class="headerlink" href="#scraping-the-data" title="Permalink to this heading"></a></h2>
+<p>Cost of living data is scraped off Numbeo.com. There are several functions to get
+the data from the website. The data is then cleaned and used to estimate a cost of
+living distribution using a Monte Carlo simulation. This way, one can get a percentile
+for the cost of living.</p>
+<p>I also scrape Numbeo.com indices to get pollution, health care, and crime data.</p>
+<p>Climate data is scraped from weatherbase.com.</p>
+<p>The main scraper module is used to scrape all the data from the above sources.</p>
+</section>
 <section id="clustering">
-<h2>Clustering<a class="headerlink" href="#clustering" title="Permalink to this heading">¶</a></h2>
-<p>This module is used to perform clustering on the country data. There are several utility functions to faciliated
-the automated clustering process. You can use principal component analysis (PCA) or UMAP to
+<h2>Clustering<a class="headerlink" href="#clustering" title="Permalink to this heading"></a></h2>
+<p>The clustering module is used to perform clustering on the country data. There are several utility functions to faciliated
+the automated clustering process. You can use principal component analysis (PCA) or
+Uniform Manifold Approximation and Projection (UMAP) to
 reduce the dimensionality of the data, and then use k-means or HDBSCAN to perform the clustering.</p>
 <p>There are also functions to programmatically determine how many principal components to
 use. This is done by calculating the variance of the data for each number of components, and
 then finding the point at which the variance begins to level off.</p>
 </section>
 <section id="estimate-cost-to-retire">
-<h2>Estimate Cost to Retire<a class="headerlink" href="#estimate-cost-to-retire" title="Permalink to this heading">¶</a></h2>
-<p>This module is used to estimate the cost to retire in a given country. It is calculated using a
-an estimated long-term purchasing power parity (PPP) change and a growing annuity to estimate</p>
-<dl class="py function">
-<dt class="sig sig-object py" id="estimate_cost_to_retire.estimate_cost_to_retire">
-<span class="sig-prename descclassname"><span class="pre">estimate_cost_to_retire.</span></span><span class="sig-name descname"><span class="pre">estimate_cost_to_retire</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">country</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">weekly_cost</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">r</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.06</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">68</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">moving_cost</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">8000</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">buffer_pa</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">10000</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#estimate_cost_to_retire.estimate_cost_to_retire" title="Permalink to this definition">¶</a></dt>
-<dd><p>Estimate the cost to retire in a country.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Country<span class="colon">:</span></dt>
-<dd class="field-odd"><p>The country to estimate the cost to retire in.</p>
-</dd>
-<dt class="field-even">Weekly_cost<span class="colon">:</span></dt>
-<dd class="field-even"><p>The weekly cost of living in the country.</p>
-</dd>
-<dt class="field-odd">R<span class="colon">:</span></dt>
-<dd class="field-odd"><p>The rate of return on investments.</p>
-</dd>
-<dt class="field-even">N<span class="colon">:</span></dt>
-<dd class="field-even"><p>The number of years to retire.</p>
-</dd>
-<dt class="field-odd">Moving_cost<span class="colon">:</span></dt>
-<dd class="field-odd"><p>The cost of moving to a new country.</p>
-</dd>
-<dt class="field-even">Buffer_pa<span class="colon">:</span></dt>
-<dd class="field-even"><p>The buffer cost in the annual cost of living.</p>
-</dd>
-<dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>The cost to retire in the country.</p>
-</dd>
-</dl>
-</dd></dl>
-
+<h2>Estimate Cost to Retire<a class="headerlink" href="#estimate-cost-to-retire" title="Permalink to this heading"></a></h2>
+<p>These two estimate module are used to estimate the cost to retire in a given country. It is calculated using a
+an estimated long-term purchasing power parity (PPP) change and a growing annuity to estimate.</p>
 <p>The new estimate cost to retire is a step-wise simulation assuming a starting
 capital with an assumed cost of living, level of inflation, and time to death.
 Using the S&amp;P500 data, it goes month by month simulating a net worth until the end
 of the period. It ultimately prints the probability of success, which is the liklihood
 of not ending destitute.</p>
-<dl class="py function">
-<dt class="sig sig-object py" id="new_estimate_cost_to_retire.main">
-<span class="sig-prename descclassname"><span class="pre">new_estimate_cost_to_retire.</span></span><span class="sig-name descname"><span class="pre">main</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#new_estimate_cost_to_retire.main" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-</section>
-<section id="scraping-the-data">
-<h2>Scraping the data<a class="headerlink" href="#scraping-the-data" title="Permalink to this heading">¶</a></h2>
-<p>Cost of living is scraped off Numbeo.com. There are several functions to get
-the data from the website. The data is then cleaned and used to estimate a cost of
-living distribution using a Monte Carlo simulation.</p>
-<dl class="py function">
-<dt class="sig sig-object py" id="scrape_cost_of_living.get_cost_of_living_table">
-<span class="sig-prename descclassname"><span class="pre">scrape_cost_of_living.</span></span><span class="sig-name descname"><span class="pre">get_cost_of_living_table</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">place_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">country</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#scrape_cost_of_living.get_cost_of_living_table" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get the cost of living table for a place.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Place_name<span class="colon">:</span></dt>
-<dd class="field-odd"><p>name of the place.</p>
-</dd>
-<dt class="field-even">Country<span class="colon">:</span></dt>
-<dd class="field-even"><p>whether the place is a country or city.</p>
-</dd>
-<dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>cost of living table.</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="scrape_cost_of_living.clean_numbeo_table">
-<span class="sig-prename descclassname"><span class="pre">scrape_cost_of_living.</span></span><span class="sig-name descname"><span class="pre">clean_numbeo_table</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">numbeo_df</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">DataFrame</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">DataFrame</span></span></span><a class="headerlink" href="#scrape_cost_of_living.clean_numbeo_table" title="Permalink to this definition">¶</a></dt>
-<dd><p>Cleans the default Numbeo cost of living table.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Numbeo_df<span class="colon">:</span></dt>
-<dd class="field-odd"><p>pandas dataframe</p>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>pandas dataframe that has been cleaned up.</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="scrape_cost_of_living.check_enough_data">
-<span class="sig-prename descclassname"><span class="pre">scrape_cost_of_living.</span></span><span class="sig-name descname"><span class="pre">check_enough_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">numbeo_df</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">DataFrame</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span><a class="headerlink" href="#scrape_cost_of_living.check_enough_data" title="Permalink to this definition">¶</a></dt>
-<dd><p>Checks that the number of data points we
-have is sufficient.
-I check that I have enough data to be able
-to use it to estimate cost of living.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Numbeo_df<span class="colon">:</span></dt>
-<dd class="field-odd"><p>pandas dataframe.</p>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>proportion of filled cells as a proportion of
-number of total categories.</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="scrape_cost_of_living.get_country_cost_of_living">
-<span class="sig-prename descclassname"><span class="pre">scrape_cost_of_living.</span></span><span class="sig-name descname"><span class="pre">get_country_cost_of_living</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">country</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">percentile</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">90</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span><a class="headerlink" href="#scrape_cost_of_living.get_country_cost_of_living" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get the cost of living for a country.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Country<span class="colon">:</span></dt>
-<dd class="field-odd"><p>country to get the cost of living for.</p>
-</dd>
-<dt class="field-even">Percentile<span class="colon">:</span></dt>
-<dd class="field-even"><p>percentile to use.</p>
-</dd>
-<dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>cost of living for the country.</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="scrape_cost_of_living.get_city_cost_of_living">
-<span class="sig-prename descclassname"><span class="pre">scrape_cost_of_living.</span></span><span class="sig-name descname"><span class="pre">get_city_cost_of_living</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">city</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">percentile</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">90</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span><a class="headerlink" href="#scrape_cost_of_living.get_city_cost_of_living" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get the cost of living for a city.</p>
-<dl class="field-list simple">
-<dt class="field-odd">City<span class="colon">:</span></dt>
-<dd class="field-odd"><p>city to get the cost of living for.</p>
-</dd>
-<dt class="field-even">Percentile<span class="colon">:</span></dt>
-<dd class="field-even"><p>percentile to use.</p>
-</dd>
-<dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>cost of living for the city.</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="scrape_cost_of_living.get_numbeo_countries">
-<span class="sig-prename descclassname"><span class="pre">scrape_cost_of_living.</span></span><span class="sig-name descname"><span class="pre">get_numbeo_countries</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span></span></span><a class="headerlink" href="#scrape_cost_of_living.get_numbeo_countries" title="Permalink to this definition">¶</a></dt>
-<dd><p>This function returns a list of countries
-that have been scraped from Numbeo.
-The countries get standardized using the pycountry library.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>list of countries.</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="scrape_cost_of_living.main">
-<span class="sig-prename descclassname"><span class="pre">scrape_cost_of_living.</span></span><span class="sig-name descname"><span class="pre">main</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#scrape_cost_of_living.main" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<p>I also scrape Numbeo.com indices to get pollution, health care, and crime data.</p>
-<dl class="py function">
-<dt class="sig sig-object py" id="scrape_numbeo_indices.scrape_index">
-<span class="sig-prename descclassname"><span class="pre">scrape_numbeo_indices.</span></span><span class="sig-name descname"><span class="pre">scrape_index</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">url</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'https://www.numbeo.com/pollution/rankings_by_country.jsp'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">columns</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">tuple</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">('Country',</span> <span class="pre">'Pollution')</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#scrape_numbeo_indices.scrape_index" title="Permalink to this definition">¶</a></dt>
-<dd><p>Scrapes the pollution index from the numbeo website.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Url<span class="colon">:</span></dt>
-<dd class="field-odd"><p>url to scrape.</p>
-</dd>
-<dt class="field-even">Columns<span class="colon">:</span></dt>
-<dd class="field-even"><p>columns to scrape.</p>
-</dd>
-<dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>pandas dataframe.</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="scrape_numbeo_indices.to_pandas_df">
-<span class="sig-prename descclassname"><span class="pre">scrape_numbeo_indices.</span></span><span class="sig-name descname"><span class="pre">to_pandas_df</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">rows</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">DataFrame</span></span></span><a class="headerlink" href="#scrape_numbeo_indices.to_pandas_df" title="Permalink to this definition">¶</a></dt>
-<dd><p>Converts a list of HTML rows to a pandas dataframe.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Rows<span class="colon">:</span></dt>
-<dd class="field-odd"><p>list of rows</p>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>pandas dataframe</p>
-</dd>
-</dl>
-</dd></dl>
-
-<p>Climate data is scraped from weatherbase.com.</p>
-<dl class="py function">
-<dt class="sig sig-object py" id="scrape_temperatures.f_to_c">
-<span class="sig-prename descclassname"><span class="pre">scrape_temperatures.</span></span><span class="sig-name descname"><span class="pre">f_to_c</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span><a class="headerlink" href="#scrape_temperatures.f_to_c" title="Permalink to this definition">¶</a></dt>
-<dd><p>Converts Fahrenheit to Celsius.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Value<span class="colon">:</span></dt>
-<dd class="field-odd"><p>float of the value to convert.</p>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>Celisus value.</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="scrape_temperatures.in_to_mm">
-<span class="sig-prename descclassname"><span class="pre">scrape_temperatures.</span></span><span class="sig-name descname"><span class="pre">in_to_mm</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span><a class="headerlink" href="#scrape_temperatures.in_to_mm" title="Permalink to this definition">¶</a></dt>
-<dd><p>Converts inches to mm.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Value<span class="colon">:</span></dt>
-<dd class="field-odd"><p>float of the value to convert.</p>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>mm value.</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="scrape_temperatures.check_float">
-<span class="sig-prename descclassname"><span class="pre">scrape_temperatures.</span></span><span class="sig-name descname"><span class="pre">check_float</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">potential_float</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#scrape_temperatures.check_float" title="Permalink to this definition">¶</a></dt>
-<dd><p>Checks if a string is indeed a float.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Potential_float<span class="colon">:</span></dt>
-<dd class="field-odd"><p>string to check.</p>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>True if the string is a float, False otherwise.</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="scrape_temperatures.get_stats">
-<span class="sig-prename descclassname"><span class="pre">scrape_temperatures.</span></span><span class="sig-name descname"><span class="pre">get_stats</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">table</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">DataFrame</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">dict</span></span></span><a class="headerlink" href="#scrape_temperatures.get_stats" title="Permalink to this definition">¶</a></dt>
-<dd><p>Aggregates the climate table data to get the maxes and mins and avgs.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Table<span class="colon">:</span></dt>
-<dd class="field-odd"><p>pandas dataframe of the table to aggregate.</p>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>dictionary of the maxes and mins and avgs.</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="scrape_temperatures.get_country_stats">
-<span class="sig-prename descclassname"><span class="pre">scrape_temperatures.</span></span><span class="sig-name descname"><span class="pre">get_country_stats</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">soups</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">dict</span></span></span><a class="headerlink" href="#scrape_temperatures.get_country_stats" title="Permalink to this definition">¶</a></dt>
-<dd><p>For every country, get the stats on its climate.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Soups<span class="colon">:</span></dt>
-<dd class="field-odd"><p>list of the soups of the pages.</p>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>dictionary of the stats.</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="scrape_temperatures.main">
-<span class="sig-prename descclassname"><span class="pre">scrape_temperatures.</span></span><span class="sig-name descname"><span class="pre">main</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#scrape_temperatures.main" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<p>The main scraper module is used to scrape all the data from the above sources.</p>
-<dl class="py function">
-<dt class="sig sig-object py" id="scrape_urls.get_table">
-<span class="sig-prename descclassname"><span class="pre">scrape_urls.</span></span><span class="sig-name descname"><span class="pre">get_table</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">soup</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">BeautifulSoup</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">table_num</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">row_start</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">row_end</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">5</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">DataFrame</span></span></span><a class="headerlink" href="#scrape_urls.get_table" title="Permalink to this definition">¶</a></dt>
-<dd><p>Pulls out a table from a beautifulsoup html.</p>
-<p>Format is: Row labels with ‘Average’ in the name.
-The table returns just the rows 1-4 inclusive.
-This was for the type of tables coming from the climate page.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Soup<span class="colon">:</span></dt>
-<dd class="field-odd"><p>BeautifulSoup object.</p>
-</dd>
-<dt class="field-even">Table_num<span class="colon">:</span></dt>
-<dd class="field-even"><p>The table number to pull out.</p>
-</dd>
-<dt class="field-odd">Row_start<span class="colon">:</span></dt>
-<dd class="field-odd"><p>The row to start pulling from.</p>
-</dd>
-<dt class="field-even">Row_end<span class="colon">:</span></dt>
-<dd class="field-even"><p>The row to end pulling from.</p>
-</dd>
-<dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>a pandas dataframe of the table.</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="scrape_urls.find_html_class">
-<span class="sig-prename descclassname"><span class="pre">scrape_urls.</span></span><span class="sig-name descname"><span class="pre">find_html_class</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">soup</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">BeautifulSoup</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">class_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">BeautifulSoup</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#scrape_urls.find_html_class" title="Permalink to this definition">¶</a></dt>
-<dd><p>Finds all elements with a given class name.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Soup<span class="colon">:</span></dt>
-<dd class="field-odd"><p>BeautifulSoup object.</p>
-</dd>
-<dt class="field-even">Class_name<span class="colon">:</span></dt>
-<dd class="field-even"><p>The class name to find.</p>
-</dd>
-<dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>A list of elements with the given class name.</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="scrape_urls.find_in_html">
-<span class="sig-prename descclassname"><span class="pre">scrape_urls.</span></span><span class="sig-name descname"><span class="pre">find_in_html</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">soup</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">BeautifulSoup</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">element</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">BeautifulSoup</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#scrape_urls.find_in_html" title="Permalink to this definition">¶</a></dt>
-<dd><p>Finds an element in a BeautifulSoup object.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Soup<span class="colon">:</span></dt>
-<dd class="field-odd"><p>BeautifulSoup object.</p>
-</dd>
-<dt class="field-even">Element<span class="colon">:</span></dt>
-<dd class="field-even"><p>The element to find.</p>
-</dd>
-<dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>The element if found, else None.</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="scrape_urls.find_id_in_html">
-<span class="sig-prename descclassname"><span class="pre">scrape_urls.</span></span><span class="sig-name descname"><span class="pre">find_id_in_html</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">soup</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">BeautifulSoup</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">BeautifulSoup</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#scrape_urls.find_id_in_html" title="Permalink to this definition">¶</a></dt>
-<dd><p>Finds an element with a given id in a BeautifulSoup object.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Soup<span class="colon">:</span></dt>
-<dd class="field-odd"><p>BeautifulSoup object.</p>
-</dd>
-<dt class="field-even">Id<span class="colon">:</span></dt>
-<dd class="field-even"><p>The id to find.</p>
-</dd>
-<dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>The element if found, else None.</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="scrape_urls.proxy_generator">
-<span class="sig-prename descclassname"><span class="pre">scrape_urls.</span></span><span class="sig-name descname"><span class="pre">proxy_generator</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">dict</span></span></span><a class="headerlink" href="#scrape_urls.proxy_generator" title="Permalink to this definition">¶</a></dt>
-<dd><p>This function scrapes a list of a free proxies from:</p>
-<p><a class="reference external" href="https://sslproxies.org/">https://sslproxies.org/</a></p>
-<p>It then returns a random proxy from the list.</p>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="scrape_urls.scrape_page">
-<span class="sig-prename descclassname"><span class="pre">scrape_urls.</span></span><span class="sig-name descname"><span class="pre">scrape_page</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">url</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">spoof</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">BeautifulSoup</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#scrape_urls.scrape_page" title="Permalink to this definition">¶</a></dt>
-<dd><p>This function tries to get page information by
-spoofing the header and trying a random proxy.
-If successful, it returns the soup of the page.</p>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="scrape_urls.multi_thread_func">
-<span class="sig-prename descclassname"><span class="pre">scrape_urls.</span></span><span class="sig-name descname"><span class="pre">multi_thread_func</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">func</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Callable</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">values</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">threads</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">126</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span></span></span><a class="headerlink" href="#scrape_urls.multi_thread_func" title="Permalink to this definition">¶</a></dt>
-<dd><p>This function takes a function and a list of values.
-It then runs the function on each value in the list
-using a thread pool.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Func<span class="colon">:</span></dt>
-<dd class="field-odd"><p>The function to run.</p>
-</dd>
-<dt class="field-even">Values<span class="colon">:</span></dt>
-<dd class="field-even"><p>The values to run the function on.</p>
-</dd>
-<dt class="field-odd">Threads<span class="colon">:</span></dt>
-<dd class="field-odd"><p>The number of threads to use.</p>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>A list of the results of the function.</p>
-</dd>
-</dl>
-</dd></dl>
-
 </section>
 <section id="purchasing-power-parity-ppp-conversion-rates">
-<h2>Purchasing Power Parity (PPP) Conversion Rates<a class="headerlink" href="#purchasing-power-parity-ppp-conversion-rates" title="Permalink to this heading">¶</a></h2>
+<h2>Purchasing Power Parity (PPP) Conversion Rates<a class="headerlink" href="#purchasing-power-parity-ppp-conversion-rates" title="Permalink to this heading"></a></h2>
 <p>Purchasing power parity conversion rates are taken from the worldbank.org website.
 The conversion rates are forecast to get a long-term view on how relative purchasing
 poewr will chanve over time. The changes are relative to New Zealand, where I live.
 In essence, it is implicitly assumed that most of my investments will be denominated
 in NZD and converted as needed (if I retire internationally).</p>
-<dl class="py function">
-<dt class="sig sig-object py" id="predict_PPP.estimate_PPP_conversion_rate_long_term_change">
-<span class="sig-prename descclassname"><span class="pre">predict_PPP.</span></span><span class="sig-name descname"><span class="pre">estimate_PPP_conversion_rate_long_term_change</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">country</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span><a class="headerlink" href="#predict_PPP.estimate_PPP_conversion_rate_long_term_change" title="Permalink to this definition">¶</a></dt>
-<dd><p>Estimate the long term change in the PPP conversion rate of a country.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>country</strong> – The country to estimate the long term
-change in the PPP conversion rate of.</p>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>The long term change in the PPP conversion rate of the country.</p>
-</dd>
-</dl>
-</dd></dl>
-
 </section>
 </section>
 
 
+           </div>
           </div>
-          
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="index.html" class="btn btn-neutral float-left" title="Welcome to Country Rank’s documentation!" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, Giovanni Stephens.</p>
+  </div>
+
+   
+
+</footer>
         </div>
       </div>
-      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
-        <div class="sphinxsidebarwrapper">
-<h3><a href="index.html">Table of Contents</a></h3>
-<ul class="current">
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Usage</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#installation">Installation</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#exploratory-data-analysis-eda">Exploratory Data analysis (EDA)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#clustering">Clustering</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#estimate-cost-to-retire">Estimate Cost to Retire</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#estimate_cost_to_retire.estimate_cost_to_retire"><code class="docutils literal notranslate"><span class="pre">estimate_cost_to_retire</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#new_estimate_cost_to_retire.main"><code class="docutils literal notranslate"><span class="pre">main</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="#scraping-the-data">Scraping the data</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#scrape_cost_of_living.get_cost_of_living_table"><code class="docutils literal notranslate"><span class="pre">get_cost_of_living_table</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#scrape_cost_of_living.clean_numbeo_table"><code class="docutils literal notranslate"><span class="pre">clean_numbeo_table</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#scrape_cost_of_living.check_enough_data"><code class="docutils literal notranslate"><span class="pre">check_enough_data</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#scrape_cost_of_living.get_country_cost_of_living"><code class="docutils literal notranslate"><span class="pre">get_country_cost_of_living</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#scrape_cost_of_living.get_city_cost_of_living"><code class="docutils literal notranslate"><span class="pre">get_city_cost_of_living</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#scrape_cost_of_living.get_numbeo_countries"><code class="docutils literal notranslate"><span class="pre">get_numbeo_countries</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#scrape_cost_of_living.main"><code class="docutils literal notranslate"><span class="pre">main</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#scrape_numbeo_indices.scrape_index"><code class="docutils literal notranslate"><span class="pre">scrape_index</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#scrape_numbeo_indices.to_pandas_df"><code class="docutils literal notranslate"><span class="pre">to_pandas_df</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#scrape_temperatures.f_to_c"><code class="docutils literal notranslate"><span class="pre">f_to_c</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#scrape_temperatures.in_to_mm"><code class="docutils literal notranslate"><span class="pre">in_to_mm</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#scrape_temperatures.check_float"><code class="docutils literal notranslate"><span class="pre">check_float</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#scrape_temperatures.get_stats"><code class="docutils literal notranslate"><span class="pre">get_stats</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#scrape_temperatures.get_country_stats"><code class="docutils literal notranslate"><span class="pre">get_country_stats</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#scrape_temperatures.main"><code class="docutils literal notranslate"><span class="pre">main</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#scrape_urls.get_table"><code class="docutils literal notranslate"><span class="pre">get_table</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#scrape_urls.find_html_class"><code class="docutils literal notranslate"><span class="pre">find_html_class</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#scrape_urls.find_in_html"><code class="docutils literal notranslate"><span class="pre">find_in_html</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#scrape_urls.find_id_in_html"><code class="docutils literal notranslate"><span class="pre">find_id_in_html</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#scrape_urls.proxy_generator"><code class="docutils literal notranslate"><span class="pre">proxy_generator</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#scrape_urls.scrape_page"><code class="docutils literal notranslate"><span class="pre">scrape_page</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#scrape_urls.multi_thread_func"><code class="docutils literal notranslate"><span class="pre">multi_thread_func</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="#purchasing-power-parity-ppp-conversion-rates">Purchasing Power Parity (PPP) Conversion Rates</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#predict_PPP.estimate_PPP_conversion_rate_long_term_change"><code class="docutils literal notranslate"><span class="pre">estimate_PPP_conversion_rate_long_term_change</span></code></a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="api.html">API</a></li>
-</ul>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
 
-<div id="searchbox" style="display: none" role="search">
-  <h3 id="searchlabel">Quick search</h3>
-    <div class="searchformwrapper">
-    <form class="search" action="search.html" method="get">
-      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
-      <input type="submit" value="Go" />
-    </form>
-    </div>
-</div>
-<script>document.getElementById('searchbox').style.display = "block"</script>
-        </div>
-      </div>
-      <div class="clearer"></div>
-    </div>
-    <div class="footer">
-      &copy;2023, Giovanni Stephens.
-      
-      |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 5.3.0</a>
-      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.13</a>
-      
-    </div>
-
-    
-
-    
-  </body>
+</body>
 </html>
