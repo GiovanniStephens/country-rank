@@ -1,10 +1,10 @@
-# import scrape_temperatures
-# import scrape_cost_of_living
-
 from typing import List
 
 import pandas as pd
 import pycountry
+
+import scrape_cost_of_living
+import scrape_temperatures
 
 data = [
     'Climate',
@@ -19,8 +19,8 @@ data = [
 
 
 def main():
-    # scrape_temperatures.main()
-    # scrape_cost_of_living.main()
+    scrape_temperatures.main()
+    scrape_cost_of_living.main()
     dfs = import_data()
     dfs[2] = clean_pop_density(dfs[2])
     dfs = standardise_country_names(dfs)
