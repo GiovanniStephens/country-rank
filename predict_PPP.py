@@ -1,5 +1,5 @@
-import pmdarima as pmd
 import pandas as pd
+import pmdarima as pmd
 import pycountry
 
 # Import the data

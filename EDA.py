@@ -1,12 +1,13 @@
+import hdbscan
+import matplotlib.pyplot as plt
 import pandas as pd
 import seaborn as sns
-import matplotlib.pyplot as plt
-import hdbscan
+from sklearn.impute import KNNImputer
 # from sklearn.manifold import TSNE
 from sklearn.preprocessing import StandardScaler
-from sklearn.impute import KNNImputer
-import estimate_cost_to_retire as retire
+
 import clustering
+import estimate_cost_to_retire as retire
 
 df = pd.read_csv('data/All Data by Country.csv')
 

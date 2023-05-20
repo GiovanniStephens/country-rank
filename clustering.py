@@ -1,14 +1,14 @@
-from sklearn.decomposition import PCA
-import umap.umap_ as umap
 import hdbscan
-from sklearn.cluster import KMeans #For Kmeans clustering
-from sklearn import cluster
-from scipy.stats import t
 import numpy as np
 import pandas as pd
+import umap.umap_ as umap
+from scipy.stats import t
+from sklearn import cluster
+from sklearn.cluster import KMeans  # For Kmeans clustering
+from sklearn.decomposition import PCA
 
 
-def reduce_dimensions_pca(embeddings, dimensions=80):
+def reduce_dimensions_pca(embeddings: , dimensions=80):
     """ 
     Reduces the number of dimensions using PCA. 
 

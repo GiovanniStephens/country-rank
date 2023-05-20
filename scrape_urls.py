@@ -1,9 +1,10 @@
+from multiprocessing.pool import ThreadPool
+from random import choice
+
+import pandas as pd
 import requests
 from bs4 import BeautifulSoup
-import pandas as pd
 from fake_useragent import UserAgent
-from random import choice
-from multiprocessing.pool import ThreadPool
 
 
 def get_table(soup, table_num=2, row_start=1, row_end=5):

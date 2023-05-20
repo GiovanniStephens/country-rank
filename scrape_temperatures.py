@@ -1,5 +1,6 @@
-import scrape_urls
 import pandas as pd
+
+import scrape_urls
 
 url = 'https://www.weatherbase.com/weather/countryall.php3'
 base_url = 'https://www.weatherbase.com'

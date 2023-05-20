@@ -1,5 +1,6 @@
-import scrape_urls
 import pandas as pd
+
+import scrape_urls
 
 
 def to_pandas_df(rows):
