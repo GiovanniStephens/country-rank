@@ -42,7 +42,6 @@
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul>
 <li class="toctree-l1"><a class="reference internal" href="../usage.html">Usage</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../scrapers.html">Scrapers</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../api.html">API</a></li>
 </ul>
 
@@ -95,13 +94,15 @@
 <span class="n">filtered_conversion_rates</span> <span class="o">=</span> <span class="n">conversion_rates</span><span class="p">[</span><span class="n">conversion_rates</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="mi">20</span><span class="p">]</span>
 
 
-<div class="viewcode-block" id="estimate_PPP_conversion_rate_long_term_change"><a class="viewcode-back" href="../usage.html#predict_PPP.estimate_PPP_conversion_rate_long_term_change">[docs]</a><span class="k">def</span> <span class="nf">estimate_PPP_conversion_rate_long_term_change</span><span class="p">(</span><span class="n">country</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<div class="viewcode-block" id="estimate_PPP_conversion_rate_long_term_change"><a class="viewcode-back" href="../api.html#predict_PPP.estimate_PPP_conversion_rate_long_term_change">[docs]</a><span class="k">def</span> <span class="nf">estimate_PPP_conversion_rate_long_term_change</span><span class="p">(</span><span class="n">country</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Estimate the long term change in the PPP conversion rate of a country.</span>
 
 <span class="sd">    :param country: The country to estimate the long term</span>
 <span class="sd">                    change in the PPP conversion rate of.</span>
+<span class="sd">    :type country: str</span>
 <span class="sd">    :return: The long term change in the PPP conversion rate of the country.</span>
+<span class="sd">    :rtype: float</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="c1"># Try to standardize the country name.</span>
     <span class="k">try</span><span class="p">:</span>

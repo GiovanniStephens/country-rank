@@ -42,7 +42,6 @@
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul>
 <li class="toctree-l1"><a class="reference internal" href="../usage.html">Usage</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../scrapers.html">Scrapers</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../api.html">API</a></li>
 </ul>
 
@@ -88,8 +87,10 @@
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Cleans the default Numbeo cost of living table.</span>
 
-<span class="sd">    :numbeo_df: pandas dataframe</span>
+<span class="sd">    :param numbeo_df: pandas dataframe</span>
+<span class="sd">    :type numbeo_df: pd.DataFrame</span>
 <span class="sd">    :return: pandas dataframe that has been cleaned up.</span>
+<span class="sd">    :rtype: pd.DataFrame</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="c1"># Promote first column to index</span>
     <span class="n">numbeo_df</span> <span class="o">=</span> <span class="n">numbeo_df</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="n">numbeo_df</span><span class="o">.</span><span class="n">columns</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
@@ -129,10 +130,14 @@
 <span class="sd">    triangular distribution if there is a lower and upper bound.</span>
 <span class="sd">    If there isn&#39;t one though, I simply take the mode.</span>
 
-<span class="sd">    :numbeo_table: pandas dataframe with the cost of living.</span>
-<span class="sd">    :simulations: number of simulations to run.</span>
-<span class="sd">    :percentile: percentile to use.</span>
+<span class="sd">    :param numbeo_table: pandas dataframe with the cost of living.</span>
+<span class="sd">    :type numbeo_table: pd.DataFrame</span>
+<span class="sd">    :param simulations: number of simulations to run.</span>
+<span class="sd">    :type simulations: int</span>
+<span class="sd">    :param percentile: percentile to use.</span>
+<span class="sd">    :type percentile: int</span>
 <span class="sd">    :return: cost of living in the input country.</span>
+<span class="sd">    :rtype: float</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="n">place_name</span> <span class="ow">in</span> <span class="n">simulated_cost_of_living_dict</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
         <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">percentile</span><span class="p">(</span><span class="n">simulated_cost_of_living_dict</span><span class="p">[</span><span class="n">place_name</span><span class="p">],</span>
@@ -176,9 +181,11 @@
 <span class="sd">    I check that I have enough data to be able</span>
 <span class="sd">    to use it to estimate cost of living.</span>
 
-<span class="sd">    :numbeo_df: pandas dataframe.</span>
+<span class="sd">    :param numbeo_df: pandas dataframe.</span>
+<span class="sd">    :type numbeo_df: pd.DataFrame</span>
 <span class="sd">    :return: proportion of filled cells as a proportion of</span>
 <span class="sd">             number of total categories.</span>
+<span class="sd">    :rtype: float</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">numbeo_df</span><span class="p">)</span> <span class="o">==</span> <span class="nb">list</span><span class="p">:</span>
         <span class="k">return</span> <span class="mi">0</span>
@@ -197,6 +204,7 @@
 <span class="sd">    The countries get standardized using the pycountry library.</span>
 
 <span class="sd">    :return: list of countries.</span>
+<span class="sd">    :rtype: list</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">soup</span> <span class="o">=</span> <span class="n">scrape_urls</span><span class="o">.</span><span class="n">scrape_page</span><span class="p">(</span><span class="s1">&#39;https://www.numbeo.com/cost-of-living&#39;</span><span class="p">)</span>
     <span class="n">table</span> <span class="o">=</span> <span class="n">soup</span><span class="o">.</span><span class="n">find_all</span><span class="p">(</span><span class="n">class_</span><span class="o">=</span><span class="s1">&#39;related_links&#39;</span><span class="p">)</span>
@@ -250,9 +258,12 @@
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Get the cost of living table for a place.</span>
 
-<span class="sd">    :place_name: name of the place.</span>
-<span class="sd">    :country: whether the place is a country or city.</span>
+<span class="sd">    :param place_name: name of the place.</span>
+<span class="sd">    :type place_name: str</span>
+<span class="sd">    :param country: whether the place is a country or city.</span>
+<span class="sd">    :type country: bool</span>
 <span class="sd">    :return: cost of living table.</span>
+<span class="sd">    :rtype: pd.DataFrame</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="n">place_name</span> <span class="ow">in</span> <span class="n">cost_of_living_tables_dict</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
         <span class="k">return</span> <span class="n">cost_of_living_tables_dict</span><span class="p">[</span><span class="n">place_name</span><span class="p">]</span>
@@ -275,9 +286,12 @@
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Get the cost of living for a city.</span>
 
-<span class="sd">    :city: city to get the cost of living for.</span>
-<span class="sd">    :percentile: percentile to use.</span>
+<span class="sd">    :param city: city to get the cost of living for.</span>
+<span class="sd">    :type city: str</span>
+<span class="sd">    :param percentile: percentile to use.</span>
+<span class="sd">    :type percentile: int</span>
 <span class="sd">    :return: cost of living for the city.</span>
+<span class="sd">    :rtype: float</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">cleaned_table</span> <span class="o">=</span> <span class="n">get_cost_of_living_table</span><span class="p">(</span><span class="n">city</span><span class="o">.</span><span class="n">title</span><span class="p">(),</span> <span class="n">country</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">check_enough_data</span><span class="p">(</span><span class="n">cleaned_table</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mf">0.9</span><span class="p">:</span>
@@ -291,9 +305,12 @@
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Get the cost of living for a country.</span>
 
-<span class="sd">    :country: country to get the cost of living for.</span>
-<span class="sd">    :percentile: percentile to use.</span>
+<span class="sd">    :param country: country to get the cost of living for.</span>
+<span class="sd">    :type country: str</span>
+<span class="sd">    :param percentile: percentile to use.</span>
+<span class="sd">    :type percentile: int</span>
 <span class="sd">    :return: cost of living for the country.</span>
+<span class="sd">    :rtype: float</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">cleaned_table</span> <span class="o">=</span> <span class="n">get_cost_of_living_table</span><span class="p">(</span><span class="n">country</span><span class="o">.</span><span class="n">title</span><span class="p">(),</span> <span class="n">country</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">check_enough_data</span><span class="p">(</span><span class="n">cleaned_table</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mf">0.9</span><span class="p">:</span>

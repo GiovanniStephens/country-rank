@@ -42,7 +42,6 @@
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul>
 <li class="toctree-l1"><a class="reference internal" href="../usage.html">Usage</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../scrapers.html">Scrapers</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../api.html">API</a></li>
 </ul>
 
@@ -76,7 +75,7 @@
 <span class="n">nz_conversion_rate</span> <span class="o">=</span> <span class="n">ppp</span><span class="o">.</span><span class="n">estimate_PPP_conversion_rate_long_term_change</span><span class="p">(</span><span class="s1">&#39;New Zealand&#39;</span><span class="p">)</span>
 
 
-<div class="viewcode-block" id="estimate_cost_to_retire"><a class="viewcode-back" href="../usage.html#estimate_cost_to_retire.estimate_cost_to_retire">[docs]</a><span class="k">def</span> <span class="nf">estimate_cost_to_retire</span><span class="p">(</span><span class="n">country</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+<div class="viewcode-block" id="estimate_cost_to_retire"><a class="viewcode-back" href="../api.html#estimate_cost_to_retire.estimate_cost_to_retire">[docs]</a><span class="k">def</span> <span class="nf">estimate_cost_to_retire</span><span class="p">(</span><span class="n">country</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
                             <span class="n">weekly_cost</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
                             <span class="n">r</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.06</span><span class="p">,</span>
                             <span class="n">n</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">68</span><span class="p">,</span>
@@ -85,13 +84,20 @@
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Estimate the cost to retire in a country.</span>
 
-<span class="sd">    :country: The country to estimate the cost to retire in.</span>
-<span class="sd">    :weekly_cost: The weekly cost of living in the country.</span>
-<span class="sd">    :r: The rate of return on investments.</span>
-<span class="sd">    :n: The number of years to retire.</span>
-<span class="sd">    :moving_cost: The cost of moving to a new country.</span>
-<span class="sd">    :buffer_pa: The buffer cost in the annual cost of living.</span>
+<span class="sd">    :param country: The country to estimate the cost to retire in.</span>
+<span class="sd">    :type country: str</span>
+<span class="sd">    :param weekly_cost: The weekly cost of living in the country.</span>
+<span class="sd">    :type weekly_cost: float</span>
+<span class="sd">    :param r: The rate of return on investments.</span>
+<span class="sd">    :type r: float</span>
+<span class="sd">    :param n: The number of years to retire.</span>
+<span class="sd">    :type n: int</span>
+<span class="sd">    :param moving_cost: The cost of moving to a new country.</span>
+<span class="sd">    :type moving_cost: float</span>
+<span class="sd">    :param buffer_pa: The buffer cost in the annual cost of living.</span>
+<span class="sd">    :type buffer_pa: float</span>
 <span class="sd">    :return: The cost to retire in the country.</span>
+<span class="sd">    :rtype: float</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">conversion_rate_change</span> <span class="o">=</span> <span class="n">ppp</span><span class="o">.</span><span class="n">estimate_PPP_conversion_rate_long_term_change</span><span class="p">(</span><span class="n">country</span><span class="p">)</span>
     <span class="n">overall_conversion_rate</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">conversion_rate_change</span><span class="p">)</span> <span class="o">/</span>
