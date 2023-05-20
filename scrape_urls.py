@@ -1,13 +1,17 @@
 from multiprocessing.pool import ThreadPool
 from random import choice
+from typing import Callable, List, Optional, Union
 
 import pandas as pd
 import requests
 from bs4 import BeautifulSoup
 from fake_useragent import UserAgent
+from requests.exceptions import (ConnectionError, HTTPError, ReadTimeout,
+                                 RequestException, Timeout, TooManyRedirects,
+                                 URLRequired)
 
 
-def get_table(soup, table_num=2, row_start=1, row_end=5):
+def get_table(soup: BeautifulSoup, table_num: int = 2, row_start: int = 1, row_end: int = 5) -> pd.DataFrame:
     """
     Pulls out a table from a beautifulsoup html.
 
@@ -50,7 +54,7 @@ def get_table(soup, table_num=2, row_start=1, row_end=5):
         return []
 
 
-def find_html_class(soup, class_name):
+def find_html_class(soup: BeautifulSoup, class_name: str) -> List[BeautifulSoup]:
     """
     Finds all elements with a given class name.
 
@@ -61,7 +65,7 @@ def find_html_class(soup, class_name):
     return soup.find_all(class_=class_name)
 
 
-def find_in_html(soup, element):
+def find_in_html(soup: BeautifulSoup, element: Union[str, list]) -> Optional[BeautifulSoup]:
     """
     Finds an element in a BeautifulSoup object.
 
@@ -72,7 +76,7 @@ def find_in_html(soup, element):
     return soup.find_all(element)
 
 
-def find_id_in_html(soup, id):
+def find_id_in_html(soup: BeautifulSoup, id: str) -> Optional[BeautifulSoup]:
     """
     Finds an element with a given id in a BeautifulSoup object.
 
@@ -83,7 +87,7 @@ def find_id_in_html(soup, id):
     return soup.find_all('div', {'id': id})
 
 
-def proxy_generator():
+def proxy_generator() -> dict:
     """
     This function scrapes a list of a free proxies from:
 
@@ -108,52 +112,59 @@ def proxy_generator():
     return proxy
 
 
-def scrape_page(url, spoof=False):
+def scrape_page(url: str, spoof: bool = False) -> Optional[BeautifulSoup]:
     """
     This function tries to get page information by
     spoofing the header and trying a random proxy.
     If successful, it returns the soup of the page.
     """
-    while True:
-        try:
-            if spoof:
-                proxy = proxy_generator()
-                user_agent = UserAgent()
-                headers = {'User-Agent': user_agent.random}
-                page = requests.get(url, headers=headers,
-                                    proxies=proxy, timeout=1.5)
-                page.raise_for_status()
-            else:
-                page = requests.get(url)
-                page.raise_for_status()
-            if page.status_code == 200:
-                soup = BeautifulSoup(page.content, 'html.parser')
-                return soup
-            else:
-                print(f"There was an error downloading the page {url}.")
-        except requests.ConnectionError:
-            print(f"Could not establish a connection: {url}.")
-            pass
-        except requests.exceptions.RequestException as e:
-            # catastrophic error. bail.
-            raise SystemExit(e)
-        except requests.exceptions.TooManyRedirects:
-            print(f"Too many redirects: {url}.")
-            raise
-        except requests.URLRequired:
-            print(f'Please, enter a valid url. {url} is not valid.')
-            raise
-        except requests.ReadTimeout:
-            print(f'Server did not return any data in the alloted time: {url}')
-            raise
-        except requests.Timeout:
-            print(f'The request timed out: {url}')
-            raise
-        except requests.exceptions.HTTPError as err:
-            raise SystemExit(err)
+    try:
+        if spoof:
+            proxy = proxy_generator()
+            user_agent = UserAgent()
+            headers = {'User-Agent': user_agent.random}
+            page = requests.get(url, headers=headers, proxies=proxy, timeout=1.5)
+            page.raise_for_status()
+        else:
+            page = requests.get(url)
+            page.raise_for_status()
+        
+        if page.status_code == 200:
+            soup = BeautifulSoup(page.content, 'html.parser')
+            return soup
+        else:
+            print(f"There was an error downloading the page {url}.")
+    
+    except ConnectionError:
+        print(f"Could not establish a connection: {url}.")
+    except RequestException as e:
+        print(f"An error occurred while making the request: {e}.")
+    except TooManyRedirects:
+        print(f"Too many redirects: {url}.")
+    except URLRequired:
+        print(f"Please enter a valid URL. {url} is not valid.")
+    except ReadTimeout:
+        print(f"The server did not return any data within the allotted time: {url}")
+    except Timeout:
+        print(f"The request timed out: {url}")
+    except HTTPError as err:
+        print(f"An HTTP error occurred: {err}")
+    except Exception as e:
+        print(f"An unexpected error occurred: {e}")
+    return None
 
 
-def multi_thread_func(func, values, threads=126):
+def multi_thread_func(func: Callable, values: List, threads: int = 126) -> List:
+    """
+    This function takes a function and a list of values.
+    It then runs the function on each value in the list
+    using a thread pool.
+
+    :func: The function to run.
+    :values: The values to run the function on.
+    :threads: The number of threads to use.
+    :return: A list of the results of the function.
+    """
     listing_soups = []
     with ThreadPool(threads) as pool:
         for result in pool.map(func, values):
