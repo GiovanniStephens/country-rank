@@ -20,6 +20,7 @@
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="API" href="api.html" />
     <link rel="prev" title="Welcome to Country Rank’s documentation!" href="index.html" /> 
 </head>
 
@@ -103,9 +104,14 @@
 the data from the website. The data is then cleaned and used to estimate a cost of
 living distribution using a Monte Carlo simulation. This way, one can get a percentile
 for the cost of living.</p>
-<p>I also scrape Numbeo.com indices to get pollution, health care, and crime data.</p>
-<p>Climate data is scraped from weatherbase.com.</p>
-<p>The main scraper module is used to scrape all the data from the above sources.</p>
+<p>I also scrape Numbeo.com indices to get pollution, health care, and crime data.
+Climate data is scraped from weatherbase.com.
+The main scraper module is used to scrape all the data from the above sources.</p>
+<p>To scrape the data, you will need to run the following command:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>python get_data.py
+</pre></div>
+</div>
+<p>It make take a while because it has to scrape data for each country. The data is saved in the <cite>data</cite> directory called <cite>All Data by Country.csv</cite>.</p>
 </section>
 <section id="clustering">
 <h2>Clustering<a class="headerlink" href="#clustering" title="Permalink to this heading"></a></h2>
@@ -121,11 +127,21 @@ then finding the point at which the variance begins to level off.</p>
 <h2>Estimate Cost to Retire<a class="headerlink" href="#estimate-cost-to-retire" title="Permalink to this heading"></a></h2>
 <p>These two estimate module are used to estimate the cost to retire in a given country. It is calculated using a
 an estimated long-term purchasing power parity (PPP) change and a growing annuity to estimate.</p>
+<p>To estimate the cost to retire in a country, you will need to run the following command:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>python estimate_cost_to_retire.py
+</pre></div>
+</div>
+<p>Note that all the parameters are manually defined in the script. You will need to change them to suit your needs.</p>
 <p>The new estimate cost to retire is a step-wise simulation assuming a starting
 capital with an assumed cost of living, level of inflation, and time to death.
 Using the S&amp;P500 data, it goes month by month simulating a net worth until the end
 of the period. It ultimately prints the probability of success, which is the liklihood
 of not ending destitute.</p>
+<p>To run this simulation, you will need to run the following command:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>python new_estimate_cost_to_retire.py
+</pre></div>
+</div>
+<p>Note that all the parameters are manually defined in the script. You will need to change them to suit your needs.</p>
 </section>
 <section id="purchasing-power-parity-ppp-conversion-rates">
 <h2>Purchasing Power Parity (PPP) Conversion Rates<a class="headerlink" href="#purchasing-power-parity-ppp-conversion-rates" title="Permalink to this heading"></a></h2>
@@ -142,6 +158,7 @@ in NZD and converted as needed (if I retire internationally).</p>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
         <a href="index.html" class="btn btn-neutral float-left" title="Welcome to Country Rank’s documentation!" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="api.html" class="btn btn-neutral float-right" title="API" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>
