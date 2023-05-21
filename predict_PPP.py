@@ -1,10 +1,14 @@
+import os
+
 import pandas as pd
 import pmdarima as pmd
 import pycountry
 
 # Import the data
+data_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), 'data'))
 conversion_rates = pd.read_csv(
-    'data/Purchasing Power Parity Conversion Rates.csv')
+    os.path.join(data_dir, 'Purchasing Power Parity Conversion Rates.csv'))
+
 
 # Clean up the data
 std_country_names = []

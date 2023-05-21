@@ -1,11 +1,17 @@
+import os
+
 import numpy as np
 import pandas as pd
 import pycountry
 
 import scrape_urls
 
-cost_of_living_units = pd.read_csv('data/Cost of Living Items.csv')
-climate_data = pd.read_csv('data/Climate by Country.csv')
+data_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), 'data'))
+
+data_file_path = os.path.join(data_dir, 'Cost of Living Items.csv')
+cost_of_living_units = pd.read_csv(data_file_path)
+data_file_path = os.path.join(data_dir, 'Climate by Country.csv')
+climate_data = pd.read_csv(data_file_path)
 
 
 cost_of_living_tables_dict = {}

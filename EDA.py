@@ -1,3 +1,5 @@
+import os
+
 import hdbscan
 import matplotlib.pyplot as plt
 import pandas as pd
@@ -11,7 +13,8 @@ import estimate_cost_to_retire as retire
 
 
 def main():
-    df = pd.read_csv('data/All Data by Country.csv')
+    data_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), 'data'))
+    df = pd.read_csv(os.path.join(data_dir, 'All Data by Country.csv'))
 
     print("Counts by column:")
     print(df.count())
