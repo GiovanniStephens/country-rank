@@ -44,6 +44,17 @@ Main Scraper Module
 .. autofunction:: scrape_urls.multi_thread_func
 
 
+Get All Data
+------------
+
+.. autofunction:: get_data.main
+.. autofunction:: get_data.standardise_country_names
+.. autofunction:: get_data.import_data
+.. autofunction:: get_data.join_data
+.. autofunction:: get_data.clean_pop_density
+.. autofunction:: get_data.promote_to_index
+
+
 Clustering
 ----------
 

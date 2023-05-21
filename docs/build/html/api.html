@@ -80,6 +80,15 @@
 <li class="toctree-l3"><a class="reference internal" href="#scrape_urls.multi_thread_func"><code class="docutils literal notranslate"><span class="pre">multi_thread_func</span></code></a></li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="#get-all-data">Get All Data</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#get_data.main"><code class="docutils literal notranslate"><span class="pre">main</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#get_data.standardise_country_names"><code class="docutils literal notranslate"><span class="pre">standardise_country_names</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#get_data.import_data"><code class="docutils literal notranslate"><span class="pre">import_data</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#get_data.join_data"><code class="docutils literal notranslate"><span class="pre">join_data</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#get_data.clean_pop_density"><code class="docutils literal notranslate"><span class="pre">clean_pop_density</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#get_data.promote_to_index"><code class="docutils literal notranslate"><span class="pre">promote_to_index</span></code></a></li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="#clustering">Clustering</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#clustering.reduce_dimensions_pca"><code class="docutils literal notranslate"><span class="pre">reduce_dimensions_pca</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#clustering.reduce_dimensions_umap"><code class="docutils literal notranslate"><span class="pre">reduce_dimensions_umap</span></code></a></li>
@@ -552,6 +561,106 @@ using a thread pool.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>List</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="get-all-data">
+<h2>Get All Data<a class="headerlink" href="#get-all-data" title="Permalink to this heading"></a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="get_data.main">
+<span class="sig-prename descclassname"><span class="pre">get_data.</span></span><span class="sig-name descname"><span class="pre">main</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/get_data.html#main"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#get_data.main" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="get_data.standardise_country_names">
+<span class="sig-prename descclassname"><span class="pre">get_data.</span></span><span class="sig-name descname"><span class="pre">standardise_country_names</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dfs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">DataFrame</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span></span></span><a class="reference internal" href="_modules/get_data.html#standardise_country_names"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#get_data.standardise_country_names" title="Permalink to this definition"></a></dt>
+<dd><p>Standardisses the country names across all the dataframes.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>dfs</strong> (<em>List</em><em>[</em><em>pd.DataFrame</em><em>]</em>) – list of dataframes.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>list of dataframes with standardised country names.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>List[pd.DataFrame]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="get_data.import_data">
+<span class="sig-prename descclassname"><span class="pre">get_data.</span></span><span class="sig-name descname"><span class="pre">import_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">suffix</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'</span> <span class="pre">by</span> <span class="pre">Country.csv'</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span></span></span><a class="reference internal" href="_modules/get_data.html#import_data"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#get_data.import_data" title="Permalink to this definition"></a></dt>
+<dd><p>Imports all the data into a list of dataframes.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>suffix</strong> (<em>str</em>) – suffix of the file names.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>list of dataframes.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>List[pd.DataFrame]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="get_data.join_data">
+<span class="sig-prename descclassname"><span class="pre">get_data.</span></span><span class="sig-name descname"><span class="pre">join_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df1</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">DataFrame</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dfs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">DataFrame</span></span></span><a class="reference internal" href="_modules/get_data.html#join_data"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#get_data.join_data" title="Permalink to this definition"></a></dt>
+<dd><p>Joins the dataframes together.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>df1</strong> (<em>pd.DataFrame</em>) – dataframe to be joined.</p></li>
+<li><p><strong>dfs</strong> (<em>List</em><em>[</em><em>pd.DataFrame</em><em>]</em>) – list of dataframes to be joined to df1.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>joined dataframe.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>pd.DataFrame</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="get_data.clean_pop_density">
+<span class="sig-prename descclassname"><span class="pre">get_data.</span></span><span class="sig-name descname"><span class="pre">clean_pop_density</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">DataFrame</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">DataFrame</span></span></span><a class="reference internal" href="_modules/get_data.html#clean_pop_density"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#get_data.clean_pop_density" title="Permalink to this definition"></a></dt>
+<dd><p>Renames the columns in the population density dataframe.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>df</strong> (<em>pd.DataFrame</em>) – dataframe to be cleaned.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>cleaned dataframe.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>pd.DataFrame</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="get_data.promote_to_index">
+<span class="sig-prename descclassname"><span class="pre">get_data.</span></span><span class="sig-name descname"><span class="pre">promote_to_index</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dfs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">col_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span></span></span><a class="reference internal" href="_modules/get_data.html#promote_to_index"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#get_data.promote_to_index" title="Permalink to this definition"></a></dt>
+<dd><p>Promotes the specified column to the index of the dataframes.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>dfs</strong> (<em>List</em><em>[</em><em>pd.DataFrame</em><em>]</em>) – list of dataframes.</p></li>
+<li><p><strong>col_name</strong> (<em>str</em>) – name of column to be promoted.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>list of dataframes with the specified
+column promoted to the index.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>List[pd.DataFrame]</p>
 </dd>
 </dl>
 </dd></dl>
