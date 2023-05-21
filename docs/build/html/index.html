@@ -73,8 +73,64 @@
   <section id="welcome-to-country-rank-s-documentation">
 <h1>Welcome to Country Rank’s documentation!<a class="headerlink" href="#welcome-to-country-rank-s-documentation" title="Permalink to this heading"></a></h1>
 <p><strong>Country Rank</strong> is a Python project performing an exploratory data analysis (EDA)
-to rank countries based on their attractiveness for retirement.
-It also allows you to compare the performance of a country in different years.</p>
+to cluster countries based on their characteristics. This was an exercise to try to find
+like countries to New Zealand (where I live) and other nice places that are cheaper to retire.</p>
+<p>This project includes clustering, time series forecasting, and simulation.</p>
+<p>I chose to include data for several deciding factors that were important to me in a country for retirement.</p>
+<p><strong>Deciding Factors</strong></p>
+<ol class="arabic simple">
+<li><p>Cost of living by country</p></li>
+<li><p>Climate</p></li>
+<li><p>Population density</p></li>
+<li><p>Safety</p></li>
+<li><p>Corruption</p></li>
+<li><p>Healthcare</p></li>
+<li><p>Air purity</p></li>
+<li><p>Country freedom</p></li>
+<li><p>Forecast change in puchasing power parity (PPP)</p></li>
+<li><p>Estimated amount required to retire comfortably.</p></li>
+</ol>
+<p><strong>Approach</strong></p>
+<p>I cluster the countries based on their characteristics to find groups of countries that are similar.</p>
+<p>From what I know, I loved Spain. With that knowledge, I can pick the cluster of similar countries like Spain. These represent a set of candidate countries with attractive attributes.</p>
+<p>From that subset of countries, I can estimate the required savings to retire in said countries. This estimate is calculated as the present value of a growing annuity.</p>
+<p>The growing annuity has the following input parameters:</p>
+<ol class="arabic simple">
+<li><p>Duration (i.e. the length of the annuity);</p></li>
+<li><p>The starting cash flow (i.e. the cost of living at this current time.);</p></li>
+<li><p>The long-term investment returns rate after expenses;</p></li>
+<li><p>The growth rate of the cash flow.</p></li>
+</ol>
+<p><em>Duration</em></p>
+<p>The duration is is calculated as the duration of the remainder of our
+life expectancy. For example, if I am 30 years old and my life
+expectancy is 95, I have 65 years left to live.
+This is the duration of the annuity.</p>
+<p><em>Cash Flow</em></p>
+<p>The starting cash flow is the estimated cost of living in the country.
+It is calculated as the 90th percentitle of the cost of living in the
+country. There is also a cost of living buffer added into the cost of
+living to account for unexpected lifestyle creap.</p>
+<p><em>Return on Investment</em></p>
+<p>The expected return on investments is assumed to be around 5%
+(this is conversative to ensure we are not underestimating the cost to retire).</p>
+<p><em>Growth Rate</em></p>
+<p>The growth rate is the forecast long-term change in purchasing power (PPP)
+between NZ and said country (assuming investments are denominated in NZD).
+This is an estimate that includes both inflation and FX changes for
+both NZ and the country. (A good explanation of PPP can be found <a class="reference external" href="https://ourworldindata.org/what-are-ppps">here</a>).</p>
+<p><strong>Data Sources</strong></p>
+<ul class="simple">
+<li><p>Cost of living by country | <a class="reference external" href="https://www.numbeo.com">https://www.numbeo.com</a></p></li>
+<li><p>Climate | <a class="reference external" href="https://www.weatherbase.com">https://www.weatherbase.com</a></p></li>
+<li><p>Population density | <a class="reference external" href="https://www.infoplease.com/world/population/population-density-square-mile-countries">https://www.infoplease.com/world/population/population-density-square-mile-countries</a></p></li>
+<li><p>Safety | <a class="reference external" href="https://www.numbeo.com">https://www.numbeo.com</a></p></li>
+<li><p>Corruption | <a class="reference external" href="https://www.transparency.org/en/cpi/2020">https://www.transparency.org/en/cpi/2020</a></p></li>
+<li><p>Healthcare | <a class="reference external" href="https://www.numbeo.com">https://www.numbeo.com</a></p></li>
+<li><p>Air purity | <a class="reference external" href="https://www.numbeo.com">https://www.numbeo.com</a></p></li>
+<li><p>Country freedom | <a class="reference external" href="https://www.freedomhouse.org">https://www.freedomhouse.org</a></p></li>
+<li><p>PPP conversion factors | <a class="reference external" href="https://data.oecd.org/conversion/purchasing-power-parities-ppp.htm">https://data.oecd.org/conversion/purchasing-power-parities-ppp.htm</a></p></li>
+</ul>
 <div class="toctree-wrapper compound">
 </div>
 <section id="contents">
