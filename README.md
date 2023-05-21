@@ -2,7 +2,7 @@
 
 This is a quick hack-together project to identfy which countries would be good condidates for retirement. I collect data from various sources and then use it to build a model to predict which countries would be good candidates for retirement.
 
-The model includes clustering, time series forecasting, and simulation.
+This project includes clustering, time series forecasting, and simulation. <b>Full documentation found [here](https://country-rank.readthedocs.io/en/latest/index.html)</b>.
 
 I chose to include data for several deciding factors that were important to me in a country for retirement.
 
