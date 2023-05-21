@@ -1,3 +1,4 @@
+import os
 from typing import List
 
 import pandas as pd
@@ -26,7 +27,8 @@ def main():
     dfs = standardise_country_names(dfs)
     dfs = promote_to_index(dfs, 'Country')
     joined_data = join_data(dfs[0], dfs[1:])
-    joined_data.to_csv('data/All Data by Country.csv')
+    data_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), 'data'))
+    joined_data.to_csv(os.path.join(data_dir, 'All Data by Country.csv'))
 
 
 def standardise_country_names(dfs: List[pd.DataFrame]) -> list:
