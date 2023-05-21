@@ -42,7 +42,6 @@
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul>
 <li class="toctree-l1"><a class="reference internal" href="../usage.html">Usage</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../scrapers.html">Scrapers</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../api.html">API</a></li>
 </ul>
 
@@ -82,7 +81,7 @@
 <span class="kn">from</span> <span class="nn">sklearn.decomposition</span> <span class="kn">import</span> <span class="n">PCA</span>
 
 
-<div class="viewcode-block" id="reduce_dimensions_pca"><a class="viewcode-back" href="../usage.html#clustering.reduce_dimensions_pca">[docs]</a><span class="k">def</span> <span class="nf">reduce_dimensions_pca</span><span class="p">(</span><span class="n">embeddings</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">]],</span>
+<div class="viewcode-block" id="reduce_dimensions_pca"><a class="viewcode-back" href="../api.html#clustering.reduce_dimensions_pca">[docs]</a><span class="k">def</span> <span class="nf">reduce_dimensions_pca</span><span class="p">(</span><span class="n">embeddings</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">]],</span>
                           <span class="n">dimensions</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">80</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">]]:</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Reduces the number of dimensions using PCA.</span>
@@ -99,7 +98,7 @@
     <span class="k">return</span> <span class="n">reduced</span></div>
 
 
-<div class="viewcode-block" id="reduce_dimensions_umap"><a class="viewcode-back" href="../usage.html#clustering.reduce_dimensions_umap">[docs]</a><span class="k">def</span> <span class="nf">reduce_dimensions_umap</span><span class="p">(</span><span class="n">embeddings</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">]],</span>
+<div class="viewcode-block" id="reduce_dimensions_umap"><a class="viewcode-back" href="../api.html#clustering.reduce_dimensions_umap">[docs]</a><span class="k">def</span> <span class="nf">reduce_dimensions_umap</span><span class="p">(</span><span class="n">embeddings</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">]],</span>
                            <span class="n">dimensions</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">80</span><span class="p">,</span>
                            <span class="n">n_neighbors</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">10</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">]]:</span>
     <span class="sd">&quot;&quot;&quot;</span>
@@ -121,7 +120,7 @@
     <span class="k">return</span> <span class="n">reduced</span></div>
 
 
-<div class="viewcode-block" id="shuffle"><a class="viewcode-back" href="../usage.html#clustering.shuffle">[docs]</a><span class="k">def</span> <span class="nf">shuffle</span><span class="p">(</span><span class="n">df</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
+<div class="viewcode-block" id="shuffle"><a class="viewcode-back" href="../api.html#clustering.shuffle">[docs]</a><span class="k">def</span> <span class="nf">shuffle</span><span class="p">(</span><span class="n">df</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Shuffles the data by each column or row for a pandas dataframe.</span>
 
@@ -133,7 +132,7 @@
     <span class="k">return</span> <span class="n">df</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="n">frac</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">values</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="single_sample_t_test"><a class="viewcode-back" href="../usage.html#clustering.single_sample_t_test">[docs]</a><span class="k">def</span> <span class="nf">single_sample_t_test</span><span class="p">(</span><span class="n">sample</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">,</span>
+<div class="viewcode-block" id="single_sample_t_test"><a class="viewcode-back" href="../api.html#clustering.single_sample_t_test">[docs]</a><span class="k">def</span> <span class="nf">single_sample_t_test</span><span class="p">(</span><span class="n">sample</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">,</span>
                          <span class="n">population_stat</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Run a simple t test on a sample to see if it is significantly different</span>
@@ -150,7 +149,7 @@
         <span class="p">(</span><span class="n">sample</span><span class="o">.</span><span class="n">std</span><span class="p">()</span><span class="o">/</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">sample</span><span class="p">)</span><span class="o">**</span><span class="mf">0.5</span><span class="p">))</span></div>
 
 
-<div class="viewcode-block" id="calc_perm_variance"><a class="viewcode-back" href="../usage.html#clustering.calc_perm_variance">[docs]</a><span class="k">def</span> <span class="nf">calc_perm_variance</span><span class="p">(</span><span class="n">pca</span><span class="p">,</span>
+<div class="viewcode-block" id="calc_perm_variance"><a class="viewcode-back" href="../api.html#clustering.calc_perm_variance">[docs]</a><span class="k">def</span> <span class="nf">calc_perm_variance</span><span class="p">(</span><span class="n">pca</span><span class="p">,</span>
                        <span class="n">embeddings_df</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span>
                        <span class="n">n_simulations</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">5</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;</span>
@@ -174,7 +173,7 @@
     <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">with_perm_var</span><span class="p">)</span><span class="o">.</span><span class="n">transpose</span><span class="p">()</span></div>
 
 
-<div class="viewcode-block" id="get_optimal_n_components"><a class="viewcode-back" href="../usage.html#clustering.get_optimal_n_components">[docs]</a><span class="k">def</span> <span class="nf">get_optimal_n_components</span><span class="p">(</span><span class="n">embeddings</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">]],</span>
+<div class="viewcode-block" id="get_optimal_n_components"><a class="viewcode-back" href="../api.html#clustering.get_optimal_n_components">[docs]</a><span class="k">def</span> <span class="nf">get_optimal_n_components</span><span class="p">(</span><span class="n">embeddings</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">]],</span>
                              <span class="n">n_simulations</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">5</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Calculates the optimal number of principal components to</span>
@@ -214,7 +213,7 @@
     <span class="k">return</span> <span class="n">res</span></div>
 
 
-<div class="viewcode-block" id="kmeans_clustering"><a class="viewcode-back" href="../usage.html#clustering.kmeans_clustering">[docs]</a><span class="k">def</span> <span class="nf">kmeans_clustering</span><span class="p">(</span><span class="n">reduced</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">]],</span>
+<div class="viewcode-block" id="kmeans_clustering"><a class="viewcode-back" href="../api.html#clustering.kmeans_clustering">[docs]</a><span class="k">def</span> <span class="nf">kmeans_clustering</span><span class="p">(</span><span class="n">reduced</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">]],</span>
                       <span class="n">num_clusters</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span>
                       <span class="n">max_num_clusters</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">75</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]:</span>
     <span class="sd">&quot;&quot;&quot;</span>
@@ -272,7 +271,7 @@
         <span class="k">return</span> <span class="n">labels</span></div>
 
 
-<div class="viewcode-block" id="hdbscan_clustering"><a class="viewcode-back" href="../usage.html#clustering.hdbscan_clustering">[docs]</a><span class="k">def</span> <span class="nf">hdbscan_clustering</span><span class="p">(</span><span class="n">reduced</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">]],</span>
+<div class="viewcode-block" id="hdbscan_clustering"><a class="viewcode-back" href="../api.html#clustering.hdbscan_clustering">[docs]</a><span class="k">def</span> <span class="nf">hdbscan_clustering</span><span class="p">(</span><span class="n">reduced</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">]],</span>
                        <span class="n">min_cluster_size</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">4</span><span class="p">,</span>
                        <span class="n">allow_single_cluster</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]:</span>
     <span class="sd">&quot;&quot;&quot;</span>

@@ -43,7 +43,6 @@
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul>
 <li class="toctree-l1"><a class="reference internal" href="../usage.html">Usage</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../scrapers.html">Scrapers</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../api.html">API</a></li>
 </ul>
 
@@ -75,28 +74,28 @@
 <p class="rubric">Functions</p>
 <table class="autosummary longtable docutils align-default">
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="../usage.html#clustering.calc_perm_variance" title="clustering.calc_perm_variance"><code class="xref py py-obj docutils literal notranslate"><span class="pre">calc_perm_variance</span></code></a>(pca, embeddings_df[, ...])</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="../api.html#clustering.calc_perm_variance" title="clustering.calc_perm_variance"><code class="xref py py-obj docutils literal notranslate"><span class="pre">calc_perm_variance</span></code></a>(pca, embeddings_df[, ...])</p></td>
 <td><p>Calculates the variance explained for a PCA of the permuted data.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="../usage.html#clustering.get_optimal_n_components" title="clustering.get_optimal_n_components"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_optimal_n_components</span></code></a>(embeddings[, ...])</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="../api.html#clustering.get_optimal_n_components" title="clustering.get_optimal_n_components"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_optimal_n_components</span></code></a>(embeddings[, ...])</p></td>
 <td><p>Calculates the optimal number of principal components to keep in a dimension reduction situation.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="../usage.html#clustering.hdbscan_clustering" title="clustering.hdbscan_clustering"><code class="xref py py-obj docutils literal notranslate"><span class="pre">hdbscan_clustering</span></code></a>(reduced[, ...])</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="../api.html#clustering.hdbscan_clustering" title="clustering.hdbscan_clustering"><code class="xref py py-obj docutils literal notranslate"><span class="pre">hdbscan_clustering</span></code></a>(reduced[, ...])</p></td>
 <td><p>Uses HDBSCAN to calculate clusters from the reduced data.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="../usage.html#clustering.kmeans_clustering" title="clustering.kmeans_clustering"><code class="xref py py-obj docutils literal notranslate"><span class="pre">kmeans_clustering</span></code></a>(reduced[, num_clusters, ...])</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="../api.html#clustering.kmeans_clustering" title="clustering.kmeans_clustering"><code class="xref py py-obj docutils literal notranslate"><span class="pre">kmeans_clustering</span></code></a>(reduced[, num_clusters, ...])</p></td>
 <td><p>This function calculates clusters based on the reduced vectors.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="../usage.html#clustering.reduce_dimensions_pca" title="clustering.reduce_dimensions_pca"><code class="xref py py-obj docutils literal notranslate"><span class="pre">reduce_dimensions_pca</span></code></a>(embeddings[, dimensions])</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="../api.html#clustering.reduce_dimensions_pca" title="clustering.reduce_dimensions_pca"><code class="xref py py-obj docutils literal notranslate"><span class="pre">reduce_dimensions_pca</span></code></a>(embeddings[, dimensions])</p></td>
 <td><p>Reduces the number of dimensions using PCA.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="../usage.html#clustering.reduce_dimensions_umap" title="clustering.reduce_dimensions_umap"><code class="xref py py-obj docutils literal notranslate"><span class="pre">reduce_dimensions_umap</span></code></a>(embeddings[, ...])</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="../api.html#clustering.reduce_dimensions_umap" title="clustering.reduce_dimensions_umap"><code class="xref py py-obj docutils literal notranslate"><span class="pre">reduce_dimensions_umap</span></code></a>(embeddings[, ...])</p></td>
 <td><p>Uses UMAP to reduce the dimensionality of the embeddings.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="../usage.html#clustering.shuffle" title="clustering.shuffle"><code class="xref py py-obj docutils literal notranslate"><span class="pre">shuffle</span></code></a>(df)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="../api.html#clustering.shuffle" title="clustering.shuffle"><code class="xref py py-obj docutils literal notranslate"><span class="pre">shuffle</span></code></a>(df)</p></td>
 <td><p>Shuffles the data by each column or row for a pandas dataframe.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="../usage.html#clustering.single_sample_t_test" title="clustering.single_sample_t_test"><code class="xref py py-obj docutils literal notranslate"><span class="pre">single_sample_t_test</span></code></a>(sample[, population_stat])</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="../api.html#clustering.single_sample_t_test" title="clustering.single_sample_t_test"><code class="xref py py-obj docutils literal notranslate"><span class="pre">single_sample_t_test</span></code></a>(sample[, population_stat])</p></td>
 <td><p>Run a simple t test on a sample to see if it is significantly different from the population mean.</p></td>
 </tr>
 </tbody>

@@ -70,13 +70,17 @@
            <div itemprop="articleBody">
              
   <h1>Source code for predict_PPP</h1><div class="highlight"><pre>
-<span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span></span><span class="kn">import</span> <span class="nn">os</span>
+
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 <span class="kn">import</span> <span class="nn">pmdarima</span> <span class="k">as</span> <span class="nn">pmd</span>
 <span class="kn">import</span> <span class="nn">pycountry</span>
 
 <span class="c1"># Import the data</span>
+<span class="n">data_dir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="vm">__file__</span><span class="p">),</span> <span class="s1">&#39;data&#39;</span><span class="p">))</span>
 <span class="n">conversion_rates</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span>
-    <span class="s1">&#39;data/Purchasing Power Parity Conversion Rates.csv&#39;</span><span class="p">)</span>
+    <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">data_dir</span><span class="p">,</span> <span class="s1">&#39;Purchasing Power Parity Conversion Rates.csv&#39;</span><span class="p">))</span>
+
 
 <span class="c1"># Clean up the data</span>
 <span class="n">std_country_names</span> <span class="o">=</span> <span class="p">[]</span>
