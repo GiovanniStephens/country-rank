@@ -254,6 +254,7 @@ def get_country_cost_of_living(country: str, percentile: int = 90) -> float:
         print(f'{percentile}th percentile weekly cost of living in {country.title()}: {cost_of_living}')
     else:
         print('Not enough data.')
+        cost_of_living = None
     return cost_of_living
 
 
