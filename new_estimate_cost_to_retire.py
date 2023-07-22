@@ -13,15 +13,15 @@ def main():
     data['Returns'] = data['Adj Close'].pct_change()
     data = data.dropna()
 
-    weekly_cost_of_living = 320
+    weekly_cost_of_living = 285
     monthly_cost_of_living = weekly_cost_of_living * 4.33
     annual_cost_of_living = monthly_cost_of_living * 12
 
     n_years_liquid = 2
-    n_years_remaining = 64
+    n_years_remaining = 87 - 30
     long_term_investments_term = n_years_remaining - n_years_liquid
     inflation = 0.015
-    short_term_interest_rate = 0.05
+    short_term_interest_rate = 0.045
     long_term_interest_rate = 0.09
 
     pv_n_years_liquid_growing_annuity = annual_cost_of_living / (short_term_interest_rate - inflation) * (1 - ((1 + inflation) / (1 + short_term_interest_rate)) ** (n_years_liquid))
@@ -36,7 +36,7 @@ def main():
     n_simulations = 100
     # Calculate the ending value of the portfolio
     months_survived = []
-    buffer = 50000 #total_required - total_required
+    buffer = 220000 - total_required
     for i in range(n_simulations):
         illiquid_balance = pv_n_years_illiquid_growing_annuity + buffer
         liquid_balance = pv_n_years_liquid_growing_annuity
