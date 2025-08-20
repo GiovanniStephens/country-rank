@@ -31,16 +31,16 @@ def clean_numbeo_table(numbeo_df: pd.DataFrame) -> pd.DataFrame:
     # Remove rows where there are nulls in the next column.
     numbeo_df = numbeo_df[~numbeo_df[numbeo_df.columns[0]].isnull()]
     # Replace empty strings with nan
-    numbeo_df = numbeo_df.replace(r'^\s*$', np.NaN, regex=True)
+    numbeo_df = numbeo_df.replace(r'^\s*$', np.nan, regex=True)
     # Replace '?' with NaN
-    numbeo_df = numbeo_df.replace(r'^\?$', np.NaN, regex=True)
+    numbeo_df = numbeo_df.replace(r'^\?$', np.nan, regex=True)
     # Split range
     try:
         numbeo_df[['lower', 'upper']] = numbeo_df['Range'].str.split('-',
                                                                      expand=True)
     except:
-        numbeo_df['lower'] = np.NaN
-        numbeo_df['upper'] = np.NaN
+        numbeo_df['lower'] = np.nan
+        numbeo_df['upper'] = np.nan
         numbeo_df = numbeo_df.astype(str)
 
     # Remove currency 'NZ$'
@@ -259,8 +259,12 @@ def get_country_cost_of_living(country: str, percentile: int = 90) -> float:
 
 
 if __name__ == "__main__":
-    get_country_cost_of_living('colombia', 99)
-    get_country_cost_of_living('colombia', 50)
+    countries = ['India', 'Pakistan', 'Bhutan', 'Spain', 'Portugal', 'Uruguay', 'Georgia', 'Colombia', 'Mexico', 'Costa Rica', 'Montenegro', 'Greece', 'Indonesia', 'Philippines', 'Panama']
+    
+    for country in countries:
+        print(f"\n--- {country.upper()} ---")
+        get_country_cost_of_living(country, 99)
+        get_country_cost_of_living(country, 50)
     # get_country_cost_of_living('New zealand', 99)
     # get_country_cost_of_living('New zealand', 50)
     # get_country_cost_of_living('georgia', 99)

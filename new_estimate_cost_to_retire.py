@@ -1,5 +1,6 @@
 # Import Yahoo finance data using yfinance
 import numpy as np
+import pandas as pd
 import yfinance as yf
 
 
@@ -8,9 +9,13 @@ def main():
     data = yf.download('SPY', interval='1mo', start='1993-02-01')
     # drop nan values
     data = data.dropna()
-
-    # Calculate monthly returns
-    data['Returns'] = data['Adj Close'].pct_change()
+    
+    # Calculate monthly returns - use Close instead of Adj Close
+    if len(data.columns.names) > 1:
+        # MultiIndex columns - access Close price for SPY
+        data['Returns'] = data[('Close', 'SPY')].pct_change()
+    else:
+        data['Returns'] = data['Close'].pct_change()
     data = data.dropna()
 
     weekly_cost_of_living = 285
