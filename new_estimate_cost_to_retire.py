@@ -6,23 +6,24 @@ import yfinance as yf
 def main():
     # Download historical s&p 500 data
     data = yf.download('SPY', interval='1mo', start='1993-02-01')
+    print(data)
     # drop nan values
     data = data.dropna()
 
     # Calculate monthly returns
-    data['Returns'] = data['Adj Close'].pct_change()
+    data['Returns'] = data['Close'].pct_change()
     data = data.dropna()
 
-    weekly_cost_of_living = 285
+    weekly_cost_of_living = 700
     monthly_cost_of_living = weekly_cost_of_living * 4.33
     annual_cost_of_living = monthly_cost_of_living * 12
 
-    n_years_liquid = 2
-    n_years_remaining = 87 - 30
+    n_years_liquid = 1
+    n_years_remaining = 87 - 31
     long_term_investments_term = n_years_remaining - n_years_liquid
     inflation = 0.015
-    short_term_interest_rate = 0.045
-    long_term_interest_rate = 0.09
+    short_term_interest_rate = 0.04
+    long_term_interest_rate = 0.10
 
     pv_n_years_liquid_growing_annuity = annual_cost_of_living / (short_term_interest_rate - inflation) * (1 - ((1 + inflation) / (1 + short_term_interest_rate)) ** (n_years_liquid))
     print(f'PV of {n_years_liquid} years of expenses growing at {inflation} inflation with {short_term_interest_rate} interest: {pv_n_years_liquid_growing_annuity}')
@@ -36,7 +37,7 @@ def main():
     n_simulations = 100
     # Calculate the ending value of the portfolio
     months_survived = []
-    buffer = 220000 - total_required
+    buffer = 560000 - total_required
     for i in range(n_simulations):
         illiquid_balance = pv_n_years_illiquid_growing_annuity + buffer
         liquid_balance = pv_n_years_liquid_growing_annuity
